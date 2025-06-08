@@ -168,6 +168,9 @@ header {
     transform: scale(0.9);
 }
 
+.hidden {
+    display: none;
+}
 
 /* Footer */
 footer {
