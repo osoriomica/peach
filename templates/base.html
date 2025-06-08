@@ -10,7 +10,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Super Peach is a fun and interactive web game based on Super Mario Bros.">
-        <meta name="keywords" content="Super Peach, game, interactive, fun, mario, mario bros, kaboom, feminism">">
+        <meta name="keywords" content="Super Peach, game, interactive, fun, mario, mario bros, kaboom, feminism">
         <meta name="author" content="osoriomica">
     {% endblock %}
 
@@ -23,6 +23,9 @@
         <script src="{% static 'js/game.js' %}"></script>
     {% endblock %}
 
+    {% block extra_js %}
+    {% endblock %}
+
     <title>Super Peach Game</title>
 </head>
 <body>
@@ -30,38 +33,8 @@
         <div class="message-container"></div>
     {% endif %}
     
-    <!-- Ania Kubow's original modal html -->
-    <div id="modal" class="modal">
-        <div class="button-container">
-            <button id="register-btn">Register</button>
-            <button id="login-btn" class="not-active">Login</button>
-        </div>
-        <form onsubmit="" id="register-form">
-            <label for="register-email"></label>
-            <input type="email" name="register-email" id="register-email" placeholder="email@example.com" required>
-            <label for="register-password"></label>
-            <input type="password" name="register-password" id="register-password" placeholder="password" required>
-            <label for="register-username">Username</label>
-            <input type="text" name="register-username" id="register-username" placeholder="User" required>
-            <br>
-            <input type="submit" value="Sign Up">
-        </form>
-        <form onsubmit="" id="login-form" class="hidden">
-            <label for="login-email"></label>
-            <input type="email" name="login-email" id="login-email" placeholder="email@example.com" required>
-            <label for="login-password"></label>
-            <input type="password" name="login-password" id="login-password" placeholder="password" required>
-            <br>
-            <input type="submit" value="Sign In">
-        </form>
-    </div>
-
-    <div class="info-container">
-        <button id="logout-btn" class="hidden">Log Out</button>
-        <h3 id="username"></h3>
-        <h3 id="highscore-tag" class="hidden">HighScore: <span id="highscore"></span></h3>
-    </div>
-
+    {% block content %}
+    {% endblock %}
     
 </body>
 </html>
