@@ -1,73 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
 /* Root variables */
 :root {
     --bg-color-pri: #9E9EDEff;
     --bg-color-sec: #FCD370ff;
     --shadow-color-light: rgb(255, 234, 184);
     --heading-color: #F08293ff;
-    --shadow-color-dark: #030304ff;
+    --shadow-color-dark: rgb(14, 13, 11);
     --light-text: #FFFDFDff;
     --highlight1: #2988F5ff;
     --highlight2: #E62F78ff;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-transform: uppercase;
+    font-family: 'VT323', monospace;
+
 }
 
-html{
+html {
     height: 100%;
 }
 
-body{
+body {
     background-color: var(--bg-color-pri);
 }
 
-/* from Bulma */
-.icon {
-    align-items: center;
-    display: inline-flex;  
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+main,
+.navbar,
+.footer {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.game-title {
-    margin-left: 1rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--light-text);
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+button {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--light-text);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+li a:hover:not(.active) {
+    color: var(--highlight2);
+}
+
+
+/* Navbar */
+header {
+    width: 100%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    top: 0;
+    margin: 0.3rem auto;
+    color: var(--light-text);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar li {
+    padding: 0 1rem;
+    text-shadow: 0.1rem 0.1rem var(--shadow-color-dark);
+    font-size: 1.7rem;
+}
+
+.navbar li a:active {
+    color: var(--heading-color);
+}
+
+/* Main Title */
+.game-title {
+    margin: clamp(2rem, 8vw, 4rem) 0 0 clamp(0.5rem, 3vw, 1rem);
+}
+
 .mario-box::before {
-  content: '';
-  position: absolute;
-  top: -0.5rem;
-  left: -0.5rem;
-  width: calc(100% + 1rem);
-  height: calc(100%);
-  background-color: var(--bg-color-sec);
-  border-radius: 3px;
-  box-shadow: inset 0.1rem 0.2rem var(--shadow-color-light), inset -0.2rem -0.3rem var(--shadow-color-dark);
-  z-index: -1; /* Ensure the pseudo-element is behind the content */
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    width: calc(100% + 1rem);
+    height: calc(100% + 1rem);
+    background-color: var(--bg-color-sec);
+    border-radius: 3px;
+    box-shadow: inset 0.1rem 0.2rem var(--shadow-color-light), 
+                inset -0.2rem -0.3rem var(--shadow-color-dark);
+    z-index: -1;
+    /* Ensure the pseudo-element is behind the content */
 }
 
 .mario-box {
-  position: relative;
-  width: fit-content;
-  padding: 0;
+    position: relative;
+    width: fit-content;
+    max-width: 90vw;
 }
 
 .mario-box h1 {
-  text-align: center;
-  font-size: 4rem;
-  color: var(--heading-color);
-  text-shadow: 0.2rem 0.2rem var(--shadow-color-dark);
-  margin: 0;
-  text-align: left;
-  translate: -0.5rem 0;
-  line-height: .9;
+    font-size: clamp(2rem, 6vw, 3.7rem);
+    color: var(--heading-color);
+    text-shadow: clamp(0.1rem, 0.5vw, 0.3rem) clamp(0.2rem, 1vw, 0.5rem) var(--shadow-color-dark);
+    margin: 0;
+    line-height: 1.1;
 }
+
 .mario-box h1 span {
-    font-size: 7rem;
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-family: 'press Start 2P', monospace;
+    margin-bottom: .3rem;
 }
 
 .copyright {
@@ -75,24 +142,60 @@ body{
     font-size: 1rem;
     color: var(--shadow-color-light);
     margin-top: 0;
-    translate: 0.4rem .5rem;
+      translate: clamp(0.2rem, 1vw, 0.4rem) clamp(0.8rem, 3vw, 1.5rem);
+    font-family: 'press Start 2P', monospace;
+    font-size: clamp(0.6rem, 1.5vw, 0.9rem);
 }
 
 .start-game-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1rem, 2vw, 1.1rem);
     color: var(--shadow-color-dark);
     background-color: transparent;
     border: none;
-    padding: 0.6rem 1rem 1.5rem;
-    font-size: 1.2rem;
+    padding: 0.6rem 1rem;
     cursor: pointer;
+    text-align: center;
     margin: 0 auto;
     display: block;
-    text-align: center;
 }
 
-.start-game-btn:hover{
+.start-game-btn:hover {
     transform: scale(1.05);
 }
-.start-game-btn:active{
+
+.start-game-btn:active {
     transform: scale(0.9);
+}
+
+
+/* Footer */
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--shadow-color-dark);
+    color: var(--light-text);
+    padding: 0.5rem 0;
+    font-family: 'Press Start 2P', monospace;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+
+.footer li {
+    padding: 0 1rem;
+    font-size: 1.5rem;
+}
+
+.footer li a:active {
+    color: var(--heading-color);
 }

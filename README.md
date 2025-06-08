@@ -30,5 +30,6 @@ PEACH PALETTE
 #### Additional useful resources:  
 - FreeCodeCamp - GameDev with JavaScript and Kaboom.js: [Metroidvania Game Tutorial](https://youtu.be/iM1iSvloMlo?si=RQNq9j1hE3W3yzap) 
 - JSLegendDev’s Substack: [How to use Tiled with Kaplay/Kaboom.js](https://jslegenddev.substack.com/p/how-to-use-tiled-with-kaboomjs)
-- CSS-Tricks : [Box Shadow](https://css-tricks.com/almanac/properties/b/box-shadow/)
-- Navbar: [horizontal navbar](https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active)
+- Box Shadow : [CSS-Tricks](https://css-tricks.com/almanac/properties/b/box-shadow/)
+- Navbar styling: [W3S](https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active)
+- Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)
