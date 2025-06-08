@@ -9,6 +9,7 @@ python
 [kaboom](https://github.com/replit/kaboom)
 django 
 django allauth for user authentication
+google sign in: https://docs.allauth.org/en/latest/socialaccount/providers/google.html 
 canva.com to layout the homepage and choose a colour palette based on Princess Peach
 coolors.com - image picker to extract the correct hex values for the palette used across the site.
 [Tiled](https://www.mapeditor.org/)
@@ -30,3 +31,4 @@ PEACH PALETTE
 - FreeCodeCamp - GameDev with JavaScript and Kaboom.js: [Metroidvania Game Tutorial](https://youtu.be/iM1iSvloMlo?si=RQNq9j1hE3W3yzap) 
 - JSLegendDev’s Substack: [How to use Tiled with Kaplay/Kaboom.js](https://jslegenddev.substack.com/p/how-to-use-tiled-with-kaboomjs)
 - CSS-Tricks : [Box Shadow](https://css-tricks.com/almanac/properties/b/box-shadow/)
+- Navbar: [horizontal navbar](https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active)

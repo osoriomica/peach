@@ -7,11 +7,13 @@
 {% endblock %}
 
 {% block content %}
+    
     <main>
-        <div class="game-title" style="width: 70dvw; box-shadow: 0.3rem 0.3rem black, -0.2rem -0.2rem #ccc;">
+        <div class="game-title mario-box" style="width: 70dvw; box-shadow: 0.3rem 0.3rem black, -0.2rem -0.2rem #ccc;">
             <h1>PRINCESS<br><span>PEACH</span><br>TOADSTOOL.</h1>
         </div>
         <p class="copyright">&copy;2025 OMIKA</p>
+        
         <div class="game-info">
             <p>Welcome to the Princess Peach Toadstool game!</p>
             <p>This game is inspired by the classic Super Mario Bros. and is designed to be fun and interactive.</p>
@@ -20,6 +22,8 @@
             <p>Use the arrow keys to move and jump.</p>
             <p>Collect coins and avoid enemies!</p>
         </div>
+
+        <button class="mario-box">START GAME</button>
     </main>
 
     <!-- Ania Kubow's original modal html -->
@@ -47,7 +51,8 @@
             <input type="submit" value="Sign In">
         </form>
     </div>
-
+    
+<!-- game.html -->
     <div class="info-container">
         <button id="logout-btn" class="hidden">Log Out</button>
         <h3 id="username"></h3>

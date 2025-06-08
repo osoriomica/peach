@@ -28,18 +28,42 @@
 
     <title>Princess Peach Toadstool | Game</title>
 </head>
+<!-- body -->
 <body>
+    <!-- MESSAGE -->
     {% if messages %}
         <div class="message-container"></div>
     {% endif %}
-    
+
+    <!-- Main Nav -->
+    <header>
+        <div id="logo"></div><a href="{% url 'home' %}"></a></div>
+        <ul class="navbar">
+            <li><a href="#game">PLAY</a></li>
+            {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+                <li><a href="#profile">ADMIN PANEL</a></li>
+            {% endif %}
+                <li><a href="#register">MY ACCOUNT</a></li>
+                <li><a href="{% url 'account_logout' %}">LOG OUT</a></li>
+            {% else %}
+            <li><a href="{% url 'account_signup' %}">SIGN UP</a></li>
+            <li><a href="{% url 'account_login' %}">LOG IN</a></li>
+            {% endif %}
+
+        </ul>
+    </header>
+
     {% block content %}
     {% endblock %}
     
     <footer>
-        <p>&copy;2025 OMIKA</p>
-        <p>Facebook</p>
-        <p>Sitemap</p>
+        <ul>
+            <li>&copy;2025 OMIKA</li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#fb"></a>FACEBOOK ICON</li>
+            <li><a href="#sitemap"></a>SITEMAP</li>
+        </ul>
     </footer>
 </body>
 </html>
