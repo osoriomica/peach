@@ -1,0 +1,98 @@
+/* Root variables */
+:root {
+    --bg-color-pri: #9E9EDEff;
+    --bg-color-sec: #FCD370ff;
+    --shadow-color-light: rgb(255, 234, 184);
+    --heading-color: #F08293ff;
+    --shadow-color-dark: #030304ff;
+    --light-text: #FFFDFDff;
+    --highlight1: #2988F5ff;
+    --highlight2: #E62F78ff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: uppercase;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    background-color: var(--bg-color-pri);
+}
+
+/* from Bulma */
+.icon {
+    align-items: center;
+    display: inline-flex;  
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.game-title {
+    margin-left: 1rem;
+}
+.mario-box::before {
+  content: '';
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  width: calc(100% + 1rem);
+  height: calc(100%);
+  background-color: var(--bg-color-sec);
+  border-radius: 3px;
+  box-shadow: inset 0.1rem 0.2rem var(--shadow-color-light), inset -0.2rem -0.3rem var(--shadow-color-dark);
+  z-index: -1; /* Ensure the pseudo-element is behind the content */
+}
+
+.mario-box {
+  position: relative;
+  width: fit-content;
+  padding: 0;
+}
+
+.mario-box h1 {
+  text-align: center;
+  font-size: 4rem;
+  color: var(--heading-color);
+  text-shadow: 0.2rem 0.2rem var(--shadow-color-dark);
+  margin: 0;
+  text-align: left;
+  translate: -0.5rem 0;
+  line-height: .9;
+}
+.mario-box h1 span {
+    font-size: 7rem;
+}
+
+.copyright {
+    text-align: right;
+    font-size: 1rem;
+    color: var(--shadow-color-light);
+    margin-top: 0;
+    translate: 0.4rem .5rem;
+}
+
+.start-game-btn {
+    color: var(--shadow-color-dark);
+    background-color: transparent;
+    border: none;
+    padding: 0.6rem 1rem 1.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+.start-game-btn:hover{
+    transform: scale(1.05);
+}
+.start-game-btn:active{
+    transform: scale(0.9);
+}
