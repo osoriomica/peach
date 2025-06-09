@@ -33,3 +33,5 @@ PEACH PALETTE
 - Box Shadow : [CSS-Tricks](https://css-tricks.com/almanac/properties/b/box-shadow/)
 - Navbar styling: [W3S](https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active)
 - Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)
+- Clamp() function: [W3S](https://www.w3schools.com/cssref/func_clamp.php)
+- Clamp() calculator: [marcbacon.com](https://www.marcbacon.com/tools/clamp-calculator/)

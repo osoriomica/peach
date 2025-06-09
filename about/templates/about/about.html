@@ -5,15 +5,20 @@
 
 {% block content %}
 <main>
-    <div class="margin-title mario-box">
-        <h1>{{ about.title }}</h1>
-        <p>Updated on: {{ about.updated_at }}</p>
-        <div>
-            <div class="info-img">image</div>
-            <div class="info-text">{{ about.content|safe }}</div>
+    <div class="margin-top mario-box margin-bottom">
+        <h1 class="sec-title">{{ about.title }}</h1>
+        <div class="sec-content">
+            <p>Updated on: {{ about.updated_at }}</p>
+            <div class="about-img"><img src="{% static 'media/about.png' %}" alt="placeholder image">Credit Image: Super Princess Peach 2005. Nintendo</div>
+            <div class="about-text">{{ about.content|safe }}</div>
         </div>
-        <p class="copy-under-box">Join the discussion on <a href="https://facebook.com/PeachKaboom">
+    
+        <p class="copy-under-box">
+            <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
                 <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+        </p>
     </div>
+    
+    <button class="mario-box start-game-btn">START GAME</button>
 </main>
 {% endblock %}
