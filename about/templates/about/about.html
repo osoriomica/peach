@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}About |{% endblock %}
+
+{% block content %}
+<main>
+    <div class="margin-title mario-box">
+        <h1>{{ about.title }}</h1>
+        <p>Updated on: {{ about.updated_at }}</p>
+        <div>
+            <div class="info-img">image</div>
+            <div class="info-text">{{ about.content|safe }}</div>
+        </div>
+        <p class="copy-under-box">Join the discussion on <a href="https://facebook.com/PeachKaboom">
+                <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+    </div>
+</main>
+{% endblock %}
