@@ -52,7 +52,7 @@ a {
     cursor: pointer;
 }
 
-button {
+.button {
     font-family: 'Press Start 2P', monospace;
     color: var(--light-text);
     background-color: transparent;
@@ -99,6 +99,11 @@ header {
 
 .navbar li a:active {
     color: var(--heading-color);
+}
+
+.muted {
+    color: silver;
+    pointer-events: none;
 }
 
 /* Main Title */

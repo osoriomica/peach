@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block extra_js %}
     <script src="https://kaboomjs.com/lib/0.5.0/kaboom.js"></script>
     <script src="{% static 'js/game.js' %}"></script>
@@ -17,16 +18,14 @@
         
         
             <div class="game-info">
-                <p>Welcome to the Princess Peach Toadstool game!</p>
-                <p>This game is inspired by the classic Super Mario Bros. and is designed to be fun and interactive.</p>
-                <p>In this game, you will control Princess Peach as she navigates through various levels, collecting coins and avoiding enemies.</p>
-                <p>Press the spacebar to start the game!</p>
-                <p>Use the arrow keys to move and jump.</p>
-                <p>Collect coins and avoid enemies!</p>
+                <h2>Welcome to the Princess Peach Toadstool game!</h2>
+                <p>Join Princess Peach as she navigates through various levels, collecting coins and avoiding enemies.</p>
+                <p>Press the spacebar to start the game! Use the arrow keys to move and jump. Collect coins and avoid enemies!</p>
+                <p>Play the first level for free now!</p>
             </div>
         </div>
 
-        <button class="mario-box start-game-btn">START GAME</button>
+        <a class="mario-box start-game-btn .button" href="{% url 'game' %}">START GAME</a>
     
 
         <!-- Ania Kubow's original modal html -->
