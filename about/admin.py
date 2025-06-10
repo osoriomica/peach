@@ -15,7 +15,7 @@ class AboutAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('title', 'content')
+            'fields': ('title', 'content', 'about_image')
         }),
         ('Metadata', {
             'fields': ('created_at', 'updated_at'),
