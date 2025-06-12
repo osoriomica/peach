@@ -1,0 +1,2 @@
+Kaboom version used is 0.5.0
+Was downloaded from this link : https://kaboomjs.com/lib/0.5.0/kaboom.js

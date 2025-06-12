@@ -27,6 +27,7 @@ html {
 
 body {
     background-color: var(--bg-color-pri);
+    overflow: hidden;
 }
 
 main,
@@ -218,6 +219,15 @@ header {
 
 .margin-bottom {
     margin-bottom: 3rem;
+}
+
+/* Game App */
+
+.info-container {
+    position: absolute;
+    top: .7rem;
+    right: .7rem;
+    text-align: right;
 }
 
 /* Footer */
