@@ -230,6 +230,11 @@ header {
     text-align: right;
 }
 
+canvas {
+    display: block;
+    background-color: black;
+}
+
 /* Footer */
 footer {
     width: 100%;

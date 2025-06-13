@@ -19,21 +19,19 @@
         content="Princess Peach Toadstool, game, interactive, fun, mario, mario bros, kaboom, feminist">
     <meta name="author" content="osoriomica">
     {% endblock %}
-
+    
+    {% block corejs %}
+    <script src="https://kit.fontawesome.com/12379e440c.js" crossorigin="anonymous"></script>
+    {% endblock %}
+    
+    {% block extra_js %}
+    {% endblock %}
+    
     {% block corecss %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
     {% block extra_css %}
-    {% endblock %}
-
-    {% block corejs %}
-    <script src="https://kit.fontawesome.com/12379e440c.js" crossorigin="anonymous"></script>
-    <!-- <script src="https://kaboomjs.com/lib/0.5.0/kaboom.js"></script>
-    <script src="{% static 'js/game.js' %}"></script> -->
-    {% endblock %}
-
-    {% block extra_js %}
     {% endblock %}
 
     <title>{% block extra_title %}{% endblock %}Princess Peach Toadstool | Game</title>
@@ -52,7 +50,8 @@
         <ul class="navbar">
             <li><a href="{% url 'home' %}" class="{% if request.path == home_url %}active"
                     aria-current="page{%endif%}">HOME</a></li>
-            <li><a href="{% url 'game' %}">START GAME</a></li>
+            <li><a href="{% url 'game' %}" class="{% if request.path == game_url %}active"
+                    aria-current="page{%endif%}">START GAME</a></li>
             {% if request.user.is_authenticated %}
             {% if request.user.is_superuser %}
             <li><a href="#admin-panel" id="admin-panel">ADMIN PANEL</a></li>
