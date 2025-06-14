@@ -1,19 +1,26 @@
+let levelLabel = document.getElementById('levelId')
+let highscoreLabel = document.getElementById('highscore')
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
 kaboom({
     font: "monospace",
     scale: 1,
     background: [136, 136, 223],
+    width:1400,
+    height:700,
+    letterbox: true,
+
 });
 
 // Load assets
 // Sprites
+loadSprite('peach', '../static/media/peach-sprite.png')
 loadRoot('https://i.imgur.com/');
 loadSprite('coin', 'wbKxhcd.png');
 loadSprite('goomba', 'KPO3fR9.png');
 loadSprite('brick', 'pogC9x5.png');
 loadSprite('block', 'M6rwarW.png');
-loadSprite('mario', 'Wb1qfhK.png');
+// loadSprite('mario', 'Wb1qfhK.png');
 loadSprite('mushroom', '0wMd92p.png');
 loadSprite('surprise', 'gesQ1KP.png');
 loadSprite('unboxed', 'bdrLpi6.png');
@@ -30,7 +37,7 @@ loadSprite('blue-surprise', 'RMqCc1G.png');
 // Enable gravity manually (required in v3000+)
 setGravity(2400);
 
-// custom method controlling goomba's movement
+// custom method controlling moving sprites (goomba/mushrooms)
 function goombaMoves(speed = 60, dir = 1) {
     return {
         id: "goombaMoves",
@@ -94,13 +101,14 @@ const BIG_JUMP_FORCE = 1300;
 let CURRENT_JUMP_FORCE = JUMP_FORCE;
 const FALL_DEATH = 800;
 
+
 const LEVELS = [
     [
         '..................................................................................',
         '..................................................................................',
+        '.......................==..........................................................',
         '..................................................................................',
-        '..................................................................................',
-        '..................................................................................',
+        '...........................==.....................................................',
         '..................................................................................',
         '..................................................................................',
         '..........%....=*=%=..............................................................',
@@ -110,18 +118,18 @@ const LEVELS = [
         '====================================================================   ===========',
     ],
     [
-        '£.().......................................................................................£',
-        '£.-+.......................................................................................£',
-        '£..........................................................................................£',
-        '£..........................................................................................£',
-        '£..........................................................................................£',
-        '£..........................................................................................£',
-        '£..........................................................................................£',
-        '£................@@@@............................x.........................................£',
-        '£................................................x.......................................-+£',
-        '£............................................x...x.....x.............................-+..()£',
-        '£.............................x....z.........x...x.....x.......z.....................()..()£',
-        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+        '£.().............................................................................£',
+        '£.-+.............................................................................£',
+        '£................................................................................£',
+        '£................................................................................£',
+        '£................................................................................£',
+        '£................................................................................£',
+        '£................................................................................£',
+        '£.............@@@@............................x..................................£',
+        '£.............................................x................................-+£',
+        '£.........................................x...x.....x......................-+..()£',
+        '£..........................x....z.........x...x.....x.......z..............()..()£',
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
     ],
 ]
 
@@ -165,19 +173,19 @@ const levelConf = {
     },
 };
 
-scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+scene("free-game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
     //add level to scene
     const level = addLevel(LEVELS[levelId ?? 0], levelConf);
 
     const player = add([
-        sprite('mario'),
+        sprite('peach'),
         pos(100, 90),
         area(),
         body(),
         anchor('bot'),
         big(), // custom method
-        scale(2),
+        scale(1),
     ])
 
 
@@ -185,7 +193,7 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
     player.onUpdate(() => {
         camPos(player.pos)
         if (player.pos.y >= FALL_DEATH) {
-            go('lose', { score: coinsLabel })
+            go('lose', { coins: coins })
         }
     })
 
@@ -202,7 +210,7 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
     // if player onCollide with any obj with "danger" tag, lose
     player.onCollide("danger", () => {
-        go("lose", { score: coinsLabel.text })
+        go("lose", { coins: coins })
         // play("sfx")
     })
 
@@ -210,12 +218,12 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
         onKeyPress('down', () => {
             // play("sfx")
             if (levelId + 1 < LEVELS.length) {
-                go("game", {
+                go("free-game", {
                     levelId: levelId + 1,
                     coins: coins,
                 })
             } else {
-                go("win")
+                go("win", {coins: coins})
             }
 
         })
@@ -232,7 +240,7 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
     player.onCollide("enemy", (e, col) => {
 		// if it's not from the top, die
 		if (!col.isBottom()) {
-			go("lose", { score: coinsLabel.text })
+			go("lose", { coins: coins })
 			// play("sfx")
 		}
 	})
@@ -267,39 +275,24 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 		}
 	})
 
-    // Collect coins, update score
+    // // Collect coins, update score
     let coinPitch = 0
-
-	onUpdate(() => {
-		if (coinPitch > 0) {
-			coinPitch = Math.max(0, coinPitch - dt() * 100)
-		}
-	})
+   
+    onUpdate(() => {
+        if (coinPitch > 0) {
+            coinPitch = Math.max(0, coinPitch - dt() * 100)
+        }
+    })
 
 	player.onCollide("coin", (c) => {
 		destroy(c)
 		// play("sfw")
 		coinPitch += 100
 		coins += 1
-		coinsLabel.text =  "SCORE: " + coins
+
+        highscoreLabel.innertext = coins
+        levelLabel.innertext = parseInt(levelId + 1)
 	})
-
-    // add score label 
-    const coinsLabel = add([
-        text("SCORE: " + coins),
-        pos(40, 160),
-        {value: coins },
-        z(100),
-        fixed()
-    ])
-
-    // Converts the string value to an integer to display correct level 
-    // to the user, next to the score.
-    const levelLabel = add([
-        text("LEVEL - " + parseInt(levelId + 1)),
-        pos(40, 90), 
-        fixed(),
-    ])
 
     // Player Moves
     onKeyDown('left', () => {
@@ -330,19 +323,22 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
 })
 
-scene("lose", ({ score }) => {
-	add([
-		text('YOU LOST. PRESS ANY KEY TO PLAY AGAIN'),
-        pos(width()/2, height()/2)
-	])
-	onKeyPress(() => go("game"))
+scene("lose", ({ coins }) => {
+    add([
+        text(`YOU LOST.\nSCORE: ${coins}\nPRESS ANY KEY TO PLAY AGAIN`),
+        pos(width()/2, height()/2),
+        anchor("center"),
+    ])
+    onKeyPress(() => go("free-game", { coins: 0, levelId: 0 }))
 })
 
-scene("win", () => {
+scene("win", ({ coins, levelId }) => {
 	add([
-		text('YOU WON. CONGRATS!' ),
+ 		text(`YOU WON\nSCORE: ${coins}\nCONGRATS!`),
+        pos(width()/2, height()/2),
+        anchor("center"),
 	])
-	onKeyPress(() => go("game"))
+	onKeyPress(() => go("pay-game", { coins: coins, levelId: levelId +1 }))
 })
 
-go("game")
+go("free-game")

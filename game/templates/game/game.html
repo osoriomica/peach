@@ -9,12 +9,11 @@
 
 {% block content %}
     
-    <!-- <canvas id="peach-canvas" width="100vw">     -->
         <div class="info-container">
             <h3 id="username"></h3>
-            <h3 id="highscore-tag" class="hidden">Your Highest score: <span id="highscore"></span></h3>
+            <h3 id="level-tag" style="font-size: 2rem important!; color: black;">Level: <span id="levelId">1</span></h3>
+            <h3 id="highscore-tag" style="color: black;">Score: <span id="highscore" style="font-size: inherit important!;">0</span></h3>
         </div> 
-    <!-- </canvas> -->
 
 {% block postloadjs %}
     <script type="module" src="{% static 'js/game.js' %}"></script>

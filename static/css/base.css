@@ -225,15 +225,21 @@ header {
 
 .info-container {
     position: absolute;
-    top: .7rem;
+    top: 3rem;
     right: .7rem;
     text-align: right;
 }
 
+h3 {
+    size: 2rem important!;
+    text-shadow: 0.1rem 0.1rem var(--shadow-color-dark) important!;
+}
+
 canvas {
     display: block;
-    background-color: black;
 }
+
+
 
 /* Footer */
 footer {
