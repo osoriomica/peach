@@ -4,9 +4,6 @@ kaboom({
     font: "monospace",
     scale: 1,
     background: [136, 136, 223],
-    height: 700,
-    width: 700,
-    letterbox: true,
 });
 
 // Load assets
@@ -96,7 +93,6 @@ const JUMP_FORCE = 900;
 const BIG_JUMP_FORCE = 1300;
 let CURRENT_JUMP_FORCE = JUMP_FORCE;
 const FALL_DEATH = 800;
-const ENEMY_SPEED = 60;
 
 const LEVELS = [
     [
@@ -155,7 +151,7 @@ const levelConf = {
         '^': () => [sprite('goomba'), area(), body(), scale(2), anchor("bot"),
     offscreen({ hide: true }), 'enemy', goombaMoves()],
         '#': () => [sprite('mushroom'), area(), body(), scale(2), anchor("bot"),
-    offscreen({ hide: true }), 'mushroom'],
+    offscreen({ hide: true }), 'mushroom', goombaMoves()],
         '!': () => [sprite('blue-block'), area(), body({ isStatic: true }), anchor("bot"),
     offscreen({ hide: true }), "platform",],
         '£': () => [sprite('blue-brick'), area(), body({ isStatic: true }), anchor("bot"),
@@ -227,7 +223,7 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
     player.onGround((l) => {
 		if (l.is("enemy")) {
-			player.jump(JUMP_FORCE * 1.5)
+			player.jump(JUMP_FORCE * 1.2)
 			destroy(l)
             // play("sfx")
 		}
@@ -248,7 +244,6 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 			mushroom.jump()
             destroy(obj)
             level.spawn("}", obj.tilePos.add(0,0))
-            mushroom.move()
 			// play("sfx")
 		}
 	})
@@ -335,23 +330,17 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
 })
 
-// Ania's code
-// go("game", {
-//     level: 0,
-//     score: 0
-// });
-
 scene("lose", ({ score }) => {
 	add([
-		text(`YOU LOST. YOUR SCORE IS: ${score}`),
-        pos(center)
+		text('YOU LOST. PRESS ANY KEY TO PLAY AGAIN'),
+        pos(width()/2, height()/2)
 	])
 	onKeyPress(() => go("game"))
 })
 
 scene("win", () => {
 	add([
-		text(`YOU WON. YOUR SCORE IS: ${score}`),
+		text('YOU WON. CONGRATS!' ),
 	])
 	onKeyPress(() => go("game"))
 })
