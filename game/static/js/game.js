@@ -1,5 +1,9 @@
+import kaboom from "../libs/kaboom.mjs"
+
 let levelLabel = document.getElementById('levelId')
 let highscoreLabel = document.getElementById('highscore')
+
+
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
 kaboom({
@@ -9,7 +13,6 @@ kaboom({
     width:1400,
     height:700,
     letterbox: true,
-
 });
 
 // Load assets
@@ -288,9 +291,10 @@ scene("free-game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 		destroy(c)
 		// play("sfw")
 		coinPitch += 100
-		coins += 1
+		coins +=1
+        highscoreLabel.innerText = parseInt(coins)
 
-        highscoreLabel.innertext = coins
+        
         levelLabel.innertext = parseInt(levelId + 1)
 	})
 

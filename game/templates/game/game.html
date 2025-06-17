@@ -10,9 +10,9 @@
 {% block content %}
     
         <div class="info-container">
-            <h3 id="username"></h3>
-            <h3 id="level-tag" style="font-size: 2rem important!; color: black;">Level: <span id="levelId">1</span></h3>
-            <h3 id="highscore-tag" style="color: black;">Score: <span id="highscore" style="font-size: inherit important!;">0</span></h3>
+            <h3 id="username">{{ user }}</h3>
+            <h3 id="level-tag">Level: <span id="levelId">1</span></h3>
+            <h3 id="highscore-tag" class="score-display">Score: <span id="highscore" class="score-value">0</span></h3>
         </div> 
 
 {% block postloadjs %}
