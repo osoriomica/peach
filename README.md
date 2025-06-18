@@ -30,8 +30,15 @@ PEACH PALETTE
 #### Additional useful resources:  
 - FreeCodeCamp - GameDev with JavaScript and Kaboom.js: [Metroidvania Game Tutorial](https://youtu.be/iM1iSvloMlo?si=RQNq9j1hE3W3yzap) 
 - JSLegendDev’s Substack: [How to use Tiled with Kaplay/Kaboom.js](https://jslegenddev.substack.com/p/how-to-use-tiled-with-kaboomjs)
+- JSLegendDev: [How to build a platformer in Js with kaboom](https://www.youtube.com/watch?v=wZpbTR7pYR0)
+- JSLegendDev's GitHub: [Mario-Game-Kaboom](https://github.com/JSLegendDev/Mario-Game-Kaboom.js/blob/master/main.js)
+- Reddit post about using Django to design a game: [reddit.com](https://www.reddit.com/r/django/comments/181i3ix/can_you_design_a_game_with_django/)
 - Box Shadow : [CSS-Tricks](https://css-tricks.com/almanac/properties/b/box-shadow/)
 - Navbar styling: [W3S](https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active)
 - Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)
 - Clamp() function: [W3S](https://www.w3schools.com/cssref/func_clamp.php)
 - Clamp() calculator: [marcbacon.com](https://www.marcbacon.com/tools/clamp-calculator/)
+Stripe documentation: 
+ - https://docs.stripe.com/get-started/development-environment#api-keys
+ - https://docs.stripe.com/checkout/embedded/quickstart
+ - https://docs.stripe.com/billing/quickstart

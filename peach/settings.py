@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'about',
     'game',
     'subscriptions',
+    # Other
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'peach.urls'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -92,6 +96,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field'
+            ]
         },
     },
 ]
@@ -180,3 +188,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
