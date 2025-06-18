@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import GameScore
 import json
-from django.contrib.auth.decorators import login_required
+from subscriptions.decorators import subscription_required
 
 
 # Create your views here.
@@ -25,7 +25,7 @@ def world1(request):
     return render(request, 'game/world1.html', {'world1': 'world1'},)
 
 
-@login_required
+@subscription_required
 def world2(request):
     """
     Render the paid game for subscribed and logged-in users.
