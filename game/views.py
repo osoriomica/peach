@@ -1,16 +1,33 @@
 from django.shortcuts import render
-# from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import GameScore
+import json
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
-def game(request):
-    """
-    Render the Peach game page.
-    """
-    return render(request, 'game/game.html', {'game': 'Peach Game'},)
+@csrf_exempt
+def save_score(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        score = data.get("score", 0)
+        user = request.user
+        GameScore.objects.create(user=user, score=score)
+        return JsonResponse({"status": "success", "score": score})
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
-# @login_required
-# def subscribers_game(request):
-#     """
-#     Render the paid game for subscribed and logged-in users.
-#     """
-#     return render(request, 'peach-1.html', {'pro-game': 'pro Game'})
+
+def world1(request):
+    """
+    Render the free Peach game page.
+    """
+    return render(request, 'game/world1.html', {'world1': 'world1'},)
+
+
+@login_required
+def world2(request):
+    """
+    Render the paid game for subscribed and logged-in users.
+    """
+    return render(request, 'game/world2.html', {'world2': 'world2'})

@@ -17,13 +17,13 @@ kaboom({
 
 // Load assets
 // Sprites
-loadSprite('peach', '../static/media/peach-sprite.png')
+// loadSprite('peach', '../static/media/peach-sprite.png')
 loadRoot('https://i.imgur.com/');
 loadSprite('coin', 'wbKxhcd.png');
 loadSprite('goomba', 'KPO3fR9.png');
 loadSprite('brick', 'pogC9x5.png');
 loadSprite('block', 'M6rwarW.png');
-// loadSprite('mario', 'Wb1qfhK.png');
+loadSprite('mario', 'Wb1qfhK.png');
 loadSprite('mushroom', '0wMd92p.png');
 loadSprite('surprise', 'gesQ1KP.png');
 loadSprite('unboxed', 'bdrLpi6.png');
@@ -38,7 +38,7 @@ loadSprite('blue-goomba', 'SvV4ueD.png');
 loadSprite('blue-surprise', 'RMqCc1G.png');
 
 // Enable gravity manually (required in v3000+)
-setGravity(2400);
+setGravity(2000);
 
 // custom method controlling moving sprites (goomba/mushrooms)
 function goombaMoves(speed = 60, dir = 1) {
@@ -119,6 +119,9 @@ const LEVELS = [
         '...........................-+...()................................-+..............',
         '...........................()...()...........^....^...............()..............',
         '====================================================================   ===========',
+        '====================================================================   ===========',
+        '====================================================================   ===========',
+        '====================================================================   ===========',
     ],
     [
         '£.().............................................................................£',
@@ -132,6 +135,9 @@ const LEVELS = [
         '£.............................................x................................-+£',
         '£.........................................x...x.....x......................-+..()£',
         '£..........................x....z.........x...x.....x.......z..............()..()£',
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
         '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
     ],
 ]
@@ -176,13 +182,13 @@ const levelConf = {
     },
 };
 
-scene("free-game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
     //add level to scene
     const level = addLevel(LEVELS[levelId ?? 0], levelConf);
 
     const player = add([
-        sprite('peach'),
+        sprite('mario'),
         pos(100, 90),
         area(),
         body(),
@@ -221,7 +227,7 @@ scene("free-game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
         onKeyPress('down', () => {
             // play("sfx")
             if (levelId + 1 < LEVELS.length) {
-                go("free-game", {
+                go("world2", {
                     levelId: levelId + 1,
                     coins: coins,
                 })
@@ -333,16 +339,16 @@ scene("lose", ({ coins }) => {
         pos(width()/2, height()/2),
         anchor("center"),
     ])
-    onKeyPress(() => go("free-game", { coins: 0, levelId: 0 }))
+    onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
 })
 
 scene("win", ({ coins, levelId }) => {
 	add([
- 		text(`YOU WON\nSCORE: ${coins}\nCONGRATS!`),
+ 		text(`CONGRATS! YOU WON!\nSCORE: ${coins}\nPRESS ANY KEY TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
 	])
-	onKeyPress(() => go("pay-game", { coins: coins, levelId: levelId +1 }))
+	onKeyPress(() => go("world2", { coins: coins, levelId: levelId +1 }))
 })
 
-go("free-game")
+go("world2")

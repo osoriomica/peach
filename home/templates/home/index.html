@@ -4,7 +4,7 @@
 
 {% block extra_js %}
     <script src="https://kaboomjs.com/lib/0.5.0/kaboom.js"></script>
-    <script src="{% static 'js/game.js' %}"></script>
+    <script src="{% static 'js/world1.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <a class="mario-box start-game-btn .button" href="{% url 'game' %}">START GAME</a>
+        <a class="mario-box start-game-btn .button" href="{% url 'world1' %}">START GAME</a>
     
 
         <!-- Ania Kubow's original modal html -->
@@ -52,13 +52,6 @@
                 <br>
                 <input type="submit" value="Sign In">
             </form>
-        </div>
-        
-    <!-- game.html -->
-        <div class="info-container">
-            <button id="logout-btn" class="hidden">Log Out</button>
-            <h3 id="username"></h3>
-            <h3 id="highscore-tag" class="hidden">HighScore: <span id="highscore"></span></h3>
         </div>
     </main>
 {% endblock %}

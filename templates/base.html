@@ -1,7 +1,7 @@
 {% load static %}
 {% url 'home' as home_url %}
 {% url 'about' as about_url %}
-{% url 'game' as game_url %}
+{% url 'world1' as world1_url %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +34,7 @@
     {% block extra_css %}
     {% endblock %}
 
-    <title>{% block extra_title %}{% endblock %}Princess Peach Toadstool | Game</title>
+    <title>{% block extra_title %}{% endblock %}Princess Peach Toadstool | game</title>
 </head>
 <!-- body -->
 
@@ -50,8 +50,8 @@
         <ul class="navbar">
             <li><a href="{% url 'home' %}" class="{% if request.path == home_url %}active"
                     aria-current="page{%endif%}">HOME</a></li>
-            <li><a href="{% url 'game' %}" class="{% if request.path == game_url %}active"
-                    aria-current="page{%endif%}">START GAME</a></li>
+            <li><a href="{% url 'world1' %}" class="{% if request.path == world1_url %}active"
+                    aria-current="page{%endif%}">START game</a></li>
             {% if request.user.is_authenticated %}
             {% if request.user.is_superuser %}
             <li><a href="#admin-panel" id="admin-panel">ADMIN PANEL</a></li>

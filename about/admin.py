@@ -22,4 +22,3 @@ class AboutAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-
