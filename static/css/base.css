@@ -2,11 +2,11 @@
 
 /* Root variables */
 :root {
-    --bg-color-pri: rgb(136, 136, 223);
-    --bg-color-sec: rgb(252, 213, 122);
-    --shadow-color-light: rgb(255, 234, 184);
-    --heading-color: rgb(250, 112, 133);
-    --shadow-color-dark: rgb(14, 13, 11);
+    --bg-color-pri: #8888df;
+    --bg-color-sec: #fcd57a;
+    --shadow-color-light: #ffeab8;
+    --heading-color: #fa7085;
+    --shadow-color-dark: #0e0d0b;
     --light-text: #FFFDFDff;
     --highlight1: #2988F5ff;
     --highlight2: #E62F78ff;

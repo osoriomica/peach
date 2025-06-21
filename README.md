@@ -42,3 +42,4 @@ Stripe documentation:
  - https://docs.stripe.com/get-started/development-environment#api-keys
  - https://docs.stripe.com/checkout/embedded/quickstart
  - https://docs.stripe.com/billing/quickstart
+ - https://dashboard.stripe.com/test/products/

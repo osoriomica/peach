@@ -2,79 +2,27 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{%cstatic 'subscriptions/css/subscriptions.css' }">
+    <link rel="stylesheet" href="{% static 'subscriptions/css/subscriptions.css' }">
 {% endblock %}
 
 {% block content %}
-    <div class="mario-box">
-        <h2>Subscribe to access this game!</h2>
-    </div>
-    <div class="description">
-        <h3>Monthly subscription</h3>
-        <h5>£15.00 / month</h5>
-    </div>
-    <div>
-        <p>Please fill out the form below to start your subscription.</p>
-        <form action="{% url 'subscription_required' %}" method="POST" id="payment-form">
-            {% csrf_token %}
-            <fieldset>
-                <legend class="">Payment</legend>
-                <!-- A Stripe card element will go here -->
-                <div class="" id="card-element"></div>
-                <!-- Used to display form errors -->
-                <div class="text-danger" id="card-errors" role="alert"></div>
-            </fieldset>
-            <div class="submit-button text-right mt-5 mb-2">                    
-                <button id="submit-button" class="btn btn-black rounded-0">
-                    <span class="font-weight-bold">Subscribe</span>
-                    <span class="icon">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </button>
-                <p class="small text-danger my-0">
-                    <span class="icon">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </span>
-                    <span>Your card will be charged <strong>£ 15.00 GBP</strong></span>
-                </p>
+    <div class="index-container margin-top margin-bottom">
+        <div class="mario-box">
+            <h2 class="sec-title">Subscribe</h2>
+            <div class="sec-content">
+                <p class="about-text"><strong> Please subscribe to a plan below to continue playing.</strong><br> 
+                    Make sure the email matches your registered login.<br>
+                    You will be redirected back to the game after completing your payment.</p>
             </div>
-        </form>
-    </div>
-    <!-- <a href="#stripe-checkout">Subscribe Now</a> -->
-    <!-- <section>
-      <div class="product">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="16px" viewBox="0 0 14 16" version="1.1">
-            <defs/>
-            <g id="Flow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g id="0-Default" transform="translate(-121.000000, -40.000000)" fill="#E184DF">
-                    <path d="M127,50 L126,50 C123.238576,50 121,47.7614237 121,45 C121,42.2385763 123.238576,40 126,40 L135,40 L135,56 L133,56 L133,42 L129,42 L129,56 L127,56 L127,50 Z M127,48 L127,42 L126,42 C124.343146,42 123,43.3431458 123,45 C123,46.6568542 124.343146,48 126,48 L127,48 Z" id="Pilcrow"/>
-                </g>
-            </g>
-        </svg>
-        <div class="description">
-          <h3>Starter plan</h3>
-          <h5>$20.00 / month</h5>
         </div>
-      </div> -->
-      <!-- <form action="/create-checkout-session" method="POST"> -->
-        <!-- Add a hidden field with the lookup_key of your Price -->
-        <!-- <input type="hidden" name="lookup_key" value="Monthly_access-d068ca1" />
-        <button id="checkout-and-portal-button" type="submit">Checkout</button>
-      </form> -->
-      <h2>Subscribe to access premium content</h2>
-  <button id="checkout-button">Subscribe Now</button>
+    </div>
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
-
-    document.getElementById("checkout-button").addEventListener("click", function () {
-      fetch("{% url 'create_checkout_session' %}")
-        .then(response => response.json())
-        .then(session => {
-          return stripe.redirectToCheckout({ sessionId: session.id });
-        })
-        .catch(error => console.error("Error:", error));
-    });
-  </script>
+    <!-- Stripe Pricing table component -->
+    <stripe-pricing-table 
+    pricing-table-id="prctbl_1RcPGJ4YPhMNr4U2sPBji9bw"
+    publishable-key="{{ STRIPE_PUBLIC_KEY }}"
+    customer-email="{{CUSTOMER_EMAIL}}">
+    </stripe-pricing-table>
+{% endblock %}
+{% block postloadjs %}
 {% endblock %}
