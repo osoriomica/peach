@@ -19,10 +19,16 @@ def subscription_required_view(request):
 
 # Succes and cancel pages
 def subscription_success(request):
+    """
+    Handle successful subscription
+    """
     return render(request, 'subscriptions/success.html')
 
 
 def subscription_cancel(request):
+    """
+    Handle cancelled subscription checkout. 
+    """
     return render(request, 'subscriptions/cancel.html')
 
 

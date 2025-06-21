@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Success |{% endblock %}
+
+{% block content %}
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h2 class="sec-title margin-bottom">Thank you!</h2>
+            <div class="sec-content">
+                <p class="about-text">Your subscription has started! 
+                    <br>We hope you enjoy the game!</p>
+            </div>
+
+            <p class="copy-under-box">
+                <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+    <a class="mario-box start-game-btn .button" href="{% url 'world2' %}">START GAME</a>
+    
+{% endblock %}
