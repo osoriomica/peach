@@ -339,7 +339,8 @@ scene("lose", ({ coins }) => {
         pos(width()/2, height()/2),
         anchor("center"),
     ])
-    onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
+    // onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
+    onKeyPress(() => go("world2"))
 })
 
 scene("win", ({ coins, levelId }) => {
@@ -348,7 +349,8 @@ scene("win", ({ coins, levelId }) => {
         pos(width()/2, height()/2),
         anchor("center"),
 	])
-	onKeyPress(() => go("world2", { coins: coins, levelId: levelId +1 }))
+     // onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
+	onKeyPress(() => go("world2"))
 })
 
 go("world2")

@@ -8,15 +8,14 @@
 {% load static %}
 
 {% block content %}
-    
-        <div class="info-container">
-            <h3 id="username">{{ user }}</h3>
-            <h3 id="level-tag"><span id="levelId">Mushroom</span> Kingdom</h3>
-            <h3 id="highscore-tag" class="score-display">Score: <span id="highscore" class="score-value">0</span></h3>
-        </div> 
-
-{% block postloadjs %}
+<main data-next-url="{% url 'world2' %}">
+    <div class="info-container">
+        <h3 id="username">{{ user }}</h3>
+        <h3 id="level-tag"><span id="levelId">Mushroom</span> Kingdom</h3>
+        <h3 id="highscore-tag" class="score-display">Score: <span id="highscore" class="score-value">0</span></h3>
+    </div> 
+</main>
+    {% block postloadjs %}
     <script type="module" src="{% static 'js/world1.js' %}"></script>
-{% endblock %}
-    
+    {% endblock %}
 {% endblock %}

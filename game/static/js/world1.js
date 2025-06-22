@@ -1,8 +1,8 @@
 import kaboom from "../libs/kaboom.mjs"
 
+const nextLevelUrl = document.querySelector("main").dataset.nextUrl;
 let levelLabel = document.getElementById('levelId')
 let highscoreLabel = document.getElementById('highscore')
-
 
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
@@ -162,10 +162,10 @@ const levelConf = {
     },
 };
 
-scene("world1", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+scene("world1", ({ coins } = { coins: 0 }) => {
 
     //add level to scene
-    const level = addLevel(LEVELS[levelId ?? 0], levelConf);
+    const level = addLevel(LEVELS[0], levelConf);
 
     const player = add([
         sprite('mario'),
@@ -206,17 +206,9 @@ scene("world1", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
     player.onCollide("pipe", () => {
         onKeyPress('down', () => {
             // play("sfx")
-            if (levelId + 1 < LEVELS.length) {
-                go("world1", {
-                    levelId: levelId + 1,
-                    coins: coins,
-                })
-            } else {
-                go("win", {coins: coins})
-            }
-
+            go("win", { coins: coins });
         })
-	})
+    })
 
     player.onGround((l) => {
 		if (l.is("enemy")) {
@@ -319,13 +311,19 @@ scene("lose", ({ coins }) => {
     onKeyPress(() => go("world1", { coins: 0, levelId: 0 }))
 })
 
-scene("win", ({ coins, levelId }) => {
+scene("win", ({ coins }) => {
 	add([
  		text(`YOU WON\nSCORE: ${coins}\nCONGRATS!`),
         pos(width()/2, height()/2),
         anchor("center"),
 	])
-	onKeyPress(() => go("world1", { coins: coins, levelId: levelId +1 }))
+    onKeyPress(() => {
+        if (nextLevelUrl) {
+            window.location.href = nextLevelUrl;
+        } else {
+            console.error("nextLevelUrl is not defined");
+        }
+    })
 })
 
 go("world1")

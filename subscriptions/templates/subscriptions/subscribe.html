@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'subscriptions/css/subscriptions.css' }">
-{% endblock %}
-
 {% block content %}
     <div class="index-container margin-top margin-bottom">
         <div class="mario-box">
@@ -23,6 +19,4 @@
     publishable-key="{{ STRIPE_PUBLIC_KEY }}"
     customer-email="{{CUSTOMER_EMAIL}}">
     </stripe-pricing-table>
-{% endblock %}
-{% block postloadjs %}
 {% endblock %}
