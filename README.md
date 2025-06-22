@@ -24,6 +24,20 @@ PEACH PALETTE
 --salmon-pink: #F08293ff;
 --razzmatazz: #E62F78ff;
  
+### Bugs
+Checkout session completed without email.
+
+![Bug: Stripe webhook handler](README-folder/bug1-webhook-handler.webp)
+
+![Bug: Stripe response](README-folder/bug1-stripe-response.webp)
+
+Issue: Stripe object returned an empty customer_email upon checkout despite entering an email during the checkout process. Subscription model would not then be generated nor associated with an authenticated user.
+Fix: The stripe object had logged the email under customer_details{ email } so the variable customer_email needed to point at that instead:
+    session.get('customer_email') or (
+            session.get('customer_details', {}).get('email')
+            )
+
+
 ### Reference
 #### Base JS/Kaboom code and idea:  
 - Ania Kubow: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)

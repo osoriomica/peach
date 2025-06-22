@@ -1,6 +1,9 @@
+from datetime import datetime
+from django.utils.timezone import make_aware
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .models import Subscription
+import stripe
 
 
 class Stripe_Webhook_Handler:
@@ -51,28 +54,45 @@ class Stripe_Webhook_Handler:
 
         try:
             user = User.objects.get(email=customer_email)
-
-            sub, created = Subscription.objects.get_or_create(
-                user=user,
-                defaults={
-                    'stripe_customer_id': customer_id,
-                    'stripe_subscription_id': subscription_id,
-                    'is_active': True
-                }
-            )
-
-            if not created:
-                sub.stripe_customer_id = customer_id
-                sub.stripe_subscription_id = subscription_id
-                sub.is_active = True
-                sub.save()
-            print(f'Subscription activated for user {user.email}')
-
         except User.DoesNotExist:
             print(
                 f'Checkout completed for unknown email: {customer_email}'
                 )
             return HttpResponse(status=404)
+
+        # Fetch Stripe subscription details
+        stripe_sub = stripe.Subscription.retrieve(subscription_id)
+
+        item_data = stripe_sub['items']['data'][0]
+        start_date = make_aware(datetime.fromtimestamp(item_data[
+            'current_period_start'
+            ]))
+        period_end = make_aware(datetime.fromtimestamp(item_data[
+            'current_period_end'
+            ]))
+        plan_interval = item_data['price']['recurring']['interval']
+
+        sub, created = Subscription.objects.get_or_create(
+            user=user,
+            defaults={
+                'stripe_customer_id': customer_id,
+                'stripe_subscription_id': subscription_id,
+                'is_active': True,
+                'start_date': start_date,
+                'current_period_end': period_end,
+                'plan_interval': plan_interval,
+            }
+        )
+
+        if not created:
+            sub.stripe_customer_id = customer_id
+            sub.stripe_subscription_id = subscription_id
+            sub.start_date = start_date
+            sub.current_period_end = period_end
+            sub.plan_interval = plan_interval
+            sub.is_active = True
+            sub.save()
+        print(f'Subscription activated for user {user.email}')
 
         return HttpResponse(
             content=f'Webhook handled: {event["type"]}',
@@ -96,3 +116,19 @@ class Stripe_Webhook_Handler:
             content=f'Webhook handled: {event["type"]}',
             status=200
             )
+
+    def handle_customer_subscription_updated(self, event):
+        subscription_data = event['data']['object']
+        stripe_customer_id = subscription_data.get('customer')
+
+        sub = Subscription.objects.filter(
+            stripe_customer_id=stripe_customer_id).first()
+        if sub:
+            period_end = make_aware(datetime.fromtimestamp(
+                subscription_data['current_period_end']))
+            sub.current_period_end = period_end
+            sub.plan_interval = subscription_data[
+                'items']['data'][0]['price']['recurring']['interval']
+            sub.save()
+
+        return HttpResponse(status=200)

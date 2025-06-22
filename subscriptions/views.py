@@ -71,6 +71,8 @@ def stripe_webhook(request):
         handler.handle_checkout_session_completed,
         'customer.subscription.deleted':
         handler.handle_customer_subscription_deleted,
+        'customer.subscription.updated':
+        handler.handle_customer_subscription_updated,
     }
 
     event_type = event['type']
