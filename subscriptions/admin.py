@@ -6,7 +6,11 @@ from .models import Subscription
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'stripe_customer_id', 'stripe_subscription_id', 'is_active'
+        'user',
+        'stripe_customer_id',
+        'stripe_subscription_id',
+        'is_active',
+        'created_at'
         )
     search_fields = (
         'user__email', 'stripe_customer_id', 'stripe_subscription_id'

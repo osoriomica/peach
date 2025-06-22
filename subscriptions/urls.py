@@ -1,15 +1,11 @@
 from django.urls import path
-from .views import (
-    subscription_required_view,
-    subscription_cancel,
-    subscription_success,
-    stripe_webhook
-)
+from . import views
+
 
 urlpatterns = [
-    path('subscribe/', subscription_required_view,
+    path('subscribe/', views.subscription_required_view,
          name='subscription_required'),
-    path('success/', subscription_success, name='subscription_success'),
-    path('cancel/', subscription_cancel, name='subscription_cancel'),
-    path('webhook/', stripe_webhook, name='stripe_webhook'),
+    path('success/', views.subscription_success, name='subscription_success'),
+    path('cancel/', views.subscription_cancel, name='subscription_cancel'),
+    path('webhook/', views.stripe_webhook, name='stripe_webhook'),
 ]

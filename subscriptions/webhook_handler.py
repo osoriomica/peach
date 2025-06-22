@@ -39,19 +39,40 @@ class Stripe_Webhook_Handler:
         Handle checkout.session.completed to activate user subscription
         """
         session = event['data']['object']
-        email = session.get('customer_email')
+        customer_email = session.get('customer_email') or (
+            session.get('customer_details', {}).get('email')
+            )
         customer_id = session.get('customer')
+        subscription_id = session.get('subscription')
 
-        if email:
-            try:
-                user = User.objects.get(email=email)
-                sub, created = Subscription.objects.get_or_create(
-                    user=user)
+        if not customer_email:
+            print('Checkout session completed without a customer_email')
+            return HttpResponse(status=400)
+
+        try:
+            user = User.objects.get(email=customer_email)
+
+            sub, created = Subscription.objects.get_or_create(
+                user=user,
+                defaults={
+                    'stripe_customer_id': customer_id,
+                    'stripe_subscription_id': subscription_id,
+                    'is_active': True
+                }
+            )
+
+            if not created:
                 sub.stripe_customer_id = customer_id
+                sub.stripe_subscription_id = subscription_id
                 sub.is_active = True
                 sub.save()
-            except User.DoesNotExist:
-                pass
+            print(f'Subscription activated for user {user.email}')
+
+        except User.DoesNotExist:
+            print(
+                f'Checkout completed for unknown email: {customer_email}'
+                )
+            return HttpResponse(status=404)
 
         return HttpResponse(
             content=f'Webhook handled: {event["type"]}',

@@ -1,5 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render
@@ -9,6 +10,7 @@ from .webhook_handler import Stripe_Webhook_Handler
 
 
 # Show princing table page
+@login_required
 def subscription_required_view(request):
     return render(request, 'subscriptions/subscribe.html', {
         'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
