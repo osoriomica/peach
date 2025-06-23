@@ -1,8 +1,43 @@
 import kaboom from "../libs/kaboom.mjs"
 
-const nextLevelUrl = document.querySelector("main").dataset.nextUrl;
+// passes the django url to redirect user to next level 
+const nextLevelUrl = document.querySelector("main").dataset.nextUrl
+// 
 let levelLabel = document.getElementById('levelId')
 let highscoreLabel = document.getElementById('highscore')
+
+function getCSRFToken(){
+    const name = "csrftoken"
+    const cookies = document.cookie.split(';')
+    for (let cookie of cookies){
+        const [key, value] = cookie.trim().split('=')
+        if (key === name) return value
+    }
+    return ''
+}
+
+/**
+ * Sends the player's score for a specific level to the server via a POST request.
+ * @param {string} level - The identifier of the game level for which the score is being submitted.
+ * @param {number} score - The player's score to be saved for the specified level.
+ * @returns {void} This function does not return a value, but logs the server response or error to the console.
+ *
+ * @example
+ * postScore("mushroom", 99);
+ */
+function postScore(level, score){
+    fetch("/game/api/save-score", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+        },
+        body: JSON.stringify({ level: level, score: score })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Score saved:", data))
+    .catch(err => console.log("Error saving score:", err))
+}
 
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
@@ -308,6 +343,7 @@ scene("lose", ({ coins }) => {
         pos(width()/2, height()/2),
         anchor("center"),
     ])
+    postScore("Mushroom", coins)
     onKeyPress(() => go("world1", { coins: 0, levelId: 0 }))
 })
 
@@ -317,6 +353,7 @@ scene("win", ({ coins }) => {
         pos(width()/2, height()/2),
         anchor("center"),
 	])
+    postScore("Mushroom", coins)
     onKeyPress(() => {
         if (nextLevelUrl) {
             window.location.href = nextLevelUrl;

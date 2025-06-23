@@ -7,15 +7,38 @@ from subscriptions.decorators import subscription_required
 
 
 # Create your views here.
+
 @csrf_exempt
 def save_score(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        score = data.get("score", 0)
-        user = request.user
-        GameScore.objects.create(user=user, score=score)
-        return JsonResponse({"status": "success", "score": score})
-    return JsonResponse({"error": "Invalid request"}, status=400)
+        try:
+            data = json.loads(request.body)
+            score = data.get("score", 0)
+            level = data.get("level", "unkown")
+
+            if score is None:
+                return JsonResponse(
+                    {"error": "Score not provided"},
+                    status=400
+                )
+
+            if request.user.is_authenticated:
+                GameScore.objects.create(
+                    user=request.user, score=score, level=level
+                    )
+                return JsonResponse(
+                    {"status": "success", "score": score, "level": level}
+                    )
+            else:
+                return JsonResponse(
+                    {"status": "Anonymous user",
+                     "message": "Anonymous score not saved"}
+                    )
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
 def world1(request):
