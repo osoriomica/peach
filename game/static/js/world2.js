@@ -1,8 +1,46 @@
 import kaboom from "../libs/kaboom.mjs"
 
+// passes the django url to redirect user to next level 
+const nextLevelUrl = document.querySelector("main").dataset.nextUrl
+
 let levelLabel = document.getElementById('levelId')
 let highscoreLabel = document.getElementById('highscore')
 
+function getCSRFToken(){
+    const name = "csrftoken"
+    const cookies = document.cookie.split(';')
+    for (let cookie of cookies){
+        const [key, value] = cookie.trim().split('=')
+        if (key === name) return value
+    }
+    return ''
+}
+
+/**
+ * Sends the player's score for a specific level to the server via a POST request.
+ * @param {string} level - The identifier of the game level for which the score is being submitted.
+ * @param {number} score - The player's score to be saved for the specified level.
+ * @returns {void} This function does not return a value, but logs the server response or error to the console.
+ *
+ * @example
+ * postScore("mushroom", 99);
+ */
+function postScore(level, score){
+    fetch("/game/api/save-score", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+        },
+        body: JSON.stringify({ level: level, score: score })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Score saved:", data))
+    .catch(err => console.log("Error saving score:", err))
+}
+
+const score = parseInt(document.querySelector('main').dataset.score || "0")
+console.log("Starting with score from world1:", score)
 
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
@@ -339,8 +377,14 @@ scene("lose", ({ coins }) => {
         pos(width()/2, height()/2),
         anchor("center"),
     ])
-    // onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
-    onKeyPress(() => go("world2"))
+    postScore("World 2", coins)
+    onKeyPress(() => {
+        if (nextLevelUrl) {
+            window.location.href = nextLevelUrl;
+        } else {
+            console.error("nextLevelUrl is not defined");
+        }
+    })
 })
 
 scene("win", ({ coins, levelId }) => {
@@ -350,7 +394,14 @@ scene("win", ({ coins, levelId }) => {
         anchor("center"),
 	])
      // onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
-	onKeyPress(() => go("world2"))
+    postScore("World 2", coins)
+	onKeyPress(() => {
+        if (nextLevelUrl) {
+            window.location.href = nextLevelUrl;
+        } else {
+            console.error("nextLevelUrl is not defined");
+        }
+    })
 })
 
 go("world2")

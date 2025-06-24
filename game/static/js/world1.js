@@ -2,7 +2,7 @@ import kaboom from "../libs/kaboom.mjs"
 
 // passes the django url to redirect user to next level 
 const nextLevelUrl = document.querySelector("main").dataset.nextUrl
-// 
+
 let levelLabel = document.getElementById('levelId')
 let highscoreLabel = document.getElementById('highscore')
 
