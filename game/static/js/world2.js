@@ -1,17 +1,17 @@
 import kaboom from "../libs/kaboom.mjs"
 
-// passes the django url to redirect user to next level 
-const nextLevelUrl = document.querySelector("main").dataset.nextUrl
+// Get next level redirect URL from Django template
+const nextLevelUrl = document.querySelector("main").dataset.previousUrl
 
-let levelLabel = document.getElementById('levelId')
-let highscoreLabel = document.getElementById('highscore')
-
+/**
+* Retrieves CSRF token from cookies.
+* @returns {string} The CSRF token if found; otherwise, an empty string.
+*/
 function getCSRFToken(){
-    const name = "csrftoken"
     const cookies = document.cookie.split(';')
     for (let cookie of cookies){
         const [key, value] = cookie.trim().split('=')
-        if (key === name) return value
+        if (key === "csrftoken") return value
     }
     return ''
 }
@@ -20,27 +20,49 @@ function getCSRFToken(){
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
  * @param {number} score - The player's score to be saved for the specified level.
- * @returns {void} This function does not return a value, but logs the server response or error to the console.
- *
- * @example
- * postScore("mushroom", 99);
+ * @param {number} totalScore - The cumulative score across all levels.
+ * @returns {Promise} Promise that resolves when score is saved.
  */
-function postScore(level, score){
-    fetch("/game/api/save-score", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCSRFToken(),
-        },
-        body: JSON.stringify({ level: level, score: score })
-    })
-    .then(res => res.json())
-    .then(data => console.log("Score saved:", data))
-    .catch(err => console.log("Error saving score:", err))
+async function postScore(level, score, totalScore = null){
+    try {
+        const res = await fetch("/game/api/save-score", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken(),
+            },
+            body: JSON.stringify({
+                level: level,
+                score: totalScore || score
+            })
+        })
+        const data = await res.json()
+        console.log("Score saved:", data)
+        return data
+    } catch (err) {
+        console.log("Error saving score:", err)
+        throw err
+    }
 }
 
-const score = parseInt(document.querySelector('main').dataset.score || "0")
-console.log("Starting with score from world1:", score)
+// DOM element for UI updates.
+const levelLabel = document.getElementById('levelId')
+const highscoreLabel = document.getElementById('highscore')
+
+// Get previous total score from Django template
+const previousScore = parseInt(document.querySelector("main").dataset.previousScore || "0")
+let totalScore = previousScore
+
+// Update UI with carried-over score
+highscoreLabel.innerText = totalScore
+
+/**
+ * Update UI and score during game
+ */
+function collectPoints(points = 1){
+    totalScore += parseInt(points)
+    highscoreLabel.innerText = totalScore
+}
 
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
@@ -76,7 +98,7 @@ loadSprite('blue-goomba', 'SvV4ueD.png');
 loadSprite('blue-surprise', 'RMqCc1G.png');
 
 // Enable gravity manually (required in v3000+)
-setGravity(2000);
+setGravity(2400);
 
 // custom method controlling moving sprites (goomba/mushrooms)
 function goombaMoves(speed = 60, dir = 1) {
@@ -220,11 +242,22 @@ const levelConf = {
     },
 };
 
-scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+scene("World2", ({ levelId, score } = { levelId:0}) => {
 
     //add level to scene
     const level = addLevel(LEVELS[levelId ?? 0], levelConf);
+    levelLabel.innerText = levelId + 1
 
+    // Use passed score if provided, otherwise keep existing totalScore
+    if (score !== undefined) {
+        totalScore = score
+        highscoreLabel.innerText = totalScore
+        console.log(`World1 restarted with score: ${totalScore}`)
+    } else {
+        console.log(`World1 started fresh with score: ${totalScore}`)
+    }
+
+    // Player
     const player = add([
         sprite('mario'),
         pos(100, 90),
@@ -240,7 +273,7 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
     player.onUpdate(() => {
         camPos(player.pos)
         if (player.pos.y >= FALL_DEATH) {
-            go('lose', { coins: coins })
+            go('lose', {  totalScore })
         }
     })
 
@@ -257,7 +290,7 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
     // if player onCollide with any obj with "danger" tag, lose
     player.onCollide("danger", () => {
-        go("lose", { coins: coins })
+        go("lose", { totalScore })
         // play("sfx")
     })
 
@@ -265,12 +298,12 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
         onKeyPress('down', () => {
             // play("sfx")
             if (levelId + 1 < LEVELS.length) {
-                go("world2", {
+                go("World2", {
                     levelId: levelId + 1,
-                    coins: coins,
+                    totalScore : totalScore
                 })
             } else {
-                go("win", {coins: coins})
+                go("win", {totalScore})
             }
 
         })
@@ -280,6 +313,7 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 		if (l.is("enemy")) {
 			player.jump(JUMP_FORCE * 1.2)
 			destroy(l)
+            collectPoints(10)
             // play("sfx")
 		}
 	})
@@ -287,7 +321,7 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
     player.onCollide("enemy", (e, col) => {
 		// if it's not from the top, die
 		if (!col.isBottom()) {
-			go("lose", { coins: coins })
+			go("lose", { totalScore })
 			// play("sfx")
 		}
 	})
@@ -335,11 +369,7 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 		destroy(c)
 		// play("sfw")
 		coinPitch += 100
-		coins +=1
-        highscoreLabel.innerText = parseInt(coins)
-
-        
-        levelLabel.innertext = parseInt(levelId + 1)
+		collectPoints()
 	})
 
     // Player Moves
@@ -371,13 +401,21 @@ scene("world2", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
 })
 
-scene("lose", ({ coins }) => {
+scene("lose", ({ totalScore }) => {
     add([
-        text(`YOU LOST.\nSCORE: ${coins}\nPRESS ANY KEY TO PLAY AGAIN`),
+        text(`YOU LOST.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
     ])
-    postScore("World 2", coins)
+    const levelScore = totalScore - previousScore
+
+    postScore("World 2", levelScore, totalScore)
+        .then(() => {
+                console.log("Score saved successfully")
+            })
+            .catch(err => {
+                console.error("Failed to save score:", err)
+            })
     onKeyPress(() => {
         if (nextLevelUrl) {
             window.location.href = nextLevelUrl;
@@ -387,21 +425,43 @@ scene("lose", ({ coins }) => {
     })
 })
 
-scene("win", ({ coins, levelId }) => {
+scene("win", ({ totalScore }) => {
 	add([
- 		text(`CONGRATS! YOU WON!\nSCORE: ${coins}\nPRESS ANY KEY TO PLAY AGAIN`),
+ 		text(`CONGRATS! YOU WON!\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
 	])
-     // onKeyPress(() => go("world2", { coins: 0, levelId: 0 }))
-    postScore("World 2", coins)
-	onKeyPress(() => {
-        if (nextLevelUrl) {
-            window.location.href = nextLevelUrl;
-        } else {
-            console.error("nextLevelUrl is not defined");
-        }
-    })
+    postScore("World 2", totalScore)
+        .then(() => {
+            console.log("Score saved successfully")
+            onKeyPress(() => {
+                if (nextLevelUrl) {
+                    window.location.href = nextLevelUrl
+                } else {
+                    console.log("Game completed!")
+                    // Maybe show a final completion screen or restart
+                    go("gameComplete", { finalScore: totalScore })
+                }
+            })
+        })
+        .catch(err => {
+            console.error("Failed to save score:", err)
+            onKeyPress(() => {
+                if (nextLevelUrl) {
+                    window.location.href = nextLevelUrl
+                } else {
+                    go("gameComplete", { finalScore: totalScore })
+                }
+            })
+        })
 })
 
-go("world2")
+scene("gameComplete", ({ finalScore }) => {
+    add([
+        text(`GAME COMPLETE!\nFINAL SCORE: ${finalScore}\nThanks for playing!`),
+        pos(width()/2, height()/2),
+        anchor("center"),
+    ])
+})
+
+go("World2")

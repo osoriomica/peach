@@ -9,11 +9,11 @@
 {% load static %}
 
 {% block content %}
-    <main data-score="{{ previous_score }}" data-level="{{ previous_level }}" data-next-url="{% url 'world1' %}">  
+    <main data-previous-score="{{ previous_score|default:0 }}" data-previous-url="{% url 'world1' %}">  
         <div class="info-container">
             <h3 id="username">{{ user }}</h3>
-            <h3 id="level-tag"><span id="levelId"></span> Kingdom</h3>
-            <h3 id="highscore-tag" class="score-display">Score: <span id="highscore" class="score-value">{{score}}</span></h3>
+            <h3 id="level-tag">World 2 - <span id="levelId">1</span></h3>
+            <h3 id="highscore-tag" class="score-display">Score: <span id="highscore" class="score-value">{{ score }}</span></h3>
         </div> 
     </main>
 {% block postloadjs %}
