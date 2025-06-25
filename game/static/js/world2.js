@@ -16,14 +16,20 @@ function getCSRFToken(){
     return ''
 }
 
+// Flag to prevent duplicate saves
+let scoreSaved = false
 /**
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
- * @param {number} score - The player's score to be saved for the specified level.
- * @param {number} totalScore - The cumulative score across all levels.
+ * @param {number} score - The player's totalScore across all levels in one session
  * @returns {Promise} Promise that resolves when score is saved.
  */
 async function postScore(level, score){
+    if (scoreSaved) {
+        console.log("score already saved, skipping duplicate")
+        return
+    }
+
     try {
         const res = await fetch("/game/api/save-score", {
             method: "POST",
@@ -38,6 +44,7 @@ async function postScore(level, score){
         })
         const data = await res.json()
         console.log("Score saved:", data)
+        scoreSaved = true
         return data
     } catch (err) {
         console.log("Error saving score:", err)

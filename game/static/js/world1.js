@@ -16,6 +16,8 @@ function getCSRFToken(){
     return ''
 }
 
+// Flag to prevent duplicate saves
+let scoreSaved = false
 /**
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
@@ -23,27 +25,32 @@ function getCSRFToken(){
  * @param {number} totalScore - cumulative across all levels.
  * @returns {Promise} This function does not return a value, but logs the server response or error to the console.
 */
-function postScore(level, score){
-    fetch("/game/api/save-score", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCSRFToken(),
-        },
-        body: JSON.stringify({ 
-            level: level, 
-            score: totalScore || score
+async function postScore(level, score){
+    if (scoreSaved) {
+        console.log("score already saved, skipping duplicate")
+        return
+    }
+
+    try {
+        const res = await fetch("/game/api/save-score", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken(),
+            },
+            body: JSON.stringify({
+                level: level,
+                score: totalScore || score
+            })
         })
-    })
-    .then(res => res.json())
-    .then(data => {
+        const data = await res.json()
         console.log("Score saved:", data)
+        scoreSaved = true
         return data
-    })
-    .catch(err => {
+    } catch (err) {
         console.log("Error saving score:", err)
         throw err
-    })
+    }
 }
 
 // DOM element for UI updates.
@@ -384,7 +391,7 @@ scene("lose", ({ totalScore }) => {
     ])
     
     // Save both level score and total score
-    postScore("world1", totalScore)
+    postScore("World 1", totalScore)
     onKeyPress(() => {
         go("World1", { totalScore: 0, levelId:0 })
     })
