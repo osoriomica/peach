@@ -16,8 +16,7 @@ function getCSRFToken(){
     return ''
 }
 
-// Flag to prevent duplicate saves
-let scoreSaved = false
+
 /**
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
@@ -25,11 +24,6 @@ let scoreSaved = false
  * @returns {Promise} Promise that resolves when score is saved.
  */
 async function postScore(level, score){
-    if (scoreSaved) {
-        console.log("score already saved, skipping duplicate")
-        return
-    }
-
     try {
         const res = await fetch("/game/api/save-score", {
             method: "POST",
@@ -301,9 +295,24 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
         // play("sfx")
     })
 
+    let canUsePipe = false
+
     player.onCollide("pipe", () => {
-        onKeyPress('down', () => {
+        canUsePipe = true
+    })
+    /** 
+     * From Kaboom.js documentation:
+     * Registers an event that runs once frame when 2 game objs with certain tags stops colliding.
+     */
+    player.onCollideEnd("pipe", () => {
+        canUsePipe = false
+    })
+
+    // Single global key handler for down key to prevent duplicate postScore
+    onKeyPress('down', () => {
+        if (canUsePipe) {
             // play("sfx")
+            canUsePipe = false // Prevent multiple uses
             if (levelId + 1 < LEVELS.length) {
                 go("World2", {
                     levelId: levelId + 1,
@@ -312,9 +321,8 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
             } else {
                 go("win", {totalScore})
             }
-
-        })
-	})
+        }
+    })
 
     player.onGround((l) => {
 		if (l.is("enemy")) {
@@ -410,19 +418,13 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
 
 scene("lose", ({ totalScore }) => {
     add([
-        text(`YOU LOST.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
+        text(`GAME OVER.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
     ])
-    const levelScore = totalScore - previousScore
 
-    postScore("World 2", levelScore, totalScore)
-        .then(() => {
-                console.log("Score saved successfully")
-            })
-            .catch(err => {
-                console.error("Failed to save score:", err)
-            })
+    postScore("World 2 - Game Over", totalScore)
+    
     onKeyPress(() => {
         if (nextLevelUrl) {
             window.location.href = nextLevelUrl;
@@ -434,33 +436,19 @@ scene("lose", ({ totalScore }) => {
 
 scene("win", ({ totalScore }) => {
 	add([
- 		text(`CONGRATS! YOU WON!\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
+ 		text(`CONGRATS! YOU WON!\nYOUR FINAL SCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
 	])
-    postScore("World 2", totalScore)
-        .then(() => {
-            console.log("Score saved successfully")
-            onKeyPress(() => {
-                if (nextLevelUrl) {
-                    window.location.href = nextLevelUrl
-                } else {
-                    console.log("Game completed!")
-                    // Maybe show a final completion screen or restart
-                    go("gameComplete", { finalScore: totalScore })
-                }
-            })
-        })
-        .catch(err => {
-            console.error("Failed to save score:", err)
-            onKeyPress(() => {
-                if (nextLevelUrl) {
-                    window.location.href = nextLevelUrl
-                } else {
-                    go("gameComplete", { finalScore: totalScore })
-                }
-            })
-        })
+    postScore("World 2 - Completed", totalScore)
+
+    onKeyPress(() => {
+        if (nextLevelUrl) {
+            window.location.href = nextLevelUrl
+        } else {
+            go("gameComplete", { finalScore: totalScore })
+        }
+    })
 })
 
 scene("gameComplete", ({ finalScore }) => {

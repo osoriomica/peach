@@ -284,11 +284,26 @@ scene("World1", ({ score } = { score:0}) => {
         // play("sfx")
     })
 
+    let canUsePipe = false
+
     player.onCollide("pipe", () => {
-        onKeyPress('down', () => {
+        canUsePipe = true
+    })
+    /** 
+     * From Kaboom.js documentation:
+     * Registers an event that runs once frame when 2 game objs with certain tags stops colliding.
+     */
+    player.onCollideEnd("pipe", () => {
+        canUsePipe = false
+    })
+
+    // Single global key handler for down key to prevent duplicate postScore
+    onKeyPress('down', () => {
+        if (canUsePipe) {
             // play("sfx")
-            go("win", { totalScore });
-        })
+            canUsePipe = false // Prevent multiple uses
+            go("win", { totalScore })
+        }
     })
 
     player.onGround((l) => {
@@ -391,7 +406,7 @@ scene("lose", ({ totalScore }) => {
     ])
     
     // Save both level score and total score
-    postScore("World 1", totalScore)
+    postScore("World 1 - Game Over", totalScore)
     onKeyPress(() => {
         go("World1", { totalScore: 0, levelId:0 })
     })
@@ -404,15 +419,14 @@ scene("win", ({ totalScore }) => {
         anchor("center"),
     ])
     
-    // Save both level score and total score
-    postScore("World 1", totalScore)
-        onKeyPress(() => {
-            if (nextLevelUrl) {
-                window.location.href = nextLevelUrl
-            } else {
-                console.error("nextLevelUrl is not defined")
-            }
-        })
+    // Transitions without posting score to database
+    onKeyPress(() => {
+        if (nextLevelUrl) {
+            window.location.href = nextLevelUrl
+        } else {
+            console.error("nextLevelUrl is not defined")
+        }
+    })
 })
 
 go("World1")
