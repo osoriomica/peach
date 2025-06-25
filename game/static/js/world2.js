@@ -23,7 +23,7 @@ function getCSRFToken(){
  * @param {number} totalScore - The cumulative score across all levels.
  * @returns {Promise} Promise that resolves when score is saved.
  */
-async function postScore(level, score, totalScore = null){
+async function postScore(level, score){
     try {
         const res = await fetch("/game/api/save-score", {
             method: "POST",

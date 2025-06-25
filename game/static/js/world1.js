@@ -23,7 +23,7 @@ function getCSRFToken(){
  * @param {number} totalScore - cumulative across all levels.
  * @returns {Promise} This function does not return a value, but logs the server response or error to the console.
 */
-function postScore(level, score = null){
+function postScore(level, score){
     fetch("/game/api/save-score", {
         method: "POST",
         headers: {
