@@ -16,7 +16,6 @@ def save_score(request):
                 data = json.loads(request.body)
                 score = data.get("score", 0)
                 level = data.get("level", "unkown")
-                total_score = data.get("total_score", score)
 
                 GameScore.objects.create(
                     user=request.user,
@@ -25,13 +24,12 @@ def save_score(request):
                 )
 
                 # store current score in session
-                request.session['total_score'] = total_score
+                request.session['total_score'] = score
                 request.session['current_level'] = level
 
                 return JsonResponse({
                     "status": "success",
-                    "level_score": score,
-                    "total_score": total_score,
+                    "score": score,
                     "level": level
                 })
             except Exception:
@@ -45,11 +43,32 @@ def save_score(request):
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
+@csrf_exempt
+def reset_game(request):
+    """Reset the game session for a new game"""
+    if request.method == "POST":
+        # Clear game-related session data
+        request.session.pop('total_score', None)
+        request.session.pop('current_level', None)
+   
+        return JsonResponse({
+            "status": "success",
+            "message": "Game session reset"
+        })
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
 def world1(request):
     """
     Render the free Peach game page. No authentication needed.
     """
-    previous_score = 0
+    if request.GET.get('new') == 'true':
+        request.session.pop('total_score', None)
+        request.session.pop('current_level', None)
+        previous_score = 0
+    else:
+        previous_score = request.session.get('total_score', 0)
+
     context = {
         'world1': 'world1',
         'previous_score': previous_score,
@@ -62,6 +81,7 @@ def world2(request):
     """
     Render the paid game for subscribed and logged-in users.
     """
+    
     total_score = request.session.get('total_score', 0)
     current_level = request.session.get('current_level')
 

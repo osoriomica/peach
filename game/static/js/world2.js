@@ -16,14 +16,32 @@ function getCSRFToken(){
     return ''
 }
 
+// Helper function to reset game session
+async function resetGameSession() {
+    try {
+        const response = await fetch('/game/api/reset-game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            }
+        });
+        
+        if (response.ok) {
+            console.log('Game session reset successfully');
+        }
+    } catch (error) {
+        console.error('Error resetting game:', error);
+    }
+}
 
 /**
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
- * @param {number} score - The player's totalScore across all levels in one session
+ * @param {number} currentScore - The player's totalScore across all levels in one session
  * @returns {Promise} Promise that resolves when score is saved.
  */
-async function postScore(level, score){
+async function postScore(level, currentScore){
     try {
         const res = await fetch("/game/api/save-score", {
             method: "POST",
@@ -33,7 +51,7 @@ async function postScore(level, score){
             },
             body: JSON.stringify({
                 level: level,
-                score: totalScore || score
+                score: currentScore 
             })
         })
         const data = await res.json()
@@ -249,7 +267,7 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
     const level = addLevel(LEVELS[levelId ?? 0], levelConf);
     levelLabel.innerText = levelId + 1
 
-    // Use passed score if provided, otherwise keep existing totalScore
+    // Uses passed score if provided, otherwise keep existing totalScore
     if (score !== undefined) {
         totalScore = score
         highscoreLabel.innerText = totalScore
@@ -425,38 +443,27 @@ scene("lose", ({ totalScore }) => {
 
     postScore("World 2 - Game Over", totalScore)
     
-    onKeyPress(() => {
-        if (nextLevelUrl) {
-            window.location.href = nextLevelUrl;
-        } else {
-            console.error("nextLevelUrl is not defined");
-        }
+    onKeyPress(async () => {
+        await resetGameSession()
+
+        window.location.href = '/game/world1/?new=true'
+
     })
 })
 
 scene("win", ({ totalScore }) => {
 	add([
- 		text(`CONGRATS! YOU WON!\nYOUR FINAL SCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
+ 		text(`CONGRATULATIONS!\nYOU COMPLETED THE GAME!\nFINAL SCORE: ${totalScore}\nTHANKS FOR PLAYING!\nPRESS ANY KEY TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
 	])
-    postScore("World 2 - Completed", totalScore)
+    postScore("Game Completed", totalScore)
 
-    onKeyPress(() => {
-        if (nextLevelUrl) {
-            window.location.href = nextLevelUrl
-        } else {
-            go("gameComplete", { finalScore: totalScore })
-        }
+    onKeyPress(async () => {
+        await resetGameSession()
+
+        window.location.href = '/game/world1/?new=true'
     })
-})
-
-scene("gameComplete", ({ finalScore }) => {
-    add([
-        text(`GAME COMPLETE!\nFINAL SCORE: ${finalScore}\nThanks for playing!`),
-        pos(width()/2, height()/2),
-        anchor("center"),
-    ])
 })
 
 go("World2")

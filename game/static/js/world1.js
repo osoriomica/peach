@@ -16,16 +16,34 @@ function getCSRFToken(){
     return ''
 }
 
+// Helper function to reset game session
+async function resetGameSession() {
+    try {
+        const response = await fetch('/game/api/reset-game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            }
+        });
+        
+        if (response.ok) {
+            console.log('Game session reset successfully');
+        }
+    } catch (error) {
+        console.error('Error resetting game:', error);
+    }
+}
+
 // Flag to prevent duplicate saves
 let scoreSaved = false
 /**
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
- * @param {number} score - The player's score to be saved for the specified level.
- * @param {number} totalScore - cumulative across all levels.
+ * @param {number} currentScore - The player's score to be saved for the specified level.
  * @returns {Promise} This function does not return a value, but logs the server response or error to the console.
 */
-async function postScore(level, score){
+async function postScore(level, currentScore){
     if (scoreSaved) {
         console.log("score already saved, skipping duplicate")
         return
@@ -40,7 +58,7 @@ async function postScore(level, score){
             },
             body: JSON.stringify({
                 level: level,
-                score: totalScore || score
+                score: currentScore
             })
         })
         const data = await res.json()
@@ -55,7 +73,6 @@ async function postScore(level, score){
 
 // DOM element for UI updates.
 const levelLabel = document.getElementById('levelId')
-levelLabel.innertext = "World 1"
 const highscoreLabel = document.getElementById('highscore')
 
 // Get previous total score from Django template
@@ -69,9 +86,8 @@ highscoreLabel.innerText = totalScore
  * Update UI and score during game
  */
 function collectPoints(points = 1){
-    totalScore += points
+    totalScore += parseInt(points)
     highscoreLabel.innerText = totalScore
-    return totalScore
 }
 
 // Kaboom Game - 
@@ -232,11 +248,11 @@ const levelConf = {
     },
 };
 
-scene("World1", ({ score } = { score:0}) => {
+scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 
     //add level to scene
     const level = addLevel(LEVELS[0], levelConf);
-    levelLabel.innertext = "World 1"
+    levelLabel.innerText = levelId + 1
 
     // Use passed score if provided, otherwise keep existing totalScore
     if (score !== undefined) {
@@ -407,8 +423,10 @@ scene("lose", ({ totalScore }) => {
     
     // Save both level score and total score
     postScore("World 1 - Game Over", totalScore)
-    onKeyPress(() => {
-        go("World1", { totalScore: 0, levelId:0 })
+    onKeyPress(async () => {
+        await resetGameSession()
+
+        window.location.href = '/game/world1/?new=true'
     })
 })
 
@@ -419,7 +437,8 @@ scene("win", ({ totalScore }) => {
         anchor("center"),
     ])
     
-    // Transitions without posting score to database
+    postScore("World1 - Completed", totalScore)
+    
     onKeyPress(() => {
         if (nextLevelUrl) {
             window.location.href = nextLevelUrl
