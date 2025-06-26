@@ -37,6 +37,18 @@ Fix: The stripe object had logged the email under customer_details{ email } so t
             session.get('customer_details', {}).get('email')
             )
 
+Double score being posted to database.
+
+![Bug: double score being posted on collision with pipes](README-folder/bug2-double-score-1.webp)
+
+![Bug: double score being posted transitioning from W1 to W2](README-folder/bug2-double-score-2.webp)
+
+Issue: Whilst transitioning from world 1 to world 2 and on completion of world 2 the total score would be saved twice for each level.
+Fix: Add boolean flag around player-pipe interaction using [onCollideEnd](https://kaboomjs.com/#onCollideEnd).
+Bonus: Score was being posted for end of World 1 and then for end of World 2 within the same session.
+Fix: Only transition between worlds (on winning) but otherwise posting on GameOver and on completion of World 2.
+
+
 
 ### Reference
 #### Base JS/Kaboom code and idea:  
