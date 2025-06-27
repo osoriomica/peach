@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}My account |{% endblock %}
+
+{% block content %}
+<main>
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h1 class="sec-title">{{ profile.user }}</h1>
+            <div class="sec-content">
+                <h2>My account</h1>
+                
+            </div>
+        
+            <p class="copy-under-box">
+                <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+    
+    <a class="mario-box start-game-btn .button" href="{% url 'world1' %}">START GAME</a>
+</main>
+{% endblock %}

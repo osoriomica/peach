@@ -25,7 +25,7 @@ PEACH PALETTE
 --razzmatazz: #E62F78ff;
  
 ### Bugs
-Checkout session completed without email.
+#### Checkout session completed without email.
 
 ![Bug: Stripe webhook handler](README-folder/bug1-webhook-handler.webp)
 
@@ -37,7 +37,7 @@ Fix: The stripe object had logged the email under customer_details{ email } so t
             session.get('customer_details', {}).get('email')
             )
 
-Double score being posted to database.
+#### Double score being posted to database.
 
 ![Bug: double score being posted on collision with pipes](README-folder/bug2-double-score-1.webp)
 
@@ -45,9 +45,10 @@ Double score being posted to database.
 
 Issue: Whilst transitioning from world 1 to world 2 and on completion of world 2 the total score would be saved twice for each level.
 Fix: Add boolean flag around player-pipe interaction using [onCollideEnd](https://kaboomjs.com/#onCollideEnd).
-Bonus: Score was being posted for end of World 1 and then for end of World 2 within the same session.
-Fix: Only transition between worlds (on winning) but otherwise posting on GameOver and on completion of World 2.
 
+#### Session's score not starting from 0 on play again
+Issue: Upon completion of the game, if the user tried playing again, the score would carry on from the previous game instead of starting from 0. 
+Fix: A helper async function that resets the score by using the method: request.session.pop(score, None) and then setting the redirect url values at the end of the game to window.location.href = '/game/world1/?new=true' - the query string refering to the conditional within the world1 view: if request.GET.get('new') == 'true': which then 'pops' the score and level from the session allowing the new game to start with a clean record. 
 
 
 ### Reference
@@ -64,6 +65,7 @@ Fix: Only transition between worlds (on winning) but otherwise posting on GameOv
 - Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)
 - Clamp() function: [W3S](https://www.w3schools.com/cssref/func_clamp.php)
 - Clamp() calculator: [marcbacon.com](https://www.marcbacon.com/tools/clamp-calculator/)
+- async() :[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 Stripe documentation: 
  - https://docs.stripe.com/get-started/development-environment#api-keys
  - https://docs.stripe.com/checkout/embedded/quickstart

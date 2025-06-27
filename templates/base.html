@@ -1,6 +1,7 @@
 {% load static %}
 {% url 'home' as home_url %}
 {% url 'about' as about_url %}
+{% url 'profile' as profile_url %}
 {% url 'world1' as world1_url %}
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +59,8 @@
             <li><a href="#admin-panel" id="admin-panel">ADMIN PANEL</a></li>
             {% endif %}
             
-            <li><a href="#profile">MY ACCOUNT</a></li>
+            <li><a href="{% url 'profile' %}" class="{% if request.path == profile_url %}active"
+                    aria-current="page{%endif%}">MY ACCOUNT</a></li>
             <li><a href="{% url 'account_logout' %}">LOG OUT</a></li>
             {% else %}
             <li><a href="{% url 'account_signup' %}">SIGN UP</a></li>

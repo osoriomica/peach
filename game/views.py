@@ -50,7 +50,7 @@ def reset_game(request):
         # Clear game-related session data
         request.session.pop('total_score', None)
         request.session.pop('current_level', None)
-   
+
         return JsonResponse({
             "status": "success",
             "message": "Game session reset"
@@ -81,7 +81,7 @@ def world2(request):
     """
     Render the paid game for subscribed and logged-in users.
     """
-    
+
     total_score = request.session.get('total_score', 0)
     current_level = request.session.get('current_level')
 
