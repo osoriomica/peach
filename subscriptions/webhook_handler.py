@@ -127,14 +127,20 @@ class Stripe_Webhook_Handler:
         sub = Subscription.objects.filter(
             stripe_customer_id=stripe_customer_id).first()
         if sub:
-            period_end = make_aware(datetime.fromtimestamp(
-                subscription_data['current_period_end']))
-            sub.current_period_end = period_end
-            sub.plan_interval = subscription_data[
-                'items']['data'][0]['price']['recurring']['interval']
+            period_end_ts = subscription_data.get('current_period_end')
+            if period_end_ts:
+                sub.current_period_end = make_aware(
+                    datetime.fromtimestamp(period_end_ts))
+
+            try:
+                sub.plan_interval = subscription_data[
+                    'items']['data'][0]['price']['recurring']['interval']
+            except (KeyError, IndexError, TypeError):
+                pass
+
+            # update cancellation intent
             sub.cancel_at_period_end = subscription_data.get(
-                'cancel_at_period_end', False
-                )
+                'cancel_at_period_end', False)
             sub.save()
 
         return HttpResponse(status=200)

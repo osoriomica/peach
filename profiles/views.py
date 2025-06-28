@@ -1,9 +1,11 @@
 import stripe
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 import stripe.error
 from subscriptions.models import Subscription
+from game.models import GameScore
+from .models import UserProfile
 from django.contrib import messages
 
 
@@ -15,8 +17,11 @@ def profile(request):
     """
     Display the user's profile.
     """
-    profile = request.user.profile
+    profile = get_object_or_404(UserProfile, user=request.user)
     subscription = Subscription.objects.filter(user=request.user).first()
+
+    high_score = GameScore.objects.filter(user=profile.user).order_by(
+        '-score', '-created_at').first()
 
     if request.method == 'POST':
         # handle change of username
@@ -42,6 +47,7 @@ def profile(request):
     context = {
         'profile': profile,
         'subscription': subscription,
+        'high_score': high_score,
     }
 
     return render(request, 'profiles/profile.html', context)

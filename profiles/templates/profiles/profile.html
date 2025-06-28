@@ -8,62 +8,111 @@
     <div class="margin-top margin-bottom">
         <div class="mario-box">
             <h1 class="profile-title">My account</h1>
-            <div class="profile-content">
-                <h3>Details</h3>
-                <ul>
-                    <li>user: {{ user.username }}</li>
+            
+            <div class="profile-content margin-1">
+                <h3 class="profile-heading">Details</h3>
+                <ul class="about-text margin-bottom-1">
+                    <li>username: {{ user.username }}
+                        <form method="POST" id="username-form">
+                            {% csrf_token %}
+                            <div id="username-edit-fields" class="hidden margin-1">
+                                <input type="text" name="username" id="username" value="{{ user.username }}">
+                                <button type="submit" class="profile-box profile-btn button">Update</button>
+                                <button type="button" id="cancel-edit-btn" class="profile-box profile-btn button">Cancel</button>
+                            </div>
+                        </form>
+                    </li>
                     <li>email: {{ user.email }}</li>
-                    <li>Joined: {{ user.joined|date:"F, Y F j, Y, g:i a" }}</li>
+                    <li class="margin-bottom-1">Member since: {{ profile.joined|date:"F j, Y," }}</li>
                 </ul>
-                <form method="POST" style="margin-top: 1em;">
-              
-                        {% csrf_token %}
-                        <label for="username">Change username:</label>
-                        <input type="text" name="username" id="username" value="{{ user.username }}">
-                        <button type="submit" class="profile-box profile-btn button">Update</button>
-                </form>
+                <button
+                    type="button" id="change-username-btn"
+                    class="profile-box profile-btn button align-right margin-1">
+                    Change my username
+                </button>
             </div>
 
-            <div class="profile-content">    
-                <h3>Game Stats</h3>
-                <ul>
+            <div class="profile-content">
+                <h3 class="profile-heading">Game Stats</h3>
+                <ul class="about-text">
                     <li>Highest Score: {{ profile.score }}</li>
                     <li>level Reached: {{ profile.level }}</li>
-                    <li>Achieved on: {{ profile.created_at|date:"F j, Y, H:i" }}</li>
+                    <li>Achieved on: {{ high_score.created_at|date:"F j, Y, H:i" }}</li>
                 </ul>
             </div>
 
             <div class="profile-content">
-                <h3>Subscription</h3>
-                {% if subscription %}
+                <h3 class="profile-heading">Subscription</h3>
+                <div class="about-text">
+                    {% if subscription %}
                     <ul>
                         <li>Status: {{ subscription.is_active|yesno:"Active,Inactive" }}</li>
-                        <li>Plan: {{ subscription.plan_interval }}</li>
-                        <li>Expires: {{ subscription.current_period_end }}</li>
+                        <li>Plan: {{ subscription.plan_interval }}ly</li>
+                        <li>Expires: {{ subscription.current_period_end|date:"F j, Y, H:i" }}</li>
                     </ul>
                     {% if subscription.is_active %}
-                        <form method="POST" style="margin-top: 1em;">
-
-                            {% csrf_token %}
-                            <button type="submit" name="cancel_subscription" class="profile-box profile-btn button"
-                                onclick="return confirm('Are you sure you want to cancel your subscription?');">
-                                Cancel Subscription
-                            </button>
-    </form>
-    {% endif %}
-                {% else %}
+                    {% if subscription.cancel_at_period_end %}
+                    <hr>
+                    <p class="warning">You've cancelled your renewal.</p>
+                    <p class="margin-bottom-1">You can continue playing until: {{ subscription.current_period_end|date:"F j, Y, H:i" }}<br>
+                        Not to worry, you can always reactivate your subscription:</p>
+                    <form method="post" action="{% url 'reactivate_subscription' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="profile-box profile-btn button margin-1 margin-bottom-1">
+                            Reactivate
+                        </button>
+                    </form>
+                    {% else %}
+                    <hr>
+                    <p class="warning">Your subscription is active</p>
+                    <p class="margin-bottom-1 ">It will automatically renew every {{ subscription.plan_interval }}. <br>
+                        Your next renewal will be on {{ subscription.current_period_end|date:"F j, Y, H:i" }}</p>
+                    <form method="POST" class="margin-1">
+                        {% csrf_token %}
+                        <button type="submit" name="cancel_subscription" class="profile-box profile-btn button"
+                            onclick="return confirm('Are you sure you want to cancel your subscription?');">
+                            Cancel Subscription
+                        </button>
+                    </form>
+                    {% endif %}
+                    {% else %}
+                    <p>Your Subscription has ended.</p>
+                    {% endif %}
+                    {% else %}
                     <p>You need an active subscription to access the premium levels.</p>
-                    <a class="profile-box start-game-btn .button" href="{% url 'subscription_required' %}">Subscribe</a>
-                {% endif %}
+                    <a class="profile-box profile-btn button" href="{% url 'subscription_required' %}">Subscribe</a>
+                    {% endif %}
+                </div>
             </div>
-        
+
             <p class="copy-under-box">
                 <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
             </p>
         </div>
     </div>
-
-    <a class="mario-box start-game-btn button" href="{% url 'world1' %}">START GAME</a>
 </main>
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const changeBtn = document.getElementById('change-username-btn');
+        const fields = document.getElementById('username-edit-fields');
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        const usernameInput = document.getElementById('username');
+
+        changeBtn.addEventListener('click', function() {
+            fields.classList.toggle('hidden');
+            changeBtn.classList.toggle('hidden');
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            usernameInput.value = "{{ user.username }}";
+            fields.classList.toggle('hidden');
+            changeBtn.classList.toggle('hidden');
+        });
+    });
+
+</script>
 {% endblock %}

@@ -1,9 +1,12 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponse
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+import stripe.error
+from .models import Subscription
 
 import stripe
 from .webhook_handler import Stripe_Webhook_Handler
@@ -30,6 +33,40 @@ def subscription_cancel(request):
     Handle cancelled subscription
     """
     return render(request, 'subscriptions/cancel.html')
+
+
+@login_required
+def reactivate_subscription(request):
+    try:
+        subscription = Subscription.objects.get(user=request.user)
+
+        if not subscription.is_active:
+            messages.error(
+                request,
+                "Your subscription is no longer active. Please resubscribe")
+            return redirect("profile")
+
+        if not subscription.cancel_at_period_end:
+            messages.info(request, "Your subscription is already active.")
+            return redirect("profile")
+
+        # reactivate with Stripe
+        stripe.Subscription.modify(
+            subscription.stripe_subscription_id,
+            cancel_at_period_end=False
+        )
+
+        # update in db
+        subscription.cancel_at_period_end = False
+        subscription.save()
+
+        messages.success(request, "Your Subscription has been reactivated.")
+    except Subscription.DoesNotExist:
+        messages.error(request, "You do not have an active subscription.")
+    except stripe.error.StripeError as e:
+        messages.error(request,
+                       f"Stripe encountered an error: {e.user_message}")
+    return redirect("profile")
 
 
 # Stripe webhook handler

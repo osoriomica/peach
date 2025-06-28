@@ -24,7 +24,9 @@ def save_score(request):
                 )
 
                 # Update highest score in UserProfile
-                profile = request.user.profile
+                from profiles.models import UserProfile
+                profile, created = UserProfile.objects.get_or_create(
+                    user=request.user)
                 if profile.score is None or score > profile.score:
                     profile.score = score
                     profile.level = level

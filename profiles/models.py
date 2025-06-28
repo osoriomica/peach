@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from game.models import GameScore
 
 
 # Create your models here.
@@ -24,3 +25,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+    def highest_score_entry(self):
+        return GameScore.objects.filter(user=self.user).order_by(
+            '-score', '-created_at').first()
