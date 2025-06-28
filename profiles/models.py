@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class UserProfile(models.Model):
     """
-    A user profile model for maintaining a record of 
+    A user profile model for maintaining a record of
     their current subscription and highest score and level.
     """
     user = models.OneToOneField(
@@ -13,9 +13,9 @@ class UserProfile(models.Model):
         )
 
     # Game stats:
-    highest_score = models.IntegerField(default=0)
-    highest_level = models.CharField(max_length=100, default="Unknown")
-    score_date = models.DateTimeField(blank=True, null=True)
+    score = models.IntegerField(default=0)
+    level = models.CharField(max_length=100, default="Unknown")
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     # Subscription relationship
     subscription = models.OneToOneField('subscriptions.Subscription',

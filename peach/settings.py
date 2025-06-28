@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 if os.path.isfile('env.py'):
-    import env
+    import env  # noqa: F401
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',  # vs code preview
-    'localhost',  # listen for stripe webhooks
+    'localhost',  # listen for stripe webhooks in production
 ]
 
 
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'about',
     'game',
     'subscriptions',
-    'profiles',
+    'profiles.apps.ProfilesConfig',
     # Other
     'crispy_forms',
 ]

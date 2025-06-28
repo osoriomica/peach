@@ -1,13 +1,13 @@
+import json
+from django.utils import timezone
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import GameScore
-import json
 from subscriptions.decorators import subscription_required
+from .models import GameScore
 
 
 # Create your views here.
-
 @csrf_exempt
 def save_score(request):
     if request.method == "POST":
@@ -15,13 +15,21 @@ def save_score(request):
             try:
                 data = json.loads(request.body)
                 score = data.get("score", 0)
-                level = data.get("level", "unkown")
+                level = data.get("level", "unknown")
 
                 GameScore.objects.create(
                     user=request.user,
                     score=score,
                     level=level
                 )
+
+                # Update highest score in UserProfile
+                profile = request.user.profile
+                if profile.score is None or score > profile.score:
+                    profile.score = score
+                    profile.level = level
+                    profile.created_at = timezone.now()
+                    profile.save()
 
                 # store current score in session
                 request.session['total_score'] = score

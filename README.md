@@ -65,7 +65,11 @@ Fix: A helper async function that resets the score by using the method: request.
 - Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)
 - Clamp() function: [W3S](https://www.w3schools.com/cssref/func_clamp.php)
 - Clamp() calculator: [marcbacon.com](https://www.marcbacon.com/tools/clamp-calculator/)
+- Window location reload with clear cache: [Stack Overflow](https://stackoverflow.com/questions/5721704/window-location-reload-with-clear-cache)
 - async() :[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- Extension Modules: [MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions)
+- Request and response objects: [Django docs](https://docs.djangoproject.com/en/5.2/ref/request-response/#django.http.HttpRequest.GET)
+- Query Strings: [Wikipedia](https://en.wikipedia.org/wiki/Query_string)
 Stripe documentation: 
  - https://docs.stripe.com/get-started/development-environment#api-keys
  - https://docs.stripe.com/checkout/embedded/quickstart
