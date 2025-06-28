@@ -71,6 +71,7 @@ class Stripe_Webhook_Handler:
             'current_period_end'
             ]))
         plan_interval = item_data['price']['recurring']['interval']
+        cancel_at_period_end = stripe_sub.get('cancel_at_period_end', False)
 
         sub, created = Subscription.objects.get_or_create(
             user=user,
@@ -81,6 +82,7 @@ class Stripe_Webhook_Handler:
                 'start_date': start_date,
                 'current_period_end': period_end,
                 'plan_interval': plan_interval,
+                'cancel_at_period_end': cancel_at_period_end,
             }
         )
 
@@ -90,6 +92,7 @@ class Stripe_Webhook_Handler:
             sub.start_date = start_date
             sub.current_period_end = period_end
             sub.plan_interval = plan_interval
+            sub.cancel_at_period_end = cancel_at_period_end
             sub.is_active = True
             sub.save()
         print(f'Subscription activated for user {user.email}')
@@ -129,6 +132,9 @@ class Stripe_Webhook_Handler:
             sub.current_period_end = period_end
             sub.plan_interval = subscription_data[
                 'items']['data'][0]['price']['recurring']['interval']
+            sub.cancel_at_period_end = subscription_data.get(
+                'cancel_at_period_end', False
+                )
             sub.save()
 
         return HttpResponse(status=200)

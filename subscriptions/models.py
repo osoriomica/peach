@@ -14,6 +14,7 @@ class Subscription(models.Model):
     current_period_end = models.DateTimeField(null=True, blank=True)
     plan_interval = models.CharField(max_length=10, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    cancel_at_period_end = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.email} | Active: {self.is_active}"

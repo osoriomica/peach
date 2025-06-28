@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="profile"
         )
-
+    joined = models.DateField(auto_now_add=True, blank=True, null=True)
     # Game stats:
     score = models.IntegerField(default=0)
     level = models.CharField(max_length=100, default="Unknown")

@@ -5,4 +5,4 @@ from .models import UserProfile
 # Register your models here.
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "score", "level", "created_at")
+    list_display = ("user", "joined", "score", "level", "created_at")

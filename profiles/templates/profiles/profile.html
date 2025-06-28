@@ -7,10 +7,54 @@
 <main>
     <div class="margin-top margin-bottom">
         <div class="mario-box">
-            <h1 class="sec-title">{{ user.username }}</h1>
-            <div class="sec-content">
-                <h2>My account</h1>
-                
+            <h1 class="profile-title">My account</h1>
+            <div class="profile-content">
+                <h3>Details</h3>
+                <ul>
+                    <li>user: {{ user.username }}</li>
+                    <li>email: {{ user.email }}</li>
+                    <li>Joined: {{ user.joined|date:"F, Y F j, Y, g:i a" }}</li>
+                </ul>
+                <form method="POST" style="margin-top: 1em;">
+              
+                        {% csrf_token %}
+                        <label for="username">Change username:</label>
+                        <input type="text" name="username" id="username" value="{{ user.username }}">
+                        <button type="submit" class="profile-box profile-btn button">Update</button>
+                </form>
+            </div>
+
+            <div class="profile-content">    
+                <h3>Game Stats</h3>
+                <ul>
+                    <li>Highest Score: {{ profile.score }}</li>
+                    <li>level Reached: {{ profile.level }}</li>
+                    <li>Achieved on: {{ profile.created_at|date:"F j, Y, H:i" }}</li>
+                </ul>
+            </div>
+
+            <div class="profile-content">
+                <h3>Subscription</h3>
+                {% if subscription %}
+                    <ul>
+                        <li>Status: {{ subscription.is_active|yesno:"Active,Inactive" }}</li>
+                        <li>Plan: {{ subscription.plan_interval }}</li>
+                        <li>Expires: {{ subscription.current_period_end }}</li>
+                    </ul>
+                    {% if subscription.is_active %}
+                        <form method="POST" style="margin-top: 1em;">
+
+                            {% csrf_token %}
+                            <button type="submit" name="cancel_subscription" class="profile-box profile-btn button"
+                                onclick="return confirm('Are you sure you want to cancel your subscription?');">
+                                Cancel Subscription
+                            </button>
+    </form>
+    {% endif %}
+                {% else %}
+                    <p>You need an active subscription to access the premium levels.</p>
+                    <a class="profile-box start-game-btn .button" href="{% url 'subscription_required' %}">Subscribe</a>
+                {% endif %}
             </div>
         
             <p class="copy-under-box">
@@ -19,7 +63,7 @@
             </p>
         </div>
     </div>
-    
-    <a class="mario-box start-game-btn .button" href="{% url 'world1' %}">START GAME</a>
+
+    <a class="mario-box start-game-btn button" href="{% url 'world1' %}">START GAME</a>
 </main>
 {% endblock %}
