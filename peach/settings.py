@@ -44,11 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # Allauth applications including Google OAuth
+    # Allauth applications
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     # Custom Apps
     'home',
     'about',
@@ -69,17 +68,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
-
-# Provider specific settings
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'APP': {
-#             'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
-#             'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
-#             'key': os.getenv('GOOGLE_API_KEY', ''),
-#         }
-#     }
-# }
 
 ROOT_URLCONF = 'peach.urls'
 

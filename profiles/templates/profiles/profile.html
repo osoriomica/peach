@@ -11,7 +11,7 @@
             
             <div class="profile-content margin-1">
                 <h3 class="profile-heading">Details</h3>
-                <ul class="about-text margin-bottom-1">
+                <ul class="about-text">
                     <li>username: {{ user.username }}
                         <form method="POST" id="username-form">
                             {% csrf_token %}
@@ -23,13 +23,13 @@
                         </form>
                     </li>
                     <li>email: {{ user.email }}</li>
-                    <li class="margin-bottom-1">Member since: {{ profile.joined|date:"F j, Y," }}</li>
+                    <li class="margin-bottom-2">Member since: {{ profile.joined|date:"F j, Y" }}</li>
+                    <button
+                        type="button" id="change-username-btn"
+                        class="profile-box profile-btn button align-right">
+                        Change my username
+                    </button>
                 </ul>
-                <button
-                    type="button" id="change-username-btn"
-                    class="profile-box profile-btn button align-right margin-1">
-                    Change my username
-                </button>
             </div>
 
             <div class="profile-content">
@@ -37,7 +37,7 @@
                 <ul class="about-text">
                     <li>Highest Score: {{ profile.score }}</li>
                     <li>level Reached: {{ profile.level }}</li>
-                    <li>Achieved on: {{ high_score.created_at|date:"F j, Y, H:i" }}</li>
+                    <li>Achieved on: {{ high_score.created_at|date:"F j, Y @ H:i" }}</li>
                 </ul>
             </div>
 
@@ -48,15 +48,15 @@
                     <ul>
                         <li>Status: {{ subscription.is_active|yesno:"Active,Inactive" }}</li>
                         <li>Plan: {{ subscription.plan_interval }}ly</li>
-                        <li>Expires: {{ subscription.current_period_end|date:"F j, Y, H:i" }}</li>
+                        <li>Expires: {{ subscription.current_period_end|date:"F j, Y @ H:i" }}</li>
                     </ul>
                     {% if subscription.is_active %}
                     {% if subscription.cancel_at_period_end %}
                     <hr>
-                    <p class="warning">You've cancelled your renewal.</p>
-                    <p class="margin-bottom-1">You can continue playing until: {{ subscription.current_period_end|date:"F j, Y, H:i" }}<br>
-                        Not to worry, you can always reactivate your subscription:</p>
-                    <form method="post" action="{% url 'reactivate_subscription' %}">
+                    <p class="warning">Your renewal has been cancelled</p>
+                    <p class="margin-bottom-2 smaller">You can continue playing until: {{ subscription.current_period_end|date:"F j, Y @ H:i" }}<br>
+                        Not to worry! You can always reactivate your subscription:</p>
+                    <form method="POST" action="{% url 'reactivate_subscription' %}">
                         {% csrf_token %}
                         <button type="submit" class="profile-box profile-btn button margin-1 margin-bottom-1">
                             Reactivate
@@ -65,12 +65,12 @@
                     {% else %}
                     <hr>
                     <p class="warning">Your subscription is active</p>
-                    <p class="margin-bottom-1 ">It will automatically renew every {{ subscription.plan_interval }}. <br>
-                        Your next renewal will be on {{ subscription.current_period_end|date:"F j, Y, H:i" }}</p>
+                    <p class="smaller margin-bottom-2">It will automatically renew every {{ subscription.plan_interval }}. <br>
+                        Your next renewal will be on {{ subscription.current_period_end|date:"F j, Y @ H:i" }}</p>
                     <form method="POST" class="margin-1">
                         {% csrf_token %}
                         <button type="submit" name="cancel_subscription" class="profile-box profile-btn button"
-                            onclick="return confirm('Are you sure you want to cancel your subscription?');">
+                            onclick="return confirm('Are you sure you want to cancel your subscription? \nIf you continue with your cancellation please refresh your browser to see the changes.');">
                             Cancel Subscription
                         </button>
                     </form>

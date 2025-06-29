@@ -78,6 +78,10 @@ li a:hover:not(.active) {
     margin: clamp(5rem, 8vw, 4rem) 0 0 clamp(0.5rem, 3vw, 1rem);
 }
 
+.margin-top-1 {
+    margin-top: 2rem;
+}
+
 .margin-bottom {
     margin-bottom: 3rem;
 }
@@ -86,12 +90,21 @@ li a:hover:not(.active) {
     margin-bottom: .5rem;
 }
 
+.margin-bottom-2 {
+    margin-bottom: 1.5rem;
+}
+
 .margin-1 {
     margin: .5rem 0.20;
 }
 
+
 .hidden {
     display: none;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 /* Navbar */
@@ -412,16 +425,45 @@ hr {
     margin-top: 0.5 rem;
 }
 
-#username-edit-fields input{
+#username-edit-fields input, .allauth input{
     padding: 0.4em 0.2rem;
     font-size: .8rem;
     font-family: 'Press Start 2P', monospace;
     border-radius: 1px;
     border: 2px solid var(--highlight1);
-    max-width: 15rem;
+    width: 80%;
     align-items: center;
+}
+
+.allauth input{
+    margin-bottom: .4rem;
+}
+
+.smaller {
+    font-size: smaller;
 }
 
 .align-right{
     align-self: flex-start;
+}
+
+#hint_id_password {
+    text-decoration: underline;
+    display: block;
+    margin-bottom: 1rem;
+    font-size: clamp(.9rem, 1.1vw , 1rem);
+    color: #1c1b19;
+}
+
+#hint_id_password1 {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: clamp(.7rem, 1.1vw , .8rem);
+    color: #1c1b19;
+    letter-spacing: -.5px;
+    font-family: ;
+}
+
+.narrower {
+    letter-spacing: -1px;
 }

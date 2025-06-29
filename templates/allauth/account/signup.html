@@ -1,32 +1,33 @@
-{% extends "account/base_entrance.html" %}
+{% extends "base.html" %}
+{% load static %}
+
 {% load allauth i18n socialaccount %}
 {% block head_title %}
     {% trans "Signup" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Up" %}
-    {% endelement %}
-    <p>
-        {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-    </p>
-    {% url 'account_signup' as action_url %}
-    {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-        {% slot body %}
-            {% csrf_token %}
-            {% element fields form=form unlabeled=True %}
-            {% endelement %}
-            {% if redirect_field_value %}
-                <input type="hidden"
-                       name="{{ redirect_field_name }}"
-                       value="{{ redirect_field_value }}" />
-            {% endif %}
-        {% endslot %}
-        {% slot actions %}
-            {% element button tags="prominent,signup" type="submit" %}
-                {% trans "Sign Up" %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
+<main>
+    <div class="mario-box margin-top">
+        <h1 class="sec-title margin-bottom-2">{% trans "Sign Up" %}</h1>
+        <div class="about-text margin-1">
+            <p class="margin-bottom-1 narrower">
+            {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}" class="underline">sign in</a>.{% endblocktrans %}
+            </p>
+            {% url 'account_signup' as action_url %}
+            <form class="signup allauth" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <button class="profile-box profile-btn button margin-top-1 margin-bottom-2" type="submit">{% trans "Sign Up" %} &raquo;</button>
+            </form>
+        </div>
+        <p class="copy-under-box">
+                <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+        </p>
+    </div>
+</main>
     {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
 {% endblock content %}
