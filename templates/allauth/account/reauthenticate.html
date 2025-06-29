@@ -1,32 +1,43 @@
-{% extends "account/base_manage.html" %}
+{% extends "base.html" %}
+{% load static %}
+
 {% load allauth %}
 {% load i18n %}
 {% block head_title %}
     {% trans "Confirm Access" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Confirm Access" %}
-    {% endelement %}
-    <p>
-        {% blocktranslate %}To safeguard the security of your account, please enter your password:{% endblocktranslate %}
-    </p>
-    {% url 'account_reauthenticate' as action_url %}
-    {% element form form=form method="post" action=action_url %}
-        {% slot body %}
-            {% csrf_token %}
-            {% element fields form=form %}
-            {% endelement %}
-            {% if redirect_field_value %}
-                <input type="hidden"
-                       name="{{ redirect_field_name }}"
-                       value="{{ redirect_field_value }}" />
-            {% endif %}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" %}
-                {% trans "Confirm" %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
+<main>
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h1 class="sec-title margin-bottom-2">{% trans "Confirm Access" %}</h1>
+            <div class="about-text margin-1">
+                <p class="margin-bottom-1 narrower">
+                    {% blocktranslate %}To safeguard the security of your account, please enter your password:{% endblocktranslate %}
+                </p>
+                {% url 'account_reauthenticate' as action_url %}
+                {% element form form=form method="post" action=action_url class=allauth %}
+                    {% slot body %}
+                        {% csrf_token %}
+                        {% element fields form=form %}
+                        {% endelement %}
+                        {% if redirect_field_value %}
+                            <input type="hidden"
+                                name="{{ redirect_field_name }}"
+                                value="{{ redirect_field_value }}" />
+                        {% endif %}
+                    {% endslot %}
+                    {% slot actions %}
+                        <button type="submit" class="profile-box profile-btn button margin-top-1 margin-bottom-2">{% trans 'Confirm' %}</button>
+                    {% endslot %}
+                {% endelement %}
+            </div>
+            <p class="copy-under-box">
+                    <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+</main>
+
 {% endblock content %}

@@ -1,14 +1,31 @@
-{% extends "account/base_entrance.html" %}
+{% extends "base.html" %}
+{% load static %}
+
 {% load i18n %}
 {% load allauth %}
 {% block head_title %}
-    {% trans "Verify Your Email Address" %}
+{% trans "Verify Your Email Address" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Verify Your Email Address" %}
-    {% endelement %}
-    <p>
-        {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}
-    </p>
+<main>
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h1 class="sec-title margin-bottom-2">{% trans "Verify Your Email Address" %}</h1>
+            <div class="about-text margin-1">
+                <p class="margin-bottom-1 narrower">
+                    {% blocktrans %}We have sent an email to you for verification. <br>Follow the link provided to
+                    finalize the signup process. If you do not see the verification email in your main inbox, check your
+                    spam folder. <br> Please contact us if you do not receive the verification email within a few
+                    minutes.{% endblocktrans %}
+                </p>
+            </div>
+
+            <p class="copy-under-box">
+                <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+</main>
+
 {% endblock content %}

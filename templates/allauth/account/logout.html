@@ -1,27 +1,31 @@
-{% extends "account/base_manage.html" %}
+{% extends "base.html" %}
+{% load static %}
+
 {% load allauth i18n %}
 {% block head_title %}
     {% trans "Sign Out" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Out" %}
-    {% endelement %}
-    <p>{% trans 'Are you sure you want to sign out?' %}</p>
-    {% url 'account_logout' as action_url %}
-    {% element form method="post" action=action_url no_visible_fields=True %}
-        {% slot body %}
-            {% csrf_token %}
-            {% if redirect_field_value %}
-                <input type="hidden"
-                       name="{{ redirect_field_name }}"
-                       value="{{ redirect_field_value }}" />
-            {% endif %}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
+<main>
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h1 class="sec-title margin-bottom-2 margin-right">{% trans "Sign Out" %}</h1>
+            <div class="about-text margin-1">
+                <p class="margin-bottom-1 narrower">{% trans 'Are you sure you want to sign out?' %}</p>
+                {% url 'account_logout' as action_url %}
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    <button type="submit" class="profile-box profile-btn button margin-top-1 margin-bottom-2">{% trans 'Sign Out' %}</button>
+                </form>
+            </div>
+            <p class="copy-under-box">
+                    <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+</main>
 {% endblock content %}
