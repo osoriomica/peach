@@ -55,11 +55,7 @@
                     aria-current="page{%endif%}">HOME</a></li>
             <li><a href="{% url 'world1' %}" class="{% if request.path == world1_url %}active"
                     aria-current="page{%endif%}">START game</a></li>
-            {% if request.user.is_authenticated %}
-            {% if request.user.is_superuser %}
-            <li><a href="#admin-panel" id="admin-panel">ADMIN PANEL</a></li>
-            {% endif %}
-            
+            {% if request.user.is_authenticated %}            
             <li><a href="{% url 'profile' %}" class="{% if request.path == profile_url %}active"
                     aria-current="page{%endif%}">MY ACCOUNT</a></li>
             <li><a href="{% url 'account_logout' %}">LOG OUT</a></li>

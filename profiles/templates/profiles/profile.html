@@ -23,7 +23,7 @@
                         </form>
                     </li>
                     <li>email: {{ user.email }}</li>
-                    <li class="margin-bottom-2">Member since: {{ profile.joined|date:"F j, Y" }}</li>
+                    <li class="margin-bottom-1">Member since: {{ profile.joined|date:"F j, Y" }}</li>
                     <button
                         type="button" id="change-username-btn"
                         class="profile-box profile-btn button align-right">
@@ -31,6 +31,7 @@
                     </button>
                 </ul>
             </div>
+             <hr>
 
             <div class="profile-content">
                 <h3 class="profile-heading">Game Stats</h3>
@@ -40,12 +41,13 @@
                     <li>Achieved on: {{ high_score.created_at|date:"F j, Y @ H:i" }}</li>
                 </ul>
             </div>
+            <hr>
 
             <div class="profile-content">
                 <h3 class="profile-heading">Subscription</h3>
                 <div class="about-text">
                     {% if subscription %}
-                    <ul>
+                    <ul class="margin-bottom-1">
                         <li>Status: {{ subscription.is_active|yesno:"Active,Inactive" }}</li>
                         <li>Plan: {{ subscription.plan_interval }}ly</li>
                         <li>Expires: {{ subscription.current_period_end|date:"F j, Y @ H:i" }}</li>
@@ -63,10 +65,6 @@
                         </button>
                     </form>
                     {% else %}
-                    <hr>
-                    <p class="warning">Your subscription is active</p>
-                    <p class="smaller margin-bottom-2">It will automatically renew every {{ subscription.plan_interval }}. <br>
-                        Your next renewal will be on {{ subscription.current_period_end|date:"F j, Y @ H:i" }}</p>
                     <form method="POST" class="margin-1">
                         {% csrf_token %}
                         <button type="submit" name="cancel_subscription" class="profile-box profile-btn button"
