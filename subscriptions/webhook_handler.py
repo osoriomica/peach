@@ -1,6 +1,9 @@
 from datetime import datetime
 from django.utils.timezone import make_aware
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 from django.contrib.auth.models import User
 from .models import Subscription
 import stripe
@@ -12,6 +15,33 @@ class Stripe_Webhook_Handler:
     """
     def __init__(self, request):
         self.request = request
+
+    def _send_confirmation_email(self, session, subscription):
+        """Send user a confirmation email"""
+        customer_email = session.get('customer_email') or (
+            session.get('customer_details', {}).get('email')
+            )
+        subscription_id = session.get('subscription')
+        subject = render_to_string(
+            'subscriptions/confirmation_emails/confirmation_email_subject.txt',
+            {'subscription': subscription_id}
+            ).strip()
+
+        body = render_to_string(
+            'subscriptions/confirmation_emails/confirmation_email_body.txt',
+            {
+                'subscription': subscription_id,
+                'contact_email': settings.DEFAULT_FROM_EMAIL
+            }
+        )
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [customer_email],
+            fail_silently=False
+        )
 
     def handle_event(self, event):
         """
@@ -96,6 +126,7 @@ class Stripe_Webhook_Handler:
             sub.is_active = True
             sub.save()
         print(f'Subscription activated for user {user.email}')
+        self._send_confirmation_email(session, sub)
 
         return HttpResponse(
             content=f'Webhook handled: {event["type"]}',

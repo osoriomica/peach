@@ -1,0 +1,1 @@
+Your Subscription {{ subscription }} is now active!

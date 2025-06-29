@@ -1,0 +1,11 @@
+Hi there,
+
+Welcome to Peach Kaboom!
+Thank you for subscribing. We hope you enjoy the adventure ahead!
+
+Your subscription (ID: {{ subscription }}) has been successfully activated.
+
+If you have any questions, pleae feel free to contact us at {{ contact_email }}
+
+See you on the scoreboard!
+PeachKaboom
