@@ -27,7 +27,6 @@ html {
 
 body {
     background-color: var(--bg-color-pri);
-    overflow: hidden;
 }
 
 main,
@@ -125,20 +124,26 @@ header {
     display: flex;
     align-items: center;
     top: 0;
-    margin: 0.3rem auto;
+    padding: 0.3rem 0;
+    margin: 0 auto;
     color: var(--light-text);
+    background-color: var(--bg-color-pri);
+    z-index: 101;
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    background-color: var(--bg-color-pri);
+    padding: 0 .5rem;
 }
 
 .navbar li {
-    padding: 0 1rem;
+    padding: 0 .2rem;
     text-shadow: 0.1rem 0.1rem var(--shadow-color-dark);
-    font-size: 1.7rem;
+    font-size: clamp(1.4rem, 3vw, 1.7rem);
+    word-spacing: -0.2rem;
 }
 
 .active {
@@ -301,8 +306,10 @@ header {
     font-size: 24px;
 }
 
-canvas {
+/* Overlay in base.html */
+.overlay{
     display: block;
+    min-height: 6rem;
 }
 
 /* Footer */
@@ -311,9 +318,7 @@ footer {
     position: fixed;
     bottom: 0;
     left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    margin: 0 auto;
     background-color: var(--shadow-color-dark);
     color: var(--light-text);
     padding: 0.5rem 0;
@@ -323,13 +328,14 @@ footer {
 .footer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding: 0 1rem;
 }
 
 .footer li {
-    padding: 0 1rem;
-    font-size: 1.5rem;
+    padding: 0 .3rem;
+    font-size: clamp(1rem, 3vw, 1.7rem);
+    word-spacing: -0.2rem;
 }
 
 .footer li a:active {

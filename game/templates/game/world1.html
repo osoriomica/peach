@@ -8,7 +8,7 @@
 {% load static %}
 
 {% block content %}
-<main data-next-url="{% url 'world2' %}" data-previous-score="{{ previous_score|default:0 }}">
+<main data-next-url="{% url 'world2' %}" data-previous-score="{{ previous_score|default:0 }}" id="world1">
     <div class="info-container">
         <h3 id="username">{{ user }}</h3>
         <h3 id="level-tag">World 1 - <span id="levelId"></span></h3>

@@ -77,8 +77,8 @@
                     <p>Your Subscription has ended.</p>
                     {% endif %}
                     {% else %}
-                    <p class="margin-bottom-1">You need an active subscription to access the premium levels.</p>
-                    <button class="profile-box profile-btn button" href="{% url 'subscription_required' %}">Subscribe</button>
+                    <p>You need an active subscription to access the premium levels.</p>
+                    <a class="profile-box profile-btn button margin-top-1" href="{% url 'subscription_required' %}">Subscribe</a>
                     {% endif %}
                 </div>
             </div>

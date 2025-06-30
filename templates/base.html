@@ -49,8 +49,7 @@
 
     <!-- Navbar -->
     <header>
-        <!-- <div id="logo"></div><a href="{% url 'home' %}"></a></div> -->
-        <ul class="navbar">
+        <ul class="navbar z100">
             <li><a href="{% url 'home' %}" class="{% if request.path == home_url %}active"
                     aria-current="page{%endif%}">HOME</a></li>
             <li><a href="{% url 'world1' %}" class="{% if request.path == world1_url %}active"
@@ -71,7 +70,7 @@
     <!-- Block content -->
     {% block content %}
     {% endblock %}
-
+    <div class="overlay"></div>
     <!-- Footer -->
     <footer>
         <ul class="footer">
