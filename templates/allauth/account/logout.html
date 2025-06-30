@@ -10,8 +10,8 @@
     <div class="margin-top margin-bottom">
         <div class="mario-box">
             <h1 class="sec-title margin-bottom-2 margin-right">{% trans "Sign Out" %}</h1>
-            <div class="about-text margin-1">
-                <p class="margin-bottom-1 narrower">{% trans 'Are you sure you want to sign out?' %}</p>
+            <div class="about-text margin-1 pad-left">
+                <p class="margin-bottom-1 narrower bigger">{% trans 'Are you sure you want to sign out?' %}</p>
                 {% url 'account_logout' as action_url %}
                 <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}

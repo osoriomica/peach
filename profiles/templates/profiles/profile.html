@@ -15,7 +15,7 @@
                     <li>username: {{ user.username }}
                         <form method="POST" id="username-form">
                             {% csrf_token %}
-                            <div id="username-edit-fields" class="hidden margin-1">
+                            <div id="username-edit-fields" class="hidden margin-1 margin-bottom-1">
                                 <input type="text" name="username" id="username" value="{{ user.username }}">
                                 <button type="submit" class="profile-box profile-btn button">Update</button>
                                 <button type="button" id="cancel-edit-btn" class="profile-box profile-btn button">Cancel</button>
@@ -77,8 +77,8 @@
                     <p>Your Subscription has ended.</p>
                     {% endif %}
                     {% else %}
-                    <p>You need an active subscription to access the premium levels.</p>
-                    <a class="profile-box profile-btn button" href="{% url 'subscription_required' %}">Subscribe</a>
+                    <p class="margin-bottom-1">You need an active subscription to access the premium levels.</p>
+                    <button class="profile-box profile-btn button" href="{% url 'subscription_required' %}">Subscribe</button>
                     {% endif %}
                 </div>
             </div>
