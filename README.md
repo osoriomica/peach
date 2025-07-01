@@ -348,8 +348,9 @@ Visit http://127.0.0.1:8000 in your browser.
 ---
 
 ## Credits
-- **Mario Bros sprites** provided in tutorial by Ania Kubow: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
+- **Mario Bros sprites** from Ania Kubow's: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
 - **Peach sprite** from [spriters-resource.com](https://www.spriters-resource.com/fullview/20692/)
+- **Arrow icons** from [kenney.nl](https://kenney.nl/assets/game-icons)
 ### Reference
 #### Base JS/Kaboom code and idea:  
 - Ania Kubow: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
@@ -367,8 +368,10 @@ Visit http://127.0.0.1:8000 in your browser.
 - Window location reload with clear cache: [Stack Overflow](https://stackoverflow.com/questions/5721704/window-location-reload-with-clear-cache)
 - async() :[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 - Extension Modules: [MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions)
+Django Docs:
 - Request and response objects: [Django docs](https://docs.djangoproject.com/en/5.2/ref/request-response/#django.http.HttpRequest.GET)
-- How to use sessions : [Django docs](https://docs.djangoproject.com/en/3.2/topics/http/sessions/)
+- How to use sessions : [Django docs](https://docs.djangoproject.com/en/3.2/topics/http/sessions/)-
+- Sending email: [Django docs]https://docs.allauth.org/en/latest/account/configuration.html#sending-email
 - Query Strings: [Wikipedia](https://en.wikipedia.org/wiki/Query_string)
 Stripe documentation: 
  - https://docs.stripe.com/get-started/development-environment#api-keys
