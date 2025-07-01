@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Subscription
 import stripe
@@ -79,15 +80,19 @@ class Stripe_Webhook_Handler:
         subscription_id = session.get('subscription')
 
         if not customer_email:
-            print('Checkout session completed without a customer_email')
+            messages.error(
+                self.request,
+                'Checkout session completed without a customer email.'
+            )
             return HttpResponse(status=400)
 
         try:
             user = User.objects.get(email=customer_email)
         except User.DoesNotExist:
-            print(
-                f'Checkout completed for unknown email: {customer_email}'
-                )
+            messages.error(
+                self.request,
+                'Checkout completed for unknown email.'
+            )
             return HttpResponse(status=404)
 
         # Fetch Stripe subscription details
@@ -125,7 +130,7 @@ class Stripe_Webhook_Handler:
             sub.cancel_at_period_end = cancel_at_period_end
             sub.is_active = True
             sub.save()
-        print(f'Subscription activated for user {user.email}')
+        messages.success(self.request, "Your Subscription has been activated.")
         self._send_confirmation_email(session, sub)
 
         return HttpResponse(

@@ -360,6 +360,7 @@ Visit http://127.0.0.1:8000 in your browser.
 - JSLegendDev: [How to build a platformer in Js with kaboom](https://www.youtube.com/watch?v=wZpbTR7pYR0)
 - JSLegendDev's GitHub: [Mario-Game-Kaboom](https://github.com/JSLegendDev/Mario-Game-Kaboom.js/blob/master/main.js)
 - Reddit post about using Django to design a game: [reddit.com](https://www.reddit.com/r/django/comments/181i3ix/can_you_design_a_game_with_django/)
+- Add on-screen buttons to Kaboom.js [ourcade - Platformer Touch Controls on Phone or Tablet in Kaboom.js](https://www.youtube.com/watch?v=sB4Oq8D3p2c)
 - Box Shadow : [CSS-Tricks](https://css-tricks.com/almanac/properties/b/box-shadow/)
 - Navbar styling: [W3S](https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active)
 - Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)

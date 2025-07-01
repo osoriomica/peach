@@ -114,5 +114,4 @@ def stripe_webhook(request):
 
     event_type = event['type']
     event_handler = event_map.get(event_type, handler.handle_event)
-    print('Success!')
     return event_handler(event)
