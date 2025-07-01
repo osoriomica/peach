@@ -3,6 +3,10 @@
 {% url 'about' as about_url %}
 {% url 'profile' as profile_url %}
 {% url 'world1' as world1_url %}
+{% url 'world2' as world2_url %}
+{% url 'account_logout' as logout_url %}
+{% url 'account_signup' as signup_url %}
+{% url 'account_login' as login_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,10 +61,13 @@
             {% if request.user.is_authenticated %}            
             <li><a href="{% url 'profile' %}" class="{% if request.path == profile_url %}active"
                     aria-current="page{%endif%}">MY ACCOUNT</a></li>
-            <li><a href="{% url 'account_logout' %}">LOG OUT</a></li>
+            <li><a href="{% url 'account_logout' %}" class="{% if request.path == logout_url %}active"
+                    aria-current="page{%endif%}">LOG OUT</a></li>
             {% else %}
-            <li><a href="{% url 'account_signup' %}">SIGN UP</a></li>
-            <li><a href="{% url 'account_login' %}">LOG IN</a></li>
+            <li><a href="{% url 'account_signup' %}" class="{% if request.path == signup_url %}active"
+                    aria-current="page{%endif%}">SIGN UP</a></li>
+            <li><a href="{% url 'account_login' %}" class="{% if request.path == login_url %}active"
+                    aria-current="page{%endif%}">LOG IN</a></li>
             {% endif %}
 
         </ul>
@@ -70,7 +77,9 @@
     <!-- Block content -->
     {% block content %}
     {% endblock %}
+    {% if request.path != world1_url and request.path != world2_url %}
     <div class="overlay"></div>
+    {% endif %}
     <!-- Footer -->
     <footer>
         <ul class="footer">

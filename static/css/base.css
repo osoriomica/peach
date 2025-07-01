@@ -508,9 +508,10 @@ hr {
 }
 
 /* Media Queries */
-@media screen and (min-width: 963px) {
 
-    /* about section */
+/* ABOUT */
+@media screen and (min-width: 769px) {
+
     .sec-content {
         display: flex;
         flex-direction: row;
@@ -536,8 +537,10 @@ hr {
         padding: 0 1rem;
         margin-top: 0;
     }
+}
 
-    /* INDEX */
+/* INDEX */
+@media screen and (min-width: 963px) {
 
     .index-container {
         display: flex;

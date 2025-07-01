@@ -58,16 +58,24 @@ The project was developed following the tutorial for "Boutique Ado" by Code Inst
 ### User Stories
 
 PAYMENTS AND SUBSCRIPTIONS
-As a user I can purchase a subscription so that I can access more game levelsI can review my payment details before subscribingI can cancel a paymentI can checkout securely through StripeI can view my subscriptions historyI can receive a confirmation email on the status of my subscription
+As a **logged-in user**:
+I can purchase a subscription so that I can access more game levels. 
+I can review my payment details before subscribing. 
+I can cancel a payment.
+I can checkout securely through Stripe.
+I can view my current subscription details.
+I can receive a confirmation email on the status of my subscription.
 
-ADMIN CRUD
-As a site admin I have full CRUD access so that I can manage the site's users and subscriptionsI can create, read, update and delete users' accounts.I can send newsletters to users regarding the website.I can see a list of the current pro users.REGISTRATION AND USER 
-ACCOUNTS
-As a **user ** I can have a personal account so that I can access the game content.
-User can register for a new accountSLogin and out with ease.Recover my password if forgotten.Receive email confirmation after registering.
+USER CRUD
+As a **site user**, I can register for a new account. Login and out with ease. Recover my password if forgotten. Receive email confirmation after registering. 
+As a **registered user**, I have CRUD abilities over my username and renewal of my subscription. I can also see my latest highest score and subscription details as well as my personal details registered in the website.
 
 VIEWING AND NAVIGATION
-As a user I can quickly navigate the website so that I can play the gameI can start a new gameI can navigate through the website using the links provided
+As a **user**:
+I can start and play a new game. If logged in, my score is automatically saved.
+I can navigate through the website using the links provided
+I can visit the site's facebook page
+I can see some content depending on my subscription status 
 
 ### Features
 
@@ -77,7 +85,7 @@ As a user I can quickly navigate the website so that I can play the gameI c
 - **About**: About us page  
 - **Game**: Free to play: World - 1, Subscription required for World - 2    
 - **Subscription**: With a pricing table powered by Stripe. Webhooks to manage subscriptions.  
-- **Responsive Design**: Mobile first. Optimized for all screen sizes  
+- **Responsive Design**: Optimized for all screen sizes  
 
 ### Design
 The color scheme and fonts were chosen inspired by the opening scene of Super Mario Bros with the colour palette of Super Princess Peach.  All layouts are designed with a mobile-first approach.
@@ -316,8 +324,8 @@ To run this project locally, follow the steps below:
 
 ### 1. Clone the repository  
 >```bash  
->git clone https://github.com/yourusername/corazon-de-patata.git  
->cd corazon-de-patata  
+>git clone https://github.com/yourusername/peach.git  
+>cd peach  
 ### 2. Create and activate a virtual environment  
 >python3 -m venv venv  
 >source venv/bin/activate  # On Windows: venv\Scripts\activate  
@@ -330,9 +338,9 @@ Create a .env file in the root directory and include:
 >DATABASE_URL=sqlite:///db.sqlite3  
 >CLOUDINARY_URL=your-cloudinary-url  
 >ALLOWED_HOSTS=127.0.0.1,localhost  
-### 5. Apply migrations and load fixtures  
+### 5. Apply migrations 
+>python manage.py makemigrations
 >python manage.py migrate  
->python manage.py loaddata recipes.json  
 ### 6. Run the development server  
 >python manage.py runserver    
 Visit http://127.0.0.1:8000 in your browser.  
