@@ -306,8 +306,96 @@ header {
     font-size: 24px;
 }
 
+/* Game controls */
+#game-controls1,
+#game-controls2 {
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    /* ensure it's above canvas */
+}
+
+.control-row {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.up-down-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#left-arrow1,
+#left-arrow2 {
+    background: url(../media/sprites/arrowLeft.png) no-repeat center center/cover;
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+}
+
+#left-arrow1:active,
+#left-arrow2:active {
+    height: 3.5rem;
+    width: 3.5rem;
+    padding: 0.5rem;
+}
+
+#up-arrow1,
+#up-arrow2 {
+    background: url(../media/sprites/arrowUp.png) no-repeat center center/cover;
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+}
+
+#up-arrow1:active,
+#up-arrow2:active {
+    height: 3.5rem;
+    width: 3.5rem;  
+    padding: 0.5rem;
+}
+
+#down-arrow1,
+#down-arrow2 {
+    background: url(../media/sprites/arrowDown.png) no-repeat center center/cover;
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+}
+
+#down-arrow1:active,
+#down-arrow2:active {
+    height: 3.5rem;
+    width: 3.5rem;
+    padding: 0.5rem;
+}
+
+#right-arrow1,
+#right-arrow2 {
+    background: url(../media/sprites/arrowRight.png) no-repeat center center/cover;
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+}
+
+#right-arrow1:active,
+#right-arrow2:active {
+    height: 3.5rem;
+    width: 3.5rem;
+    padding: 0.5rem;
+}
+
 /* Overlay in base.html */
-.overlay{
+.overlay {
     display: block;
     min-height: 6rem;
 }
@@ -502,7 +590,7 @@ hr {
     padding-right: .5rem;
 }
 
-.form-check-input{
+.form-check-input {
     border: 1px solid black;
     border-radius: 1px;
 }

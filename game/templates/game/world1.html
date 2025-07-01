@@ -15,6 +15,20 @@
         <h3 id="highscore-tag" class="score-display">Score: <span id="highscore" class="score-value">0</span></h3>
     </div> 
 </main>
+<!-- Game controls -->
+    <div id="game-controls1">
+        <h2 class="hidden">game controls</h2>
+        <div class="control-row">
+            <div id="left-arrow1"></div>
+
+            <div class="up-down-stack">
+                <div id="up-arrow1"></div>
+                <div id="down-arrow1"></div>
+            </div>
+
+            <div id="right-arrow1"></div>
+        </div>
+    </div>
     {% block postloadjs %}
     <script type="module" src="{% static 'js/world1.js' %}"></script>
     {% endblock %}

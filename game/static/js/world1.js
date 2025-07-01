@@ -75,6 +75,12 @@ async function postScore(level, currentScore){
 const levelLabel = document.getElementById('levelId')
 const highscoreLabel = document.getElementById('highscore')
 
+// Global flags for touchscreen events
+let touchLeft = false
+let touchRight = false
+let touchDown = false
+let touchJump = false
+
 // Get previous total score from Django template
 const previousScore = parseInt(document.querySelector("main").dataset.previousScore || "0")
 let totalScore = previousScore
@@ -92,24 +98,42 @@ function collectPoints(points = 1){
 
 // Kaboom Game - 
 // Code from kaboom's platformer playground and Code with Ania on YT
-kaboom({
-    font: "monospace",
-    scale: 1,
-    background: [136, 136, 223],
-    width:1400,
-    height:700,
-    letterbox: true,
-});
+// Uses media query detection for mobile and medium screens
+const isMobile = window.matchMedia("(max-width: 550px)").matches
+const isMedium = window.matchMedia("(min-width: 551px) and (max-width: 1024px)").matches
+
+if (isMobile) {
+    kaboom({
+        font: "monospace",
+        scale: 1,
+        background: [136, 136, 223],
+        width: 550,
+        height: 500,
+        letterbox: true
+    });
+} else if (isMedium) {
+    kaboom({
+        font: "monospace",
+        scale: 1,
+        background: [136, 136, 223],
+        width: 900,
+        height: 600,
+        letterbox: true
+    });
+} else {
+    kaboom({
+        font: "monospace",
+        scale: 1,
+        background: [136, 136, 223],
+        width: 1400,
+        height: 700,
+        letterbox: true,
+    });
+}
+
 
 // Load assets
-// Sprites
 // loadSprite('peach', '../static/media/peach-sprite.png')
-// on-screen arrows
-loadSprite('left', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowLeft.png')
-loadSprite('right', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowRight.png')
-loadSprite('up-arrow', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowUp.png')
-loadSprite('down-arrow', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowDown.png')
-
 // imgur sprites - from Code with Ania's Tutorial
 loadRoot('https://i.imgur.com/');
 loadSprite('coin', 'wbKxhcd.png');
@@ -201,18 +225,18 @@ const FALL_DEATH = 800;
 
 const LEVELS = [
     [
-        '..................................................................................',
-        '..................................................................................',
-        '.......................==..........................................................',
-        '..................................................................................',
-        '...........................==.....................................................',
-        '..................................................................................',
-        '..................................................................................',
-        '..........%....=*=%=..............................................................',
-        '................................-+................................................',
-        '...........................-+...()................................-+..............',
-        '...........................()...()...........^....^...............()..............',
-        '====================================================================   ===========',
+        '................................................................................',
+        '................................................................................',
+        '.....................==..........................................................',
+        '................................................................................',
+        '.........................==.....................................................',
+        '................................................................................',
+        '................................................................................',
+        '........%....=*=%=..............................................................',
+        '..............................-+................................................',
+        '.........................-+...()................................-+..............',
+        '.........................()...()...........^....^...............()..............',
+        '==================================================================   ===========',
     ],
 ]
 
@@ -417,98 +441,25 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 		setFullscreen(!isFullscreen())
 	})
 
-    if (isTouchscreen()){
-        setupTouchControls()
-    }
-
-    function setupTouchControls(){
-        let touchLeft = false
-        let touchRight = false
-        let touchDown = false
-
-        const leftButton = add([
-            sprite('left'),
-            pos((width()/2) - 70, height() - 150),
-            opacity(0.5),
-            fixed(),
-            area()
-        ])
-        
-        const rightButton = add([
-            sprite('right'),
-            pos((width()/2) + 70, height() - 150),
-            opacity(0.5),
-            fixed(),
-            area()
-        ])
-        
-        const downButton = add([
-            sprite('down-arrow'),
-            pos(width()/2, height() -100),
-            opacity(0.5),
-            fixed(),
-            area()
-        ])
-        
-        const upButton = add([
-            sprite('up-arrow'),
-            pos(width()/2, height() - 200),
-            opacity(0.5),
-        fixed(),
-        area()
-        ])
-
-        onTouchStart((id, pos) => {
-            if (leftButton.hasPoint(pos)) {
-                touchLeft = true
-                leftButton.opacity = 1
+    // DOM buttons' events
+    onUpdate(() => {
+        if (touchLeft) {
+            player.move(-MOVE_SPEED, 0)
+        }
+        if (touchRight) {
+            player.move(MOVE_SPEED, 0)
+        }
+        if (touchJump) {
+            if (player.isGrounded()) {
+                player.jump()
             }
-            else if(rightButton.hasPoint(pos)) {
-                touchRight = true
-                rightButton.opacity = 1
-            }
-            else if (upButton.hasPoint(pos)) {
-                jump()
-                downButton.opacity = 1
-            }
-            else if (downButton.hasPoint(pos)) {
-                touchDown = true
-                upButton.opacity = 1
-            }
-        })
-        
-        onTouchEnd((_, pos) => {
-            if (!leftButton.hasPoint(pos)){
-                touchLeft = false
-                rightButton.opacity = 0.5
-            }
-            if (!rightButton.hasPoint(pos)){
-                touchRight = false
-                rightButton.opacity = 0.5
-            }
-            if (!downButton.hasPoint(pos)){
-                touchDown = false
-                rightButton.opacity = 0.5
-            }
-            if (!upButton.hasPoint(pos)){
-                rightButton.opacity = 0.5
-            }
-        })
-        
-        onUpdate(() => {
-            if (touchLeft) {
-                player.move(-MOVE_SPEED, 0)
-            }
-            if (touchRight) {
-                player.move(MOVE_SPEED, 0)
-            }
-            if (touchDown && canUsePipe) {
-                canUsePipe = false
-                go("win", { totalScore })
-            }
-        })
-    }
-
+            touchJump = false // Only jump once per tap
+        }
+        if (touchDown && canUsePipe) {
+            canUsePipe = false
+            go("win", { totalScore })
+        }
+    })
 })
 
 scene("lose", ({ totalScore }) => {
@@ -546,3 +497,47 @@ scene("win", ({ totalScore }) => {
 })
 
 go("World1")
+
+
+// attach event listeners to DOM buttons
+function bindArrowButton(el, direction) {
+
+    const start = () => {
+        if (direction === "left") touchLeft = true
+        else if (direction === "right") touchRight = true
+        else if (direction === "down") touchDown = true
+        else if (direction === "up") touchJump = true
+    }
+
+    const stop = () => {
+        if (direction === "left") touchLeft = false
+        else if (direction === "right") touchRight = false
+        else if (direction === "down") touchDown = false
+        else if (direction === "up") touchJump = false
+    }
+
+    el.addEventListener("mousedown", start)
+    el.addEventListener("mouseup", stop)
+    el.addEventListener("mouseleave", stop)
+
+    el.addEventListener("touchstart", (e) => {
+        e.preventDefault()
+        start()
+    })
+
+    el.addEventListener("touchend", (e) => {
+        e.preventDefault()
+        stop()
+    })
+
+    el.addEventListener("touchcancel", (e) => {
+        e.preventDefault()
+        stop()
+    })
+}
+
+// Bind DOM buttons
+bindArrowButton(document.getElementById("left-arrow1"), "left")
+bindArrowButton(document.getElementById("right-arrow1"), "right")
+bindArrowButton(document.getElementById("up-arrow1"), "up")
+bindArrowButton(document.getElementById("down-arrow1"), "down")

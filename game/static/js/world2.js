@@ -55,11 +55,9 @@ async function postScore(level, currentScore){
             })
         })
         const data = await res.json()
-        console.log("Score saved:", data)
         scoreSaved = true
         return data
     } catch (err) {
-        console.log("Error saving score:", err)
         throw err
     }
 }
@@ -67,6 +65,11 @@ async function postScore(level, currentScore){
 // DOM element for UI updates.
 const levelLabel = document.getElementById('levelId')
 const highscoreLabel = document.getElementById('highscore')
+// Global flags for touchscreen events
+let touchLeft = false
+let touchRight = false
+let touchDown = false
+let touchJump = false
 
 // Get previous total score from Django template
 const previousScore = parseInt(document.querySelector("main").dataset.previousScore || "0")
@@ -74,6 +77,7 @@ let totalScore = previousScore
 
 // Update UI with carried-over score
 highscoreLabel.innerText = totalScore
+
 
 /**
  * Update UI and score during game
@@ -84,19 +88,39 @@ function collectPoints(points = 1){
 }
 
 // Kaboom Game - 
-// Code from kaboom's platformer playground and Code with Ania on YT
-kaboom({
-    font: "monospace",
-    scale: 1,
-    background: [136, 136, 223],
-    width:1400,
-    height:700,
-    letterbox: true,
-});
+// Code from kaboom's platformer playground and Code with Ania on YT 
+// Uses media query detection for mobile screens
+const isMobile = window.matchMedia("(max-width: 600px)").matches
+
+if (isMobile) {
+    kaboom({
+        font: "monospace",
+        scale: 1,
+        background: [136, 136, 223],
+        width: 600,
+        height: 550,
+        letterbox: true
+    });
+} else {
+    kaboom({
+        font: "monospace",
+        scale: 1,
+        background: [136, 136, 223],
+        width: 1400,
+        height: 700,
+        letterbox: true,
+    });
+}
 
 // Load assets
-// Sprites
 // loadSprite('peach', '../static/media/peach-sprite.png')
+// on-screen arrows
+loadSprite('left', '/static/media/sprites/arrowLeft.png')
+loadSprite('right', '/static/media/sprites/arrowRight.png')
+loadSprite('up-arrow', '/static/media/sprites/arrowUp.png')
+loadSprite('down-arrow', '/static/media/sprites/arrowDown.png')
+
+// imgur sprites - from Code with Ania's Tutorial
 loadRoot('https://i.imgur.com/');
 loadSprite('coin', 'wbKxhcd.png');
 loadSprite('goomba', 'KPO3fR9.png');
@@ -432,6 +456,25 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
 		setFullscreen(!isFullscreen())
 	})
 
+     // DOM buttons' events
+    onUpdate(() => {
+        if (touchLeft) {
+            player.move(-MOVE_SPEED, 0)
+        }
+        if (touchRight) {
+            player.move(MOVE_SPEED, 0)
+        }
+        if (touchJump) {
+            if (player.isGrounded()) {
+                player.jump()
+            }
+            touchJump = false // Only jump once per tap
+        }
+        if (touchDown && canUsePipe) {
+            canUsePipe = false
+            go("win", { totalScore })
+        }
+    })
 })
 
 scene("lose", ({ totalScore }) => {
@@ -467,3 +510,48 @@ scene("win", ({ totalScore }) => {
 })
 
 go("World2")
+
+
+
+// attach event listeners to DOM buttons
+function bindArrowButton(el, direction) {
+
+    const start = () => {
+        if (direction === "left") touchLeft = true
+        else if (direction === "right") touchRight = true
+        else if (direction === "down") touchDown = true
+        else if (direction === "up") touchJump = true
+    }
+
+    const stop = () => {
+        if (direction === "left") touchLeft = false
+        else if (direction === "right") touchRight = false
+        else if (direction === "down") touchDown = false
+        else if (direction === "up") touchJump = false
+    }
+
+    el.addEventListener("mousedown", start)
+    el.addEventListener("mouseup", stop)
+    el.addEventListener("mouseleave", stop)
+
+    el.addEventListener("touchstart", (e) => {
+        e.preventDefault()
+        start()
+    })
+
+    el.addEventListener("touchend", (e) => {
+        e.preventDefault()
+        stop()
+    })
+
+    el.addEventListener("touchcancel", (e) => {
+        e.preventDefault()
+        stop()
+    })
+}
+
+// Bind DOM buttons
+bindArrowButton(document.getElementById("left-arrow2"), "left")
+bindArrowButton(document.getElementById("right-arrow2"), "right")
+bindArrowButton(document.getElementById("up-arrow2"), "up")
+bindArrowButton(document.getElementById("down-arrow2"), "down")
