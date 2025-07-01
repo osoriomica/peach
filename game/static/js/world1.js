@@ -105,10 +105,10 @@ kaboom({
 // Sprites
 // loadSprite('peach', '../static/media/peach-sprite.png')
 // on-screen arrows
-loadSprite('left', '/static/media/sprites/arrowLeft.png')
-loadSprite('right', '/static/media/sprites/arrowRight.png')
-loadSprite('up-arrow', '/static/media/sprites/arrowUp.png')
-loadSprite('down-arrow', '/static/media/sprites/arrowDown.png')
+loadSprite('left', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowLeft.png')
+loadSprite('right', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowRight.png')
+loadSprite('up-arrow', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowUp.png')
+loadSprite('down-arrow', 'https://eu-north-1.console.aws.amazon.com/s3/object/peachkaboom?region=eu-north-1&bucketType=general&prefix=static/media/sprites/arrowDown.png')
 
 // imgur sprites - from Code with Ania's Tutorial
 loadRoot('https://i.imgur.com/');
