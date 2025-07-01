@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 import dj_database_url
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 from pathlib import Path
 if os.path.isfile('env.py'):
     import env  # noqa: F401
@@ -210,7 +207,7 @@ STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_PRODUCT_ID = os.getenv('STRIPE_PRODUCT_ID', '')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
 
-if 'DEVELOPMENT' in os.environ:
+if 'DEVELOPMENT ' in os.environ:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'peachkaboom@example.com'
 else:

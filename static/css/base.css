@@ -332,7 +332,7 @@ header {
 
 #left-arrow1,
 #left-arrow2 {
-    background: url(../media/sprites/arrowLeft.png) no-repeat center center/cover;
+    background: url(https://res.cloudinary.com/dvf7itpby/image/upload/v1751409414/static/media/sprites/arrowLeft.png) no-repeat center center/cover;
     height: 4rem;
     width: 4rem;
     cursor: pointer;
@@ -347,7 +347,7 @@ header {
 
 #up-arrow1,
 #up-arrow2 {
-    background: url(../media/sprites/arrowUp.png) no-repeat center center/cover;
+    background: url(https://res.cloudinary.com/dvf7itpby/image/upload/v1751409418/static/media/sprites/arrowUp.png) no-repeat center center/cover;
     height: 4rem;
     width: 4rem;
     cursor: pointer;
@@ -362,7 +362,7 @@ header {
 
 #down-arrow1,
 #down-arrow2 {
-    background: url(../media/sprites/arrowDown.png) no-repeat center center/cover;
+    background: url(https://res.cloudinary.com/dvf7itpby/image/upload/v1751409413/static/media/sprites/arrowDown.png) no-repeat center center/cover;
     height: 4rem;
     width: 4rem;
     cursor: pointer;
@@ -377,7 +377,7 @@ header {
 
 #right-arrow1,
 #right-arrow2 {
-    background: url(../media/sprites/arrowRight.png) no-repeat center center/cover;
+    background: url(https://res.cloudinary.com/dvf7itpby/image/upload/v1751409412/static/media/sprites/arrowRight.png) no-repeat center center/cover;
     height: 4rem;
     width: 4rem;
     cursor: pointer;
