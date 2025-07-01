@@ -12,12 +12,12 @@
             <h1 class="sec-title margin-bottom-2">{% trans "Sign Up" %}</h1>
             <div class="about-text margin-1">
                 <p class="margin-bottom-1 narrower">
-                {% blocktrans %}Already have an account? <br>Then click here to <a href="{{ login_url }}" class="underline">sign in</a>.{% endblocktrans %}
+                Already have an account? <br>Then click here to <a href="{% url 'account_login' %}" class="underline">sign in</a>.
                 </p>
                 {% url 'account_signup' as action_url %}
                 <form class="signup allauth" id="signup_form" method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
-                    {{ form|crispy }}
+                    {{ form.as_p }}
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
