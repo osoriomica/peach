@@ -366,6 +366,7 @@ Visit http://127.0.0.1:8000 in your browser.
 - async() :[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 - Extension Modules: [MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions)
 - Request and response objects: [Django docs](https://docs.djangoproject.com/en/5.2/ref/request-response/#django.http.HttpRequest.GET)
+- How to use sessions : [Django docs](https://docs.djangoproject.com/en/3.2/topics/http/sessions/)
 - Query Strings: [Wikipedia](https://en.wikipedia.org/wiki/Query_string)
 Stripe documentation: 
  - https://docs.stripe.com/get-started/development-environment#api-keys

@@ -217,7 +217,7 @@ STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_PRODUCT_ID = os.getenv('STRIPE_PRODUCT_ID', '')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
 
-if 'DEVELOPMENT' in os.environ:
+if 'DEVELOPMENTx' in os.environ:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'peachkaboom@example.com'
 else:
