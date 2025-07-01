@@ -14,7 +14,14 @@ def index(request):
 def test_email(request):
 
     try:
-        send_mail('Test Subject', 'This is a test message from my Django app.', 'peachkaboom1@gmail.com', ['osoriomica@gmail.com'], fail_silently=False,)
+        send_mail(
+            'Test Subject',
+            'This is a test message from my Django app.',
+            'peachkaboom1@gmail.com',
+            ['osoriomica@gmail.com'], fail_silently=False,
+            )
         return HttpResponse("SUCCESS", content_type="text/plain")
     except Exception as e:
-        return HttpResponse(f"Error sending email: {e}", content_type="text/plain")
+        return HttpResponse(
+            f"Error sending email: {e}", content_type="text/plain"
+            )

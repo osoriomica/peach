@@ -11,4 +11,9 @@ class GameScore(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"User: {self.user.username} | Score: {self.score} | Level: {self.level} | Timestamp: {self.created_at}"
+        return (
+            f"User: {self.user.username} | "
+            f"Score: {self.score} | "
+            f"Level: {self.level} | "
+            f"Timestamp: {self.created_at}"
+        )

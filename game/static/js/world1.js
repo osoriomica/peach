@@ -104,6 +104,13 @@ kaboom({
 // Load assets
 // Sprites
 // loadSprite('peach', '../static/media/peach-sprite.png')
+// on-screen arrows
+loadSprite('left', '/static/media/sprites/arrowLeft.png')
+loadSprite('right', '/static/media/sprites/arrowRight.png')
+loadSprite('up-arrow', '/static/media/sprites/arrowUp.png')
+loadSprite('down-arrow', '/static/media/sprites/arrowDown.png')
+
+// imgur sprites - from Code with Ania's Tutorial
 loadRoot('https://i.imgur.com/');
 loadSprite('coin', 'wbKxhcd.png');
 loadSprite('goomba', 'KPO3fR9.png');
@@ -122,6 +129,7 @@ loadSprite('blue-brick', '3e5YRQd.png');
 loadSprite('blue-steel', 'gqVoI2b.png');
 loadSprite('blue-goomba', 'SvV4ueD.png');
 loadSprite('blue-surprise', 'RMqCc1G.png');
+
 
 // Enable gravity manually (required in v3000+)
 setGravity(2400);
@@ -258,9 +266,8 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
     if (score !== undefined) {
         totalScore = score
         highscoreLabel.innerText = totalScore
-        console.log(`World1 restarted with score: ${totalScore}`)
     } else {
-        console.log(`World1 started fresh with score: ${totalScore}`)
+        return
     }
 
     //Player
@@ -338,29 +345,27 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 			// play("sfx")
 		}
 	})
-
-	// grows mushroom if player's head bumps into an obj with "mushroom-surprise" tag
-	player.onHeadbutt((obj) => {
-		if (obj.is("mushroom-surprise")) {
-			const mushroom = level.spawn("#", obj.tilePos.sub(0, 1))
-			mushroom.jump()
-            destroy(obj)
-            level.spawn("}", obj.tilePos.add(0,0))
-			// play("sfx")
-		}
-	})
-
+    
 	// player grows big onCollide with a "Mushroom" obj
 	player.onCollide("mushroom", (m) => {
-		destroy(m)
+        destroy(m)
 		// as we defined in the big() component
 		player.biggify(5)
 		// play("sfx")
 	})
-
-    // releases coin if player's head bumps into an obj with "coin-surprise" tag
-    // then changes surprise box to unboxed - from Ania Kubow
+    
 	player.onHeadbutt((obj) => {
+        // grows mushroom if player's head bumps into an obj with "mushroom-surprise" tag
+        if (obj.is("mushroom-surprise")) {
+            const mushroom = level.spawn("#", obj.tilePos.sub(0, 1))
+            mushroom.jump()
+            destroy(obj)
+            level.spawn("}", obj.tilePos.add(0,0))
+            // play("sfx")
+        }
+
+        // releases coin if player's head bumps into an obj with "coin-surprise" tag
+        // then changes surprise box to unboxed - from Ania Kubow
 		if (obj.is("coin-surprise")) {
 			level.spawn("$", obj.tilePos.sub(0, 1))
             destroy(obj)
@@ -412,6 +417,98 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 		setFullscreen(!isFullscreen())
 	})
 
+    if (isTouchscreen()){
+        setupTouchControls()
+    }
+
+    function setupTouchControls(){
+        let touchLeft = false
+        let touchRight = false
+        let touchDown = false
+
+        const leftButton = add([
+            sprite('left'),
+            pos((width()/2) - 70, height() - 150),
+            opacity(0.5),
+            fixed(),
+            area()
+        ])
+        
+        const rightButton = add([
+            sprite('right'),
+            pos((width()/2) + 70, height() - 150),
+            opacity(0.5),
+            fixed(),
+            area()
+        ])
+        
+        const downButton = add([
+            sprite('down-arrow'),
+            pos(width()/2, height() -100),
+            opacity(0.5),
+            fixed(),
+            area()
+        ])
+        
+        const upButton = add([
+            sprite('up-arrow'),
+            pos(width()/2, height() - 200),
+            opacity(0.5),
+        fixed(),
+        area()
+        ])
+
+        onTouchStart((id, pos) => {
+            if (leftButton.hasPoint(pos)) {
+                touchLeft = true
+                leftButton.opacity = 1
+            }
+            else if(rightButton.hasPoint(pos)) {
+                touchRight = true
+                rightButton.opacity = 1
+            }
+            else if (upButton.hasPoint(pos)) {
+                jump()
+                downButton.opacity = 1
+            }
+            else if (downButton.hasPoint(pos)) {
+                touchDown = true
+                upButton.opacity = 1
+            }
+        })
+        
+        onTouchEnd((_, pos) => {
+            if (!leftButton.hasPoint(pos)){
+                touchLeft = false
+                rightButton.opacity = 0.5
+            }
+            if (!rightButton.hasPoint(pos)){
+                touchRight = false
+                rightButton.opacity = 0.5
+            }
+            if (!downButton.hasPoint(pos)){
+                touchDown = false
+                rightButton.opacity = 0.5
+            }
+            if (!upButton.hasPoint(pos)){
+                rightButton.opacity = 0.5
+            }
+        })
+        
+        onUpdate(() => {
+            if (touchLeft) {
+                player.move(-MOVE_SPEED, 0)
+            }
+            if (touchRight) {
+                player.move(MOVE_SPEED, 0)
+            }
+            if (touchDown && canUsePipe) {
+                canUsePipe = false
+                go("win", { totalScore })
+            }
+        })
+    }
+
 })
 
 scene("lose", ({ totalScore }) => {
@@ -432,7 +529,7 @@ scene("lose", ({ totalScore }) => {
 
 scene("win", ({ totalScore }) => {
     add([
-        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!`),
+        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY TO CONTINUE`),
         pos(width()/2, height()/2),
         anchor("center"),
     ])
