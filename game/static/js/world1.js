@@ -133,14 +133,13 @@ if (isMobile) {
 
 
 // Load assets
-// loadSprite('peach', '../static/media/peach-sprite.png')
-// imgur sprites - from Code with Ania's Tutorial
+
+// imgur sprites - See Readme.md for credits
 loadRoot('https://i.imgur.com/');
 loadSprite('coin', 'wbKxhcd.png');
 loadSprite('goomba', 'KPO3fR9.png');
 loadSprite('brick', 'pogC9x5.png');
 loadSprite('block', 'M6rwarW.png');
-loadSprite('mario', 'Wb1qfhK.png');
 loadSprite('mushroom', '0wMd92p.png');
 loadSprite('surprise', 'gesQ1KP.png');
 loadSprite('unboxed', 'bdrLpi6.png');
@@ -153,6 +152,7 @@ loadSprite('blue-brick', '3e5YRQd.png');
 loadSprite('blue-steel', 'gqVoI2b.png');
 loadSprite('blue-goomba', 'SvV4ueD.png');
 loadSprite('blue-surprise', 'RMqCc1G.png');
+loadSprite('peach', 'OlnxoGG.png')
 
 
 // Enable gravity manually (required in v3000+)
@@ -296,7 +296,7 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 
     //Player
     const player = add([
-        sprite('mario'),
+        sprite('peach'),
         pos(100, 90),
         area(),
         body(),

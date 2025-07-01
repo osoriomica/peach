@@ -348,6 +348,8 @@ Visit http://127.0.0.1:8000 in your browser.
 ---
 
 ## Credits
+- **Mario Bros sprites** provided in tutorial by Ania Kubow: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
+- **Peach sprite** from [spriters-resource.com](https://www.spriters-resource.com/fullview/20692/)
 ### Reference
 #### Base JS/Kaboom code and idea:  
 - Ania Kubow: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
