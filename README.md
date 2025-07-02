@@ -210,6 +210,9 @@ about.html:
     [valid about.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fabout%2F)  
 subscriptions/subscribe.html:  
     [valid subscribe.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fsubscriptions%2Fsubscribe%2F)  
+signup.html:  
+    [valid signup.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Fsignup%2F)
+    ![allauth signup form error](README-folder/validation/allauth-signup-error.webp)  
 login.html:  
     [valid login.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogin%2F)  
 logout.html:  

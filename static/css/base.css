@@ -94,7 +94,7 @@ li a:hover:not(.active) {
 }
 
 .margin-1 {
-    margin: .5rem 0.20;
+    margin: .5rem 0.2rem;
 }
 
 .margin-right {
@@ -206,7 +206,7 @@ header {
 }
 
 .game-info h3 {
-    font-size: clamp(1rem, 2.5rem);
+    font-size: clamp(1rem, 2rem, 2.5rem);
     text-shadow: clamp(0.1rem, 0.5vw, 0.3rem) clamp(0.1rem, 1vw, 0.3rem) var(--shadow-color-dark);
     color: var(--light-text);
     padding-top: .7rem;
@@ -272,14 +272,14 @@ header {
 .sec-content {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     justify-content: left;
     padding: 1rem;
 }
 
 .about-text {
     font-size: clamp(1.3rem, 1.5vw, 1.5rem);
-    margin-top: clamp(1rem, 1, 5vw, 1.5rem);
+    margin-top: clamp(1rem, 1.5vw, 1.5rem);
 }
 
 .about-img img {
@@ -464,7 +464,7 @@ footer {
 .profile-content {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     justify-content: left;
     padding: 1rem;
 }
