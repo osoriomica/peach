@@ -1,12 +1,15 @@
-import stripe
 from django.conf import settings
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-import stripe.error
-from subscriptions.models import Subscription
-from game.models import GameScore
-from .models import UserProfile
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+
+import stripe
+import stripe.error
+
+from .models import UserProfile
+from game.models import GameScore
+from subscriptions.models import Subscription
+from cloudinary import uploader
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -18,21 +21,15 @@ def profile(request):
     Display the user's profile.
     """
     profile = get_object_or_404(UserProfile, user=request.user)
+    is_default_image = str(profile.profile_image) == 'static/media/default'
     subscription = Subscription.objects.filter(user=request.user).first()
 
     high_score = GameScore.objects.filter(user=profile.user).order_by(
         '-score', '-created_at').first()
 
     if request.method == 'POST':
-        # handle change of username
-        if 'username' in request.POST:
-            new_username = request.POST.get('username')
-            if new_username and new_username != request.user.username:
-                request.user.username = new_username
-                request.user.save()
-                messages.success(request, "Username updated succesfully.")
         # handle subscription cancellation
-        elif 'cancel_subscription' in request.POST and subscription:
+        if 'cancel_subscription' in request.POST and subscription:
             try:
                 stripe.Subscription.modify(
                     subscription.stripe_subscription_id,
@@ -48,6 +45,46 @@ def profile(request):
         'profile': profile,
         'subscription': subscription,
         'high_score': high_score,
+        'is_default_image': is_default_image,
     }
 
     return render(request, 'profiles/profile.html', context)
+
+
+# User profile view for displaying profile image
+@login_required
+def update_profile_image(request):
+    """
+    Update the user's profile image.
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    if request.method == 'POST' and request.FILES.get('profile_image'):
+        profile.profile_image = request.FILES['profile_image']
+        profile.save()
+        messages.success(request, "Profile image updated successfully.")
+
+    return redirect('profile')
+
+
+@login_required
+def delete_profile_image(request):
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    if (
+        profile.profile_image and
+        profile.profile_image.public_id != 'static/media/default'
+    ):
+        # Deletes from Cloudinary
+        uploader.destroy(profile.profile_image.public_id) 
+        # Clear the profile image field
+        profile.profile_image = None
+        profile.save()
+        messages.success(request, "Profile image deleted successfully.")
+
+    # Reassign default image
+    if not profile.profile_image:
+        profile.profile_image = 'static/media/default'
+        profile.save()
+
+    return redirect('profile')

@@ -8,29 +8,61 @@
     <div class="margin-top margin-bottom">
         <div class="mario-box">
             <h1 class="profile-title margin-bottom-1">My account</h1>
-            
-            <div class="profile-content margin-1">
-                <h3 class="profile-heading">Details</h3>
-                <ul class="about-text">
-                    <li>username: {{ user.username }}
-                        <form method="POST" id="username-form">
+
+            <div class="profile-row">
+                <div class="profile-image">
+                    <img src="{{ profile.profile_image.url }}" alt="Profile Image" style="width:150px">
+                    <div class="avatar-buttons">
+                        <button id="show-upload-btn" class="underline narrower smaller simple-button">
+                            -Change your avatar-
+                        </button>
+                        {% if profile.has_custom_profile_image %}
+                        <form action="{% url 'delete_profile_image' %}" method="post">
                             {% csrf_token %}
-                            <div id="username-edit-fields" class="hidden margin-1 margin-bottom-1">
-                                <input type="text" name="username" id="username" value="{{ user.username }}">
-                                <button type="submit" class="profile-box profile-btn button">Update</button>
-                                <button type="button" id="cancel-edit-btn" class="profile-box profile-btn button">Cancel</button>
+                            <button type="submit" class="underline narrower smaller simple-button"
+                                onclick="return confirm('Are you sure you want to delete your profile image?')">
+                                Delete Image
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <!-- Upload Form -->
+                    <div id="upload-form-container" class="hidden">
+                        <form method="POST" enctype="multipart/form-data" action="{% url 'update_profile_image' %}"
+                            class="profile-upload-form">
+                            {% csrf_token %}
+
+                            <label for="id_profile_image" class="profile-label">Choose your new avatar image:</label>
+                            <input type="file" name="profile_image" id="id_profile_image" accept="image/*"
+                                class="profile-input">
+
+                            <p class="smaller">
+                                *Accepted formats: JPG, PNG, GIF<br>
+                                *Recommended size: 150x150 pixels<br>
+                                *File size: Max 2MB
+                            </p>
+                            <div class="avatar-buttons">
+                                <button type="submit" class="profile-box profile-btn button">Save</button>
+                                <button type="button" id="cancel-upload-btn"
+                                    class="profile-box profile-btn button">Cancel</button>
                             </div>
                         </form>
-                    </li>
-                    <li>email: {{ user.email }}</li>
-                    <li class="margin-bottom-1">Member since: {{ profile.joined|date:"F j, Y" }}</li>
-                    <button
-                        type="button" id="change-username-btn"
-                        class="profile-box profile-btn button align-right">
-                        Change my username
-                    </button>
-                </ul>
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="profile-content">
+                        <h3 class="profile-heading">Details</h3>
+                        <ul class="about-text">
+                            <li>username: {{ user.username }}
+                            </li>
+                            <li>email: {{ user.email }}</li>
+                            <li class="margin-bottom-1">Member since: {{ profile.joined|date:"F j, Y" }}</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
+
             <hr>
 
             <div class="profile-content">
@@ -56,11 +88,12 @@
                     {% if subscription.cancel_at_period_end %}
                     <hr>
                     <p class="warning">Your renewal has been cancelled</p>
-                    <p class="margin-bottom-2 smaller">You can continue playing until: {{ subscription.current_period_end|date:"F j, Y @ H:i" }}<br>
+                    <p class="margin-bottom-2 smaller">You can continue playing until:
+                        {{subscription.current_period_end|date:"F j, Y @ H:i" }}<br>
                         Not to worry! You can always reactivate your subscription:</p>
                     <form method="POST" action="{% url 'reactivate_subscription' %}">
                         {% csrf_token %}
-                        <button type="submit" class="profile-box profile-btn button margin-1 margin-bottom-1">
+                        <button type="submit" class="profile-box profile-btn button margin-1">
                             Reactivate
                         </button>
                     </form>
@@ -68,7 +101,7 @@
                     <form method="POST" class="margin-1">
                         {% csrf_token %}
                         <button type="submit" name="cancel_subscription" class="profile-box profile-btn button"
-                            onclick="return confirm('Are you sure you want to cancel your subscription? \nIf you continue with your cancellation please refresh your browser to see the changes.');">
+                            onclick="return confirm('Are you sure you want to cancel your subscription? \nIf you continue with your cancellation please refresh your browser to see the changes.')">
                             Cancel Subscription
                         </button>
                     </form>
@@ -78,7 +111,8 @@
                     {% endif %}
                     {% else %}
                     <p>You need an active subscription to access the premium levels.</p>
-                    <a class="profile-box profile-btn button margin-top-1" href="{% url 'subscription_required' %}">Subscribe</a>
+                    <a class="profile-box profile-btn button margin-top-1"
+                        href="{% url 'subscription_required' %}">Subscribe</a>
                     {% endif %}
                 </div>
             </div>
@@ -95,22 +129,27 @@
 {% block postloadjs %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const changeBtn = document.getElementById('change-username-btn');
-        const fields = document.getElementById('username-edit-fields');
-        const cancelBtn = document.getElementById('cancel-edit-btn');
-        const usernameInput = document.getElementById('username');
+        const showUploadBtn = document.getElementById('show-upload-btn')
+        const uploadFormContainer = document.getElementById('upload-form-container')
+        const cancelUploadBtn = document.getElementById('cancel-upload-btn')
 
-        changeBtn.addEventListener('click', function() {
-            fields.classList.toggle('hidden');
-            changeBtn.classList.toggle('hidden');
-        });
+        showUploadBtn.addEventListener('click', function () {
+            uploadFormContainer.classList.toggle('hidden')
+            showUploadBtn.classList.add('hidden')
+        })
 
-        cancelBtn.addEventListener('click', function() {
-            usernameInput.value = "{{ user.username }}";
-            fields.classList.toggle('hidden');
-            changeBtn.classList.toggle('hidden');
-        });
-    });
+        cancelUploadBtn.addEventListener('click', function () {
+            uploadFormContainer.classList.add('hidden')
+            showUploadBtn.classList.remove('hidden')
+        })
+        // Hide the upload form if the user clicks outside of it
+        document.addEventListener('click', function (event) {
+            if (!uploadFormContainer.contains(event.target) && !showUploadBtn.contains(event.target)) {
+                uploadFormContainer.classList.add('hidden')
+                showUploadBtn.classList.remove('hidden')
+            }
+        })
+    })
 
 </script>
 {% endblock %}
