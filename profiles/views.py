@@ -76,7 +76,7 @@ def delete_profile_image(request):
         profile.profile_image.public_id != 'static/media/default'
     ):
         # Deletes from Cloudinary
-        uploader.destroy(profile.profile_image.public_id) 
+        uploader.destroy(profile.profile_image.public_id)
         # Clear the profile image field
         profile.profile_image = None
         profile.save()

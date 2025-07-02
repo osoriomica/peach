@@ -454,7 +454,9 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 
 scene("lose", ({ totalScore }) => {
     add([
-        text(`YOU LOST.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
+        text(`YOU LOST.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`, {size: 32, 
+        align: "center", 
+        width: 400,}),
         pos(width()/2, height()/2),
         anchor("center"),
     ])
@@ -470,10 +472,11 @@ scene("lose", ({ totalScore }) => {
 
 scene("win", ({ totalScore }) => {
     add([
-        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY OT TAP TO CONTINUE`),
+        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY OT TAP TO CONTINUE`, {size: 32, 
+        align: "center", 
+        width: 400,}),
         pos(width()/2, height()/2),
         anchor("center"),
-
     ])
     
     postScore("World1 - Completed", totalScore)
