@@ -197,10 +197,24 @@ Wireframes created with [miro.com](https://miro.com/).
 
 [Validation Folder](README-folder/validation)
 - HTML validated with [W3C Validator](https://validator.w3.org/) 
+![valid html](README-folder/validation/valid-html.webp)  
 Index.html:  
-    ![valid index.html](README-folder/validation/html-index-validation.png)  
-Recipe_detail.html:  
-    ![valid recipe_detail.html](README-folder/validation/html-recipe_detail-validation.png)  
+    [valid index.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2F)   
+game/world1.html:  
+    [valid world1.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fgame%2Fworld1%2F)   
+game/world2.html: 
+    [valid world2.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fgame%2Fworld2%2F)  
+profile.html:  
+    [valid profile.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fprofile%2F)  
+about.html:   
+    [valid about.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fabout%2F)  
+subscriptions/subscribe.html:  
+    [valid subscribe.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fsubscriptions%2Fsubscribe%2F)  
+login.html:  
+    [valid login.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogin%2F)  
+logout.html:  
+    [valid logout.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogout%2F)
+
 - CSS validated with: [W3C Validator](https://validator.w3.org/) 
     ![CSS](README-folder/validation/valid-css.png)
         <p>
