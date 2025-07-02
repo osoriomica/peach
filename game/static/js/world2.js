@@ -1,3 +1,7 @@
+/* jshint esversion: 11 */
+/*jshint -W033 */
+// world2.js - Kaboom.js platformer game for Django
+
 import kaboom from "../libs/kaboom.mjs"
 
 // Get next level redirect URL from Django template
@@ -27,6 +31,10 @@ async function resetGameSession() {
             }
         })
         
+        if (!response.ok) {
+            throw new Error('Failed to reset game session');
+        }
+
     } catch (error) {
         throw error
     }

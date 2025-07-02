@@ -198,28 +198,19 @@ Wireframes created with [miro.com](https://miro.com/).
 [Validation Folder](README-folder/validation)
 - HTML validated with [W3C Validator](https://validator.w3.org/) 
 ![valid html](README-folder/validation/valid-html.webp)  
-Index.html:  
-    [valid index.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2F)   
-game/world1.html:  
-    [valid world1.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fgame%2Fworld1%2F)   
-game/world2.html: 
-    [valid world2.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fgame%2Fworld2%2F)  
-profile.html:  
-    [valid profile.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fprofile%2F)  
-about.html:   
-    [valid about.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fabout%2F)  
-subscriptions/subscribe.html:  
-    [valid subscribe.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fsubscriptions%2Fsubscribe%2F)  
-signup.html:  
-    [valid signup.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Fsignup%2F)
+Index.html: [valid index.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2F)   
+game/world1.html: [valid world1.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fgame%2Fworld1%2F)   
+game/world2.html: [valid world2.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fgame%2Fworld2%2F)  
+profile.html: [valid profile.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fprofile%2F)  
+about.html:[valid about.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fabout%2F)  
+subscriptions/subscribe.html:[valid subscribe.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Fsubscriptions%2Fsubscribe%2F)  
+signup.html:[valid signup.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Fsignup%2F) -The only error shown is related to Allauth prebuilt forms:
     ![allauth signup form error](README-folder/validation/allauth-signup-error.webp)  
-login.html:  
-    [valid login.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogin%2F)  
-logout.html:  
-    [valid logout.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogout%2F)
+login.html: [valid login.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogin%2F)  
+logout.html:[valid logout.html](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2Faccounts%2Flogout%2F)
 
-- CSS validated with: [W3C Validator](https://validator.w3.org/) 
-    ![CSS](README-folder/validation/valid-css.png)
+- CSS validated with: [W3C Validator](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fpeachkaboom-132026d215d5.herokuapp.com%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en) 
+    ![CSS](README-folder/validation/valid-css.webp)
         <p>
             <a href="https://jigsaw.w3.org/css-validator/check/referer">
                 <img style="border:0;width:88px;height:31px"
@@ -229,26 +220,13 @@ logout.html:
         </p>
 
 - JS validated with [JSHint](https://jshint.com/)  
-![Valid JS](README-folder/validation/js-comments-validation.png)  
+![Valid JS](README-folder/validation/JSHint-peachkaboom.webp)  
+The only warnings thrown after prefixing were related to Kaboom 3000, which cannot be changed without risking the game no longer working as intended. 
 
-- Python code checked with [PE8CI](https://pep8ci.herokuapp.com/#):
-All python files were passed through the linter and cleaned until no errors were found. Here listed, are the ones with most code and which seemed relevant to share:
+- Python code checked with [flake8](https://flake8.pycqa.org/en/latest/):  
+All python code was checked using flake8 on the terminal with the command: python3 -m flake8 --exclude .venv,.vscode,migrations  
 
-**Admin.py**  
-
-![Valid Python admin.py](README-folder/validation/python-linter-admin.png) 
-
-**models.py**  
-
-![Valid Python models.py](README-folder/validation/python-linter-models.png)  
-
-**urls.py**
-  
-![Valid Python urls.py](README-folder/validation/python-linter-url.png)  
-
-**views.py**  
-
-![Valid Python views.py](README-folder/validation/python-linter-views.png)  
+![Valid Python](README-folder/validation/python-flake8.webp)  
 
 ### Manual Testing
 
