@@ -4,9 +4,9 @@
 
 The deployed site can be found here: [Peach](https://peachkaboom-132026d215d5.herokuapp.com/)
 
-<strong>Click here to view full screenshots of the website on the README folder.
+**Click below to view full screenshots of the website on the README folder:**
 
-[Full Screenshots](README-folder/full-screenshots)  </strong>
+[Full Screenshots](README-folder/full-screenshots)</strong>
 
 
 ---
@@ -19,8 +19,6 @@ The deployed site can be found here: [Peach](https://peachkaboom-132026d215d5.he
   - [Features](#features)
   - [Design](#design)
 - [Database Schema](#database-schema)
-- [Fixtures](#fixtures)
-- [Views](#views)
 - [Wireframes](#wireframes)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
@@ -88,7 +86,8 @@ I can see some content depending on my subscription status
 - **Responsive Design**: Optimized for all screen sizes  
 
 ### Design
-The color scheme and fonts were chosen inspired by the opening scene of Super Mario Bros with the colour palette of Super Princess Peach.  All layouts are designed with a mobile-first approach.
+The color scheme and fonts were chosen inspired by the opening scene of [Super Mario Bros](https://supermarioplay.com/) with the colour palette of Super Princess Peach. All layouts are designed with a mobile-first approach.
+![mario-peach]()
 
 - **Typography:**
   
@@ -170,9 +169,9 @@ Wireframes created with [miro.com](https://miro.com/).
 - [kaboom](https://github.com/replit/kaboom)
 - [GitHub](https://github.com/) -  Used to host the project
 - [Visual Studio Code](https://code.visualstudio.com/download) - IDE connected
-- [canva.com](https://canva.com/) - Used to edit the sprites and mock up the UI
+- [canva.com](https://canva.com/) - Used to edit sprites and mock up the UI
 - [coolors.co](https://coolors.co/) - Used to create the colour palette based on Super Princess Peach
-- [Django 5.2](https://docs.djangoproject.com/en/5.2/) - Used for responsive design and UI components.
+- [Django 4.2](https://docs.djangoproject.com/en/4.2/) - Used for responsive design and UI components.
 - [Heroku](https://www.heroku.com/) - Used to deploy the project
 - [Cloudinary](https://console.cloudinary.com/app/) - Used to host static files and media.
 - [Django Allauth](https://docs.allauth.org/en/latest/) - Used for user authentication and account management.
@@ -188,6 +187,7 @@ Wireframes created with [miro.com](https://miro.com/).
 - [Autoprefixer](https://autoprefixer.github.io/): to parse my CSS file and add the needed prefixes for browser compatibility.  
 - [miro.com](https://miro.com/): to generate the ERD and wireframes
 - [Tiled](https://www.mapeditor.org/)
+- [imgur.com](https://imgur.com/wbKxhcd): to host sprites used in game. 
 
 ---
 
@@ -255,34 +255,65 @@ Please see below for the tests and final results:
 
 
 ### Fixed Bugs
-#### Checkout session completed without email.
+#### BUG1: Checkout session completed without email.
 
-![Bug: Stripe webhook handler](README-folder/bug1-webhook-handler.webp)
+<details>
+  <summary>Click to expand: Screenshots of Stripe webhook handler and response</summary>
 
-![Bug: Stripe response](README-folder/bug1-stripe-response.webp)
+  ![Bug: Stripe webhook handler](README-folder/bugs/bug-webhook-handler.webp)
 
-Issue: Stripe object returned an empty customer_email upon checkout despite entering an email during the checkout process. Subscription model would not then be generated nor associated with an authenticated user.
-Fix: The stripe object had logged the email under customer_details{ email } so the variable customer_email needed to point at that instead:
+  ![Bug: Stripe response](README-folder/bugs/bug-stripe-response.webp)
+
+</details>
+
+**Issue:** Stripe object returned an empty customer_email upon checkout despite entering an email during the checkout process. Subscription model would not then be generated nor associated with an authenticated user.
+**Fix:** The stripe object had logged the email under customer_details{ email } so the variable customer_email needed to point at that instead:
     session.get('customer_email') or (
             session.get('customer_details', {}).get('email')
             )
 
-#### Double score being posted to database.
+#### BUG2: Double score being posted to database.
 
-![Bug: double score being posted on collision with pipes](README-folder/bug2-double-score-1.webp)
+<details>
+  <summary>Click to expand: Screenshots of double score being posted</summary>
 
-![Bug: double score being posted transitioning from W1 to W2](README-folder/bug2-double-score-2.webp)
+  ![Bug: double score being posted on collision with pipes](README-folder/bugs/bug-double-score-1.webp)
 
-Issue: Whilst transitioning from world 1 to world 2 and on completion of world 2 the total score would be saved twice for each level.
-Fix: Add boolean flag around player-pipe interaction using [onCollideEnd](https://kaboomjs.com/#onCollideEnd).
+  ![Bug: double score being posted transitioning from W1 to W2](README-folder/bugs/bug-double-score-2.webp)
 
-#### Session's score not starting from 0 on play again
-Issue: Upon completion of the game, if the user tried playing again, the score would carry on from the previous game instead of starting from 0. 
-Fix: A helper async function that resets the score by using the method: request.session.pop(score, None) and then setting the redirect url values at the end of the game to window.location.href = '/game/world1/?new=true' - the query string refering to the conditional within the world1 view: if request.GET.get('new') == 'true': which then 'pops' the score and level from the session allowing the new game to start with a clean record. 
+</details>
 
-### scrolling disabled across site
-Issue: upon resizing the screen to small devices/screens, the block content of the body would not allow to scroll down, hiding the rest of the content under the footer.
-Fix: after reading this [stack overflow post](https://stackoverflow.com/questions/39360138/how-to-universally-enable-scrolling-on-website-that-disabled-scrolling), I found that there was indeed a global style applied to body{overflow:hidden;}element (originally there as part of the setup for kaboom). Removing the style fixed the issue.
+**Issue:** Whilst transitioning from world 1 to world 2 and on completion of world 2 the total score would be saved twice for each level.  
+**Fix:** Add boolean flag around player-pipe interaction using [onCollideEnd](https://kaboomjs.com/#onCollideEnd).
+
+#### BUG3: Session's score not starting from 0 on play again
+**Issue:** Upon completion of the game, if the user tried playing again, the score would carry on from the previous game instead of starting from 0.  
+**Fix:** A helper async function that resets the score by using the method: request.session.pop(score, None) and then setting the redirect url values at the end of the game to window.location.href = '/game/world1/?new=true' - the query string refering to the conditional within the world1 view: if request.GET.get('new') == 'true': which then 'pops' the score and level from the session allowing the new game to start with a clean record. 
+
+#### BUG4: Scrolling disabled across site
+**Issue:** upon resizing the screen to small devices/screens, the block content of the body would not allow to scroll down, hiding the rest of the content under the footer.  
+**Fix:** after reading this [stack overflow post](https://stackoverflow.com/questions/39360138/how-to-universally-enable-scrolling-on-website-that-disabled-scrolling), I found that there was indeed a global style applied to body{overflow:hidden;}element (originally there as part of the setup for kaboom). Removing the style fixed the issue.
+
+#### BUG5: Emails not being sent on deployed site
+<details>
+  <summary>Click to expand: Screenshots of SSL Certification verification error on signup</summary>
+
+  ![Bug: SSL Certification verification error on signup](README-folder/bugs/bug-email1.webp)
+
+  ![Bug: heroku log showing the error 500 on Post](README-folder/bugs/bug-email2.webp)  
+</details>
+
+**Issue:** Server error upon trying to signup. Encountered during manual testing after deploying to Heroku and connecting Gmail to send emails.  
+**Errors thrown:** SSLCertVerificationError during Email Sending.  
+**Steps taken to fix the issue:**  
+My mentor was kind enough to help me through this one (Thank you, maestro!). He identified, the original setting with django 3.2/python 3.12 was not to be trusted and suggested to upgrade to Django 4.2 to fix the keyfile issue but then we had the SSL verification issues -- which was due to the change in Python 3.12's handling of SSL certificates. This threw an error with an existing dependency which needed Python3.10 or higher. Finally, we downgraded to Python 3.11 (we did try downgrading to Python 3.9 but one of the libs required Python 3.10 or higher...)  
+Lastly, it apparently is a common issue on macOS; so on my computer's terminal I ran the following command to install the required certificates.  
+      /Applications/Python\ 3.11/Install\ Certificates.command  
+      -- pip install --upgrade certifi 
+**References:**  
+  - https://stackoverflow.com/questions/77482831/smtp-starttls-got-an-unexpected-keyword-argument-keyfile  
+  - https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL  
+  
 
 ---
 
