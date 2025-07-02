@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}400 Bad Request{% endblock %}
+{% block content %}
+
+<main>
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h1 class="sec-title margin-bottom-2">400: Bad Request</h1>
+            <div class="about-text margin-1">
+                <p class="margin-bottom-2 narrower">The server could not understand the request due to invalid syntax.<br>
+                Please check your request and try again.</p>
+                <a class="profile-box profile-btn button margin-top-1 margin-bottom-2" aria-label="homepage link" href="{% url 'home' %}">Return to home</a>
+            </div>
+            <p class="copy-under-box">
+                    <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

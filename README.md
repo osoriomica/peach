@@ -397,15 +397,16 @@ Visit http://127.0.0.1:8000 in your browser.
 - Responsive font sizing: [W3S](https://www.w3schools.com/css/css_font_size.asp)
 - Clamp() function: [W3S](https://www.w3schools.com/cssref/func_clamp.php)
 - Clamp() calculator: [marcbacon.com](https://www.marcbacon.com/tools/clamp-calculator/)
-- Window location reload with clear cache: [Stack Overflow](https://stackoverflow.com/questions/5721704/window-location-reload-with-clear-cache)
-- async() :[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- Window location reload with clear cache used to reset scores: [Stack Overflow](https://stackoverflow.com/questions/5721704/window-location-reload-with-clear-cache)
+- async() functions:[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 - Extension Modules: [MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions)
-Django Docs:
+- How to delete an image from Cloudinary: [cloudinary.com](https://support.cloudinary.com/hc/en-us/articles/203465641-How-can-I-delete-an-image-via-the-API-Programmable-Media) 
+**Django Docs:**
 - Request and response objects: [Django docs](https://docs.djangoproject.com/en/5.2/ref/request-response/#django.http.HttpRequest.GET)
 - How to use sessions : [Django docs](https://docs.djangoproject.com/en/3.2/topics/http/sessions/)-
 - Sending email: [Django docs]https://docs.allauth.org/en/latest/account/configuration.html#sending-email
 - Query Strings: [Wikipedia](https://en.wikipedia.org/wiki/Query_string)
-Stripe documentation: 
+**Stripe documentation:**
  - https://docs.stripe.com/get-started/development-environment#api-keys
  - https://docs.stripe.com/checkout/embedded/quickstart
  - https://docs.stripe.com/billing/quickstart

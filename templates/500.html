@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}500 Internal Server Error{% endblock %}
+{% block content %}
+
+<main>
+    <div class="margin-top margin-bottom">
+        <div class="mario-box">
+            <h1 class="sec-title margin-bottom-2">500: Internal Server Error</h1>
+            <div class="about-text margin-1">
+                <p class="margin-bottom-2 narrower">Sorry, something went wrong on our end.<br>
+                Please try again later or contact support if the issue persists.</p>
+                <a class="profile-box profile-btn button margin-top-1 margin-bottom-2" aria-label="homepage link" href="{% url 'home' %}">Return to home</a>
+            </div>
+            <p class="copy-under-box">
+                    <a href="https://facebook.com/PeachKaboom" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-square-facebook"></i>/PeachKaboom</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
