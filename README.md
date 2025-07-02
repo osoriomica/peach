@@ -131,7 +131,7 @@ The color scheme and fonts were chosen inspired by the opening scene of Super Ma
 | FK                                         | subscription   | OneToOneField            |
 | About  Model                               |                |                          |
 |                                            | title          | CharField                |
-|                                            | about_image    | AWS file                 |
+|                                            | about_image    | Cloudinary file          |
 |                                            | content        | TextField                |
 |                                            | created_at     | DateTimeField            |
 |                                            | updated_at     | DateTimeField            |
@@ -174,7 +174,7 @@ Wireframes created with [miro.com](https://miro.com/).
 - [coolors.co](https://coolors.co/) - Used to create the colour palette based on Super Princess Peach
 - [Django 5.2](https://docs.djangoproject.com/en/5.2/) - Used for responsive design and UI components.
 - [Heroku](https://www.heroku.com/) - Used to deploy the project
-- [AWS](https://aws.amazon.com/) - Used to host static files and media.
+- [Cloudinary](https://console.cloudinary.com/app/) - Used to host static files and media.
 - [Django Allauth](https://docs.allauth.org/en/latest/) - Used for user authentication and account management.
 - [Google Fonts](https://fonts.google.com/) - Used to customize the project's fonts. 
 - [cloudconvert](https://cloudconvert.com/) - to convert images' formats.

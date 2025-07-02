@@ -25,13 +25,9 @@ async function resetGameSession() {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken()
             }
-        });
-        
-        if (response.ok) {
-            console.log('Game session reset successfully');
-        }
+        })
     } catch (error) {
-        console.error('Error resetting game:', error);
+        throw error
     }
 }
 
@@ -41,14 +37,10 @@ let scoreSaved = false
  * Sends the player's score for a specific level to the server via a POST request.
  * @param {string} level - The identifier of the game level for which the score is being submitted.
  * @param {number} currentScore - The player's score to be saved for the specified level.
- * @returns {Promise} This function does not return a value, but logs the server response or error to the console.
+ * @returns {Promise} This function does not return a value, but used to log the server response or error to the console during dev.
 */
 async function postScore(level, currentScore){
-    if (scoreSaved) {
-        console.log("score already saved, skipping duplicate")
-        return
-    }
-
+  
     try {
         const res = await fetch("/game/api/save-score", {
             method: "POST",
@@ -62,11 +54,9 @@ async function postScore(level, currentScore){
             })
         })
         const data = await res.json()
-        console.log("Score saved:", data)
         scoreSaved = true
         return data
     } catch (err) {
-        console.log("Error saving score:", err)
         throw err
     }
 }
@@ -480,20 +470,23 @@ scene("lose", ({ totalScore }) => {
 
 scene("win", ({ totalScore }) => {
     add([
-        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY TO CONTINUE`),
+        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY OT TAP TO CONTINUE`),
         pos(width()/2, height()/2),
         anchor("center"),
+
     ])
     
     postScore("World1 - Completed", totalScore)
     
-    onKeyPress(() => {
-        if (nextLevelUrl) {
-            window.location.href = nextLevelUrl
-        } else {
-            console.error("nextLevelUrl is not defined")
+
+    const goToNext = () => {
+        if (typeof nextLevelUrl !== "undefined" && nextLevelUrl) {
+            window.location.href = nextLevelUrl;
         }
-    })
+    }
+
+    onKeyPress(goToNext);
+    onClick(goToNext);
 })
 
 go("World1")

@@ -25,13 +25,10 @@ async function resetGameSession() {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken()
             }
-        });
+        })
         
-        if (response.ok) {
-            console.log('Game session reset successfully');
-        }
     } catch (error) {
-        console.error('Error resetting game:', error);
+        throw error
     }
 }
 
@@ -296,9 +293,6 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
     if (score !== undefined) {
         totalScore = score
         highscoreLabel.innerText = totalScore
-        console.log(`World1 restarted with score: ${totalScore}`)
-    } else {
-        console.log(`World1 started fresh with score: ${totalScore}`)
     }
 
     // Player
@@ -480,34 +474,38 @@ scene("World2", ({ levelId, score } = { levelId:0}) => {
 
 scene("lose", ({ totalScore }) => {
     add([
-        text(`GAME OVER.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`),
+        text(`GAME OVER.\nSCORE: ${totalScore}\nPRESS ANY KEY OR TAP THE SCREEN TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
     ])
 
     postScore("World 2 - Game Over", totalScore)
     
-    onKeyPress(async () => {
+    const goToNext = async () => {
         await resetGameSession()
-
         window.location.href = '/game/world1/?new=true'
-
-    })
+    }
+    onKeyPress(goToNext);
+    onClick(goToNext);
 })
 
 scene("win", ({ totalScore }) => {
 	add([
- 		text(`CONGRATULATIONS!\nYOU COMPLETED THE GAME!\nFINAL SCORE: ${totalScore}\nTHANKS FOR PLAYING!\nPRESS ANY KEY TO PLAY AGAIN`),
+ 		text(`CONGRATULATIONS!\nYOU COMPLETED THE GAME!\nFINAL SCORE: ${totalScore}\nTHANKS FOR PLAYING!\nPRESS ANY KEY OT TAP THE SCREEN TO PLAY AGAIN`),
         pos(width()/2, height()/2),
         anchor("center"),
 	])
     postScore("Game Completed", totalScore)
 
-    onKeyPress(async () => {
+    const goToNext = async () => {
         await resetGameSession()
+        if (typeof nextLevelUrl !== "undefined" && nextLevelUrl) {
+            window.location.href = nextLevelUrl;
+        }
+    }
 
-        window.location.href = '/game/world1/?new=true'
-    })
+    onKeyPress(goToNext);
+    onClick(goToNext);
 })
 
 go("World2")
