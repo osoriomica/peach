@@ -441,7 +441,7 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
         }
         if (touchJump) {
             if (player.isGrounded()) {
-                player.jump()
+                player.jump(CURRENT_JUMP_FORCE)
             }
             touchJump = false // Only jump once per tap
         }
