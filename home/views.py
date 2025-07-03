@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.core.mail import send_mail
 from django.http import HttpResponse
 
 
@@ -11,17 +10,13 @@ def index(request):
     return render(request, 'home/index.html')
 
 
-def test_email(request):
-
-    try:
-        send_mail(
-            'Test Subject',
-            'This is a test message from my Django app.',
-            'peachkaboom1@gmail.com',
-            ['osoriomica@gmail.com'], fail_silently=False,
-            )
-        return HttpResponse("SUCCESS", content_type="text/plain")
-    except Exception as e:
-        return HttpResponse(
-            f"Error sending email: {e}", content_type="text/plain"
-            )
+def robots_txt(request):
+    """
+    Render the robots.txt file.
+    """
+    lines = [
+        "User-agent: *",
+        "Disallow:",
+        "Sitemap: https://peachkaboom-132026d215d5.herokuapp.com/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")

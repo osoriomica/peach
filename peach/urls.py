@@ -13,11 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
 
+# Import sitemaps
+from about.sitemaps import AboutSitemap
+from game.sitemaps import GameSitemap
+from home.sitemaps import HomeSitemap
+from profiles.sitemaps import ProfileSitemap
+from subscriptions.sitemaps import SubscriptionsSitemap
+
+# Import the robots.txt view
+from home.views import robots_txt
+
+# Define the sitemaps dictionary
+sitemaps = {
+    'about': AboutSitemap,
+    'home': HomeSitemap,
+    'game': GameSitemap,
+    'profiles': ProfileSitemap,
+    'subscriptions': SubscriptionsSitemap,
+}
 
 urlpatterns = [
     path('about/', include('about.urls'), name='about-urls'),
@@ -27,4 +46,7 @@ urlpatterns = [
     path('profile/', include('profiles.urls'), name='profile-urls'),
     path('subscriptions/', include('subscriptions.urls')),
     path('', include('home.urls')),
+
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+    path('robots.txt', robots_txt, name='robots_txt'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
