@@ -1,6 +1,6 @@
 # PRINCESS PEACH TOADSTOOL (AKA PEACH KABOOM)
 
-![Peach](README-folder/full-screenshots/all-devices-black.png)
+![Peach](README-folder/full-screenshots/all-devices-black.webp)
 
 The deployed site can be found here: [Peach](https://peachkaboom-132026d215d5.herokuapp.com/)
 
@@ -113,53 +113,48 @@ The color scheme and fonts were chosen inspired by the opening scene of [Super M
 
 
 - **Images:**
-    Sprites used during development were provided by - Ania Kubow: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
+    ---
 
----
+    ## Database Schema
 
-## Database Schema
-| Database Schema                            |                |                          |
-| ------------------------------------------ | -------------- | ------------------------ |
-| User Model                                 |                |                          |
-| UserProfile Model                          |                |                          |
-| FK                                         | user           | User Model               |
-|                                            | joined         | DateTimeField            |
-| FK                                         | score          | IntegerField             |
-|                                            | level          | CharField                |
-|                                            | created_at     | DateTimeField            |
-| FK                                         | subscription   | OneToOneField            |
-| About  Model                               |                |                          |
-|                                            | title          | CharField                |
-|                                            | about_image    | Cloudinary file          |
-|                                            | content        | TextField                |
-|                                            | created_at     | DateTimeField            |
-|                                            | updated_at     | DateTimeField            |
-| PostScore Model                            |                |                          |
-| FK                                         | user           | User Model               |
-| FK                                         | score          | IntegerField             |
-|                                            | level          | CharField                |
-|                                            | created_at     | DateTimeFied             |
-| Subscriptions Model                        |                |                          |
-| FK                                         | user           | OneToOneField            |
-| Subscriptions Model                        |                |                          |
-|                                            | stripe_customer_id      | CharField (max_length=255, unique=True)      |
-|                                            | stripe_subscription_id  | CharField (max_length=255, unique=True)      |
-|                                            | is_active              | BooleanField (default=True)                  |
-|                                            | start_date             | DateTimeField (null=True, blank=True)        |
-|                                            | current_period_end     | DateTimeField (null=True, blank=True)        |
-|                                            | plan_interval          | CharField (max_length=10, null=True, blank=True) |
-|                                            | created_at             | DateTimeField (auto_now_add=True)            |
-|                                            | cancel_at_period_end   | BooleanField (default=False)                 |
+    | Model           | Field                  | Type / Relation                                                                        |
+    |-----------------|------------------------|----------------------------------------------------------------------------------------|
+    | **User**        | —                      | —                                                                                      |
+    | **Subscriptions** | user                   | OneToOneField → User                                                                   |
+    |                 | stripe_customer_id     | CharField (max_length=255, unique=True)                                                |
+    |                 | stripe_subscription_id | CharField (max_length=255, unique=True)                                                |
+    |                 | is_active              | BooleanField (default=True)                                                            |
+    |                 | start_date             | DateTimeField (null=True, blank=True)                                                  |
+    |                 | current_period_end     | DateTimeField (null=True, blank=True)                                                  |
+    |                 | plan_interval          | CharField (max_length=10, null=True, blank=True)                                       |
+    |                 | created_at             | DateTimeField (auto_now_add=True)                                                      |
+    |                 | cancel_at_period_end   | BooleanField (default=False)                                                           |
+    | **PostScore**   | user                   | ForeignKey → User                                                                      |
+    |                 | score                  | IntegerField                                                                           |
+    |                 | level                  | CharField                                                                              |
+    |                 | created_at             | DateTimeField                                                                          |
+    | **UserProfile** | user                   | OneToOneField → User (related_name="profile")                                          |
+    |                 | joined                 | DateField (auto_now_add=True, blank=True, null=True)                                   |
+    |                 | score                  | IntegerField (default=0)                                                               |
+    |                 | level                  | CharField (max_length=100, default="Unknown")                                          |
+    |                 | created_at             | DateTimeField (auto_now_add=True, blank=True, null=True)                               |
+    |                 | profile_image          | CloudinaryField('image', default='static/media/default', blank=True, null=True)        |
+    |                 | subscription           | OneToOneField → Subscriptions (on_delete=SET_NULL, null=True, blank=True)              |
+    | **About**       | title                  | CharField                                                                              |
+    |                 | about_image            | CloudinaryField                                                                        |
+    |                 | content                | TextField                                                                              |
+    |                 | created_at             | DateTimeField                                                                          |
+    |                 | updated_at             | DateTimeField                                                                          |
 ---
 
 ## ERD
-![Entity Relationship Diagram](README-folder/erd.webp)
+![Entity Relationship Diagram](README-folder/wireframes-and-erd/erd.webp)
 ---
 
 ## Wireframes
 Wireframes created with [miro.com](https://miro.com/).
 
-![Peach wireframes](README-folder/wireframes.webp)
+[Peach wireframes](README-folder/wireframes-and-erd)
 
 ---
 
