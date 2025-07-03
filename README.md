@@ -404,6 +404,157 @@ Create a .env file in the root directory and include:
 Visit http://127.0.0.1:8000 in your browser.  
 
 ---
+## Stripe Setup and Webhook Walkthrough
+
+To enable payments and subscriptions, you need to set up Stripe and configure webhooks for your Django project.
+
+### 1. Create a Stripe Account
+- Sign up at [Stripe Dashboard](https://dashboard.stripe.com/).
+- Switch to "Developers" mode to access API keys and webhook settings.
+
+### 2. Obtain Stripe API Keys
+- In the Stripe dashboard, go to **Developers > API keys**.
+- Copy your **Publishable key** and **Secret key**.
+- In Heroku, add these as config vars:
+  - `STRIPE_PUBLIC_KEY=your-publishable-key`
+  - `STRIPE_SECRET_KEY=your-secret-key`
+- These keys allow your backend to securely communicate with Stripe and your frontend to initialize payment flows.
+
+### 3. Set Up Stripe Webhooks
+- In Stripe, go to **Developers > Webhooks**.
+- Click **Add endpoint** and enter your deployed app's webhook URL, e.g.:
+  ```
+  https://your-app.herokuapp.com/webhooks/stripe/
+  ```
+- Select events to listen for, such as:
+  - `checkout.session.completed`
+  - `customer.subscription.updated`
+  - `customer.subscription.deleted`
+- After creating, copy the **Signing secret** and add it to Heroku config vars:
+  - `STRIPE_WEBHOOK_SECRET=your-signing-secret`
+- This secret is used to verify that incoming webhook requests are from Stripe.
+
+### 4. Local Webhook Testing
+- Install the Stripe CLI:  
+  ```bash
+  npm install -g stripe
+  ```
+- Log in:  
+  ```bash
+  stripe login
+  ```
+- Forward webhooks to your local server:
+  ```bash
+  stripe listen --forward-to localhost:8000/webhooks/stripe/
+  ```
+- Use test cards and subscriptions in Stripe's test mode to trigger events.
+
+### 5. Summary of Key Roles
+- **Publishable Key:** Used in frontend JS to initialize Stripe.
+- **Secret Key:** Used in backend to create sessions and manage subscriptions.
+- **Webhook Secret:** Used to verify webhook authenticity.
+- All keys should be stored securely as Heroku config vars, never hardcoded.
+ 
+--- 
+## Setting Up Cloudinary for Static and Media Files
+
+After initially using AWS S3 for static files, I switched to Cloudinary due to deployment issues with Heroku. Cloudinary offers a simpler integration for Django projects and reliable media hosting.
+
+### Steps to Integrate Cloudinary with Django
+
+1. **Create a Cloudinary Account**
+  - Sign up at [Cloudinary](https://cloudinary.com/).
+  - In your Cloudinary dashboard, find your **Cloud Name**, **API Key**, and **API Secret**.
+
+2. **Install Required Packages**
+  ```bash
+  pip install cloudinary django-cloudinary-storage
+  ```
+
+3. **Update `settings.py`**
+  - Add `'cloudinary'` and `'cloudinary_storage'` to `INSTALLED_APPS`.
+  - Configure storage backends:
+    ```python
+    INSTALLED_APPS = [
+      # ...
+      'cloudinary',
+      'cloudinary_storage',
+      # ...
+    ]
+
+    CLOUDINARY_STORAGE = {
+      'CLOUD_NAME': 'your-cloud-name',
+      'API_KEY': 'your-api-key',
+      'API_SECRET': 'your-api-secret',
+    }
+
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+    ```
+
+4. **Set Environment Variables**
+  - In your `.env` file or Heroku config vars, add:
+    ```
+    CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>
+    ```
+  - Never commit your API keys to source control.
+
+5. **Collect Static Files**
+  ```bash
+  python manage.py collectstatic
+  ```
+
+6. **Usage**
+  - Uploaded media and static files will now be served via Cloudinary URLs.
+
+---
+
+## Using PostgreSQL as external Database
+
+To use PostgreSQL instead of SQLite, follow these steps:
+
+### 1. Install Dependencies
+
+```bash
+pip install dj-database-url psycopg2-binary
+pip freeze > requirements.txt
+```
+
+### 2. Update `settings.py`
+
+Import `dj_database_url` at the top:
+
+```python
+import dj_database_url
+```
+
+Replace the default `DATABASES` setting with:
+
+```python
+DATABASES = {
+  'default': dj_database_url.config(
+    default=os.environ.get('DATABASE_URL')
+  )
+}
+```
+
+### 3. Set Up Environment Variable
+
+Add your PostgreSQL connection string to your `.env` file or Heroku config vars:
+
+```
+DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DBNAME
+```
+
+### 4. Apply Migrations
+
+Run the following to check and apply migrations:
+
+```bash
+python manage.py showmigrations
+python manage.py migrate
+```
+---
 
 ## Credits
 - **Mario Bros sprites** from Ania Kubow's: [2hrs to code Mario with Auth + save scores | JavaScript, CSS, HTML](https://youtu.be/1CVSI3MZNNg?si=TbMVZsDU_YM94oDa)
@@ -438,3 +589,7 @@ Visit http://127.0.0.1:8000 in your browser.
  - https://docs.stripe.com/checkout/embedded/quickstart
  - https://docs.stripe.com/billing/quickstart
  - https://dashboard.stripe.com/test/products/
+
+ACKNOWLEDGEMENTS
+I am truly grateful for my brilliant mentor for all his time and care explaining concepts and helping me debug.
+To my family for putting up with me during this process. Thank you.
