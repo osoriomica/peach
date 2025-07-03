@@ -10,7 +10,7 @@
             <h1 class="sec-title">{{ about.title }}</h1>
             <div class="sec-content">
                 <p>Updated on: {{ about.updated_at|date:"F j, Y, H:i" }}</p>
-                <div class="about-img margin-bottom-2"><img src="{% static 'media/about.png' %}" alt="placeholder image">Credit Image: Super Princess Peach 2005. Nintendo</div>
+                <div class="about-img margin-bottom-1"><img src="{% static 'media/about.png' %}" alt="placeholder image">Credit Image: Super Princess Peach 2005. Nintendo</div>
                 <div class="about-text">{{ about.content|safe }}</div>
             </div>
         

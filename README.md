@@ -1,6 +1,6 @@
 # PRINCESS PEACH TOADSTOOL (AKA PEACH KABOOM)
 
-![Peach](README-folder/full-screenshots/all-devices-black.webp)
+![Peach Kaboom](README-folder/full-screenshots/all-devices-black.webp)
 
 The deployed site can be found here: [Peach](https://peachkaboom-132026d215d5.herokuapp.com/)
 
@@ -66,19 +66,19 @@ I can receive a confirmation email on the status of my subscription.
 
 USER CRUD
 As a **site user**, I can register for a new account. Login and out with ease. Recover my password if forgotten. Receive email confirmation after registering. 
-As a **registered user**, I have CRUD abilities over my username and renewal of my subscription. I can also see my latest highest score and subscription details as well as my personal details registered in the website.
+As a **registered user**, I have CRUD abilities over my avatar picture and renewal of my subscription. I can also see my latest highest score and subscription details as well as my personal details registered in the website.
 
 VIEWING AND NAVIGATION
 As a **user**:
 I can start and play a new game. If logged in, my score is automatically saved.
 I can navigate through the website using the links provided
 I can visit the site's facebook page
-I can see some content depending on my subscription status 
+I can see some content depending on my subscription status i.e. world2.html
 
 ### Features
 
 - **Homepage**:  
-- **Profile**: Details, Game Stats and Subscription. User has crud over their username, subscription revewal.  
+- **Profile**: Details, Game Stats and Subscription. User has crud over their avatar picture and subscription revewal.  
 - **Authentication**: Django Allauth-powered login/signup/logout  
 - **About**: About us page  
 - **Game**: Free to play: World - 1, Subscription required for World - 2    
@@ -87,7 +87,7 @@ I can see some content depending on my subscription status
 
 ### Design
 The color scheme and fonts were chosen inspired by the opening scene of [Super Mario Bros](https://supermarioplay.com/) with the colour palette of Super Princess Peach. All layouts are designed with a mobile-first approach.
-![mario-peach]()
+![mario-peach](README-folder/mario-peach-layout.png)
 
 - **Typography:**
   
@@ -148,13 +148,32 @@ The color scheme and fonts were chosen inspired by the opening scene of [Super M
 ---
 
 ## ERD
-![Entity Relationship Diagram](README-folder/wireframes-and-erd/erd.webp)
+![Entity Relationship Diagram](README-folder/erd.webp)
 ---
 
 ## Wireframes
 Wireframes created with [miro.com](https://miro.com/).
 
-[Peach wireframes](README-folder/wireframes-and-erd)
+[See the site's wireframes in the README folder](README-folder/wireframes)
+
+<details>
+  <summary>Or click here to expand: WIREFRAMES</summary>
+
+  ![Home Wireframe](README-folder/wireframes/home-wireframe.webp)
+  
+  ![Profile Wireframe](README-folder/wireframes/profile-wireframe.webp)
+  
+  ![Game Wireframe](README-folder/wireframes/game-wireframe.webp)
+  
+  ![Subscription Wireframe](README-folder/wireframes/subscription-wireframe.webp)
+
+  ![About Wireframe](README-folder/wireframes/about-wireframe.webp)
+
+  ![Sign up Wireframe](README-folder/wireframes/signup-wireframe.webp)
+
+  ![Sign in Wireframe](README-folder/wireframes/signin-wireframe.webp)
+
+</details>
 
 ---
 

@@ -633,7 +633,6 @@ hr {
     flex-direction: column;
     min-width: 150px;
     text-align: center;
-    overflow: hidden;
     align-items: center;
     justify-content: center;
 }
@@ -653,6 +652,7 @@ hr {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    vertical-align: middle;
     gap: 1rem;
     margin: 0 0.5rem;
 
@@ -695,7 +695,7 @@ hr {
     .profile-row {
         flex-direction: row-reverse;
         justify-content: space-between;
-        align-items: center;
+        align-items: last baseline;
     }
 
     .profile-image {
@@ -754,7 +754,6 @@ hr {
         /* Allow form to take available space */
         padding: 0 2.5rem;
         max-width: 435px;
-
     }
 
     .start-game-btn {
