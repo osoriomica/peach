@@ -144,6 +144,8 @@ loadSprite('surprise', 'gesQ1KP.png');
 loadSprite('unboxed', 'bdrLpi6.png');
 loadSprite('pipe-top-left', 'ReTPiWY.png');
 loadSprite('pipe-top-right', 'hj2GK4n.png');
+loadSprite('pipe-top-right-no', 'hj2GK4n.png');
+loadSprite('pipe-top-left-no', 'ReTPiWY.png');
 loadSprite('pipe-bottom-left', 'c1cYSbt.png');
 loadSprite('pipe-bottom-right', 'nqQ79eI.png');
 loadSprite('blue-block', 'fVscIbn.png');
@@ -207,7 +209,7 @@ function big() {
             isBig = false
         },
         biggify(time) {
-            destScale = 4
+            destScale = 3
             timer = time
             isBig = true
         },
@@ -232,9 +234,10 @@ const LEVELS = [
         '................................................................................',
         '................................................................................',
         '........%....=*=%=..............................................................',
-        '..............................-+................................................',
-        '.........................-+...()................................-+..............',
+        '..............................NO................................................',
+        '.........................NO...()................................-+..............',
         '.........................()...()...........^....^...............()..............',
+        '==================================================================   ===========',
         '==================================================================   ===========',
     ],
 ]
@@ -262,6 +265,10 @@ const levelConf = {
     offscreen({ hide: true }), 'pipe'],
         '+': () => [sprite('pipe-top-right'), area(), body({ isStatic: true }), anchor("bot"),
     offscreen({ hide: true }), 'pipe'],
+        'N': () => [sprite('pipe-top-left-no'), area(), body({ isStatic: true }), anchor("bot"),
+    offscreen({ hide: true }),],
+        'O': () => [sprite('pipe-top-right-no'), area(), body({ isStatic: true }), anchor("bot"),
+    offscreen({ hide: true }),],
         '^': () => [sprite('goomba'), area(), body(), scale(2), anchor("bot"),
     offscreen({ hide: true }), 'enemy', goombaMoves()],
         '#': () => [sprite('mushroom'), area(), body(), scale(2), anchor("bot"),
