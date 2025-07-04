@@ -469,7 +469,7 @@ scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 
 scene("lose", ({ totalScore }) => {
     add([
-        text(`YOU LOST.\nSCORE: ${totalScore}\nPRESS ANY KEY TO PLAY AGAIN`, {size: 32, 
+        text(`YOU LOST.\nSCORE: ${totalScore}\nPRESS ANY KEY OR TAP THE SCREEN TO PLAY AGAIN`, {size: 32, 
         align: "center", 
         width: 400,}),
         pos(width()/2, height()/2),
@@ -478,11 +478,13 @@ scene("lose", ({ totalScore }) => {
     
     // Save both level score and total score
     postScore("World 1 - Game Over", totalScore)
-    onKeyPress(async () => {
+    
+    const goToNext = async () => {
         await resetGameSession()
-
         window.location.href = '/game/world1/?new=true'
-    })
+    }
+    onKeyPress(goToNext)
+    onClick(goToNext)
 })
 
 scene("win", ({ totalScore }) => {
@@ -494,7 +496,7 @@ scene("win", ({ totalScore }) => {
         anchor("center"),
     ])
     
-    postScore("World1 - Completed", totalScore)
+    postScore("World 1 - Completed", totalScore)
     
 
     const goToNext = () => {
