@@ -9,10 +9,10 @@ const nextLevelUrl = document.querySelector("main").dataset.nextUrl
 
 /**
 * Retrieves CSRF token from cookies.
-* @returns {string} The CSRF token if found; otherwise, an empty string.
+* @returns {string} The CSRF token if found otherwise, an empty string.
 */
 function getCSRFToken(){
-    const cookies = document.cookie.split(';')
+    const cookies = document.cookie.split('')
     for (let cookie of cookies){
         const [key, value] = cookie.trim().split('=')
         if (key === "csrftoken") return value
@@ -32,7 +32,7 @@ async function resetGameSession() {
         })
 
         if (!response.ok) {
-            throw new Error('Failed to reset game session');
+            throw new Error('Failed to reset game session')
         }
 
     } catch (error) {
@@ -109,7 +109,7 @@ if (isMobile) {
         width: 550,
         height: 500,
         letterbox: true
-    });
+    })
 } else if (isMedium) {
     kaboom({
         font: "monospace",
@@ -118,7 +118,7 @@ if (isMobile) {
         width: 900,
         height: 600,
         letterbox: true
-    });
+    })
 } else {
     kaboom({
         font: "monospace",
@@ -127,37 +127,36 @@ if (isMobile) {
         width: 1400,
         height: 700,
         letterbox: true,
-    });
+    })
 }
 
 
 // Load assets
 
 // imgur sprites - See Readme.md for credits
-loadRoot('https://i.imgur.com/');
-loadSprite('coin', 'wbKxhcd.png');
-loadSprite('goomba', 'KPO3fR9.png');
-loadSprite('brick', 'pogC9x5.png');
-loadSprite('block', 'M6rwarW.png');
-loadSprite('mushroom', '0wMd92p.png');
-loadSprite('surprise', 'gesQ1KP.png');
-loadSprite('unboxed', 'bdrLpi6.png');
-loadSprite('pipe-top-left', 'ReTPiWY.png');
-loadSprite('pipe-top-right', 'hj2GK4n.png');
-loadSprite('pipe-top-right-no', 'hj2GK4n.png');
-loadSprite('pipe-top-left-no', 'ReTPiWY.png');
-loadSprite('pipe-bottom-left', 'c1cYSbt.png');
-loadSprite('pipe-bottom-right', 'nqQ79eI.png');
-loadSprite('blue-block', 'fVscIbn.png');
-loadSprite('blue-brick', '3e5YRQd.png');
-loadSprite('blue-steel', 'gqVoI2b.png');
-loadSprite('blue-goomba', 'SvV4ueD.png');
-loadSprite('blue-surprise', 'RMqCc1G.png');
-loadSprite('peach', 'OlnxoGG.png')
-
+loadRoot('https://i.imgur.com/')
+loadSprite('coin', 'wbKxhcd.png')
+loadSprite('goomba', 'KPO3fR9.png')
+loadSprite('brick', 'pogC9x5.png')
+loadSprite('block', 'M6rwarW.png')
+loadSprite('mushroom', '0wMd92p.png')
+loadSprite('surprise', 'gesQ1KP.png')
+loadSprite('unboxed', 'bdrLpi6.png')
+loadSprite('pipe-top-left', 'ReTPiWY.png')
+loadSprite('pipe-top-right', 'hj2GK4n.png')
+loadSprite('pipe-top-right-no', 'hj2GK4n.png')
+loadSprite('pipe-top-left-no', 'ReTPiWY.png')
+loadSprite('pipe-bottom-left', 'c1cYSbt.png')
+loadSprite('pipe-bottom-right', 'nqQ79eI.png')
+loadSprite('blue-block', 'fVscIbn.png')
+loadSprite('blue-brick', '3e5YRQd.png')
+loadSprite('blue-steel', 'gqVoI2b.png')
+loadSprite('blue-goomba', 'SvV4ueD.png')
+loadSprite('blue-surprise', 'RMqCc1G.png')
+loadSprite('peach', 'cWy5D45.png')
 
 // Enable gravity manually (required in v3000+)
-setGravity(2400);
+setGravity(2400)
 
 // custom method controlling moving sprites (goomba/mushrooms)
 function goombaMoves(speed = 60, dir = 1) {
@@ -217,18 +216,18 @@ function big() {
 }
 
 // Constants for Speed
-const MOVE_SPEED = 240;
-const JUMP_FORCE = 900;
-const BIG_JUMP_FORCE = 1300;
-let CURRENT_JUMP_FORCE = JUMP_FORCE;
-const FALL_DEATH = 800;
+const MOVE_SPEED = 240
+const JUMP_FORCE = 900
+const BIG_JUMP_FORCE = 1200
+let CURRENT_JUMP_FORCE = JUMP_FORCE
+const FALL_DEATH = 800
 
 
 const LEVELS = [
     [
         '................................................................................',
         '................................................................................',
-        '.....................==..........................................................',
+        '.....................==.........................................................',
         '................................................................................',
         '.........................==.....................................................',
         '................................................................................',
@@ -284,12 +283,12 @@ const levelConf = {
         'x': () => [sprite('blue-steel'), area(), body({ isStatic: true }), anchor("bot"),
     offscreen({ hide: true }),],
     },
-};
+}
 
 scene("World1", ({ levelId, score } = { levelId:0, score : 0 }) => {
 
     //add level to scene
-    const level = addLevel(LEVELS[0], levelConf);
+    const level = addLevel(LEVELS[0], levelConf)
     levelLabel.innerText = levelId + 1
 
     // Use passed score if provided, otherwise keep existing totalScore
@@ -488,7 +487,7 @@ scene("lose", ({ totalScore }) => {
 
 scene("win", ({ totalScore }) => {
     add([
-        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY OT TAP TO CONTINUE`, {size: 32, 
+        text(`YOU WON\nSCORE: ${totalScore}\nCONGRATS!\nPRESS ANY KEY OR TAP THE SCREEN TO CONTINUE`, {size: 32, 
         align: "center", 
         width: 400,}),
         pos(width()/2, height()/2),
@@ -500,12 +499,12 @@ scene("win", ({ totalScore }) => {
 
     const goToNext = () => {
         if (typeof nextLevelUrl !== "undefined" && nextLevelUrl) {
-            window.location.href = nextLevelUrl;
+            window.location.href = nextLevelUrl
         }
     }
 
-    onKeyPress(goToNext);
-    onClick(goToNext);
+    onKeyPress(goToNext)
+    onClick(goToNext)
 })
 
 go("World1")
