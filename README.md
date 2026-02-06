@@ -36,9 +36,9 @@ The deployed site can be found here: [Peach](https://peachkaboom-132026d215d5.he
 
 ## Introduction
 
-**Princess Peach Toadstool (AKA Peach Kaboom)** is a Django-powered Webgamne inspired by Super Mario Bros and powered by kaboom.js.
+**Princess Peach Toadstool (AKA Peach Kaboom)** is a Django-powered Webgame inspired by Super Mario Bros and powered by kaboom.js.
 The site includes full backend functionality with admin controls, user authentication, payment handling and game interactions. 
-The project was developed following the tutorial for "Boutique Ado" by Code Institute, as well as different tutorials on PLatformer games on Kaboom. See Credits for more information.
+The project was developed following the tutorial for "Boutique Ado" by Code Institute, as well as different tutorials on Platformer games on Kaboom. See Credits for more information.
 
 ---
 
