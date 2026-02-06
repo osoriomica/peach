@@ -120,6 +120,8 @@ if (isMobile) {
 // Load assets
 
 // imgur sprites - from Code with Ania's Tutorial
+
+loadSprite('peach', 'https://res.cloudinary.com/dvf7itpby/image/upload/v1770417720/cWy5D45_jnagex.png')
 loadRoot('https://i.imgur.com/')
 loadSprite('coin', 'wbKxhcd.png')
 loadSprite('goomba', 'KPO3fR9.png')
@@ -139,7 +141,6 @@ loadSprite('blue-brick', '3e5YRQd.png')
 loadSprite('blue-steel', 'gqVoI2b.png')
 loadSprite('blue-goomba', 'SvV4ueD.png')
 loadSprite('blue-surprise', 'RMqCc1G.png')
-loadSprite('peach', 'cWy5D45.png')
 
 // Enable gravity manually (required in v3000+)
 setGravity(2400)
