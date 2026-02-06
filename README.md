@@ -340,7 +340,10 @@ Lastly, it apparently is a common issue on macOS; so on my computer's terminal I
 **References:**  
   - https://stackoverflow.com/questions/77482831/smtp-starttls-got-an-unexpected-keyword-argument-keyfile  
   - https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL  
-  
+
+#### BUG6: Princess Peach sprite not loading on screen. 
+**Issue:** After September 2025, Imgur.com stopped being available to the UK. Leading to a broken link to the main sprite of Princess Peach and thus rendering the game unplayable.  
+**Fix:** I used Cloudinary to serve the same asset instead of Imgur. The rest of the assets are still working though. 
 
 ---
 
